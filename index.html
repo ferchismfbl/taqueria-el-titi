@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,6 +7,7 @@
     <title>Taquería El Titi</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -115,10 +115,98 @@
             font-size: 14px;
         }
 
+        /* PANTALLA DE PERSONAS */
+
+        .people-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .people-screen h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .people-info {
+            font-size: 19px;
+            margin-bottom: 30px;
+        }
+
+        .people-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .people-button {
+            border: none;
+            background: #f5b82e;
+            color: #3b1f12;
+            font-size: 32px;
+            font-weight: bold;
+            padding: 35px 20px;
+            border-radius: 18px;
+            cursor: pointer;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+        }
+
+        .people-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .cancel-button {
+            margin-top: 30px;
+            border: none;
+            background: #3b1f12;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        /* PANTALLA DE COMANDA */
+
+        .order-screen {
+            display: none;
+        }
+
+        .order-header {
+            background: white;
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .order-header h2 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .order-header p {
+            font-size: 18px;
+        }
+
+        .coming-soon {
+            background: #f5b82e;
+            border-radius: 18px;
+            padding: 50px 25px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
         @media (max-width: 700px) {
 
             .tables {
                 grid-template-columns: 1fr;
+            }
+
+            .people-buttons {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .header h1 {
@@ -128,7 +216,9 @@
             .screen-title h2 {
                 font-size: 23px;
             }
+
         }
+
     </style>
 </head>
 
@@ -139,7 +229,10 @@
         <span>Sistema de Comandas</span>
     </header>
 
-    <main class="container">
+
+    <!-- PANTALLA MESAS -->
+
+    <main class="container" id="tablesScreen">
 
         <div class="screen-title">
 
@@ -151,51 +244,52 @@
 
         </div>
 
+
         <div class="tables">
 
-            <button class="table-button" onclick="seleccionarMesa(1, '5–6')">
+            <button class="table-button" onclick="seleccionarMesa(1, 6)">
                 <div class="table-number">MESA 1</div>
                 <div class="capacity">5–6 personas</div>
                 <div class="status">LIBRE</div>
             </button>
 
-            <button class="table-button" onclick="seleccionarMesa(2, '5–6')">
+            <button class="table-button" onclick="seleccionarMesa(2, 6)">
                 <div class="table-number">MESA 2</div>
                 <div class="capacity">5–6 personas</div>
                 <div class="status">LIBRE</div>
             </button>
 
-            <button class="table-button" onclick="seleccionarMesa(3, '5–6')">
+            <button class="table-button" onclick="seleccionarMesa(3, 6)">
                 <div class="table-number">MESA 3</div>
                 <div class="capacity">5–6 personas</div>
                 <div class="status">LIBRE</div>
             </button>
 
-            <button class="table-button" onclick="seleccionarMesa(4, '5–6')">
+            <button class="table-button" onclick="seleccionarMesa(4, 6)">
                 <div class="table-number">MESA 4</div>
                 <div class="capacity">5–6 personas</div>
                 <div class="status">LIBRE</div>
             </button>
 
-            <button class="table-button" onclick="seleccionarMesa(5, '5–6')">
+            <button class="table-button" onclick="seleccionarMesa(5, 6)">
                 <div class="table-number">MESA 5</div>
                 <div class="capacity">5–6 personas</div>
                 <div class="status">LIBRE</div>
             </button>
 
-            <button class="table-button" onclick="seleccionarMesa(6, '2–4')">
+            <button class="table-button" onclick="seleccionarMesa(6, 4)">
                 <div class="table-number">MESA 6</div>
                 <div class="capacity">2–4 personas</div>
                 <div class="status">LIBRE</div>
             </button>
 
-            <button class="table-button" onclick="seleccionarMesa(7, '2–4')">
+            <button class="table-button" onclick="seleccionarMesa(7, 4)">
                 <div class="table-number">MESA 7</div>
                 <div class="capacity">2–4 personas</div>
                 <div class="status">LIBRE</div>
             </button>
 
-            <button class="table-button" onclick="seleccionarMesa(8, '2–4')">
+            <button class="table-button" onclick="seleccionarMesa(8, 4)">
                 <div class="table-number">MESA 8</div>
                 <div class="capacity">2–4 personas</div>
                 <div class="status">LIBRE</div>
@@ -203,23 +297,131 @@
 
         </div>
 
-        <div class="footer">
-            Taquería El Titi
+    </main>
+
+
+    <!-- PANTALLA ELEGIR PERSONAS -->
+
+    <main class="container people-screen" id="peopleScreen">
+
+        <h2 id="peopleTitle">MESA 1</h2>
+
+        <div class="people-info">
+            ¿Cuántas personas hay en la mesa?
+        </div>
+
+        <div class="people-buttons" id="peopleButtons">
+        </div>
+
+        <button class="cancel-button" onclick="volverMesas()">
+            ← VOLVER A MESAS
+        </button>
+
+    </main>
+
+
+    <!-- PANTALLA COMANDA -->
+
+    <main class="container order-screen" id="orderScreen">
+
+        <div class="screen-title">
+
+            <h2>COMANDA</h2>
+
+            <button class="back-button" onclick="volverMesas()">
+                ← MESAS
+            </button>
+
+        </div>
+
+        <div class="order-header">
+
+            <h2 id="orderTable">
+                MESA 1
+            </h2>
+
+            <p id="orderPeople">
+                0 personas
+            </p>
+
+        </div>
+
+        <div class="coming-soon">
+            AQUÍ VAMOS A AGREGAR EL MENÚ
         </div>
 
     </main>
 
+
     <script>
+
+        let mesaSeleccionada = 0;
+        let capacidadSeleccionada = 0;
+
 
         function seleccionarMesa(numero, capacidad) {
 
-            alert(
-                "MESA " + numero +
-                "\nCapacidad: " + capacidad + " personas" +
-                "\n\nAquí comenzaremos la orden."
-            );
+            mesaSeleccionada = numero;
+            capacidadSeleccionada = capacidad;
+
+            document.getElementById("tablesScreen").style.display = "none";
+            document.getElementById("orderScreen").style.display = "none";
+            document.getElementById("peopleScreen").style.display = "block";
+
+            document.getElementById("peopleTitle").innerText =
+                "MESA " + numero;
+
+            crearBotonesPersonas(capacidad);
+        }
+
+
+        function crearBotonesPersonas(capacidad) {
+
+            const contenedor =
+                document.getElementById("peopleButtons");
+
+            contenedor.innerHTML = "";
+
+            let minimo = capacidad === 4 ? 2 : 1;
+
+            for (let personas = minimo; personas <= capacidad; personas++) {
+
+                const boton = document.createElement("button");
+
+                boton.className = "people-button";
+
+                boton.innerText = personas;
+
+                boton.onclick = function() {
+                    comenzarComanda(personas);
+                };
+
+                contenedor.appendChild(boton);
+            }
+        }
+
+
+        function comenzarComanda(personas) {
+
+            document.getElementById("peopleScreen").style.display = "none";
+            document.getElementById("orderScreen").style.display = "block";
+
+            document.getElementById("orderTable").innerText =
+                "MESA " + mesaSeleccionada;
+
+            document.getElementById("orderPeople").innerText =
+                personas + (personas === 1 ? " persona" : " personas");
+        }
+
+
+        function volverMesas() {
+
+            document.getElementById("peopleScreen").style.display = "none";
+            document.getElementById("orderScreen").style.display = "none";
+            document.getElementById("tablesScreen").style.display = "block";
 
         }
+
 
         function inicio() {
 
@@ -231,4 +433,3 @@
 
 </body>
 </html>
-```
