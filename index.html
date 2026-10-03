@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Taquería El Titi</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #fff8ed;
+            color: #3b1f12;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #d94f13;
+            color: white;
+            text-align: center;
+            padding: 28px 20px;
+        }
+
+        .header h1 {
+            font-size: 34px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 45px 25px;
+        }
+
+        .question {
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .option {
+            border: none;
+            border-radius: 18px;
+            padding: 55px 25px;
+            cursor: pointer;
+            text-align: center;
+            background: #f5b82e;
+            color: #3b1f12;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+            transition: transform 0.15s ease;
+        }
+
+        .option:hover {
+            transform: translateY(-3px);
+        }
+
+        .option h2 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .option p {
+            font-size: 17px;
+        }
+
+        .secondary {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 45px;
+            flex-wrap: wrap;
+        }
+
+        .secondary button {
+            background: #3b1f12;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 16px 28px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        .secondary button:hover {
+            background: #542d1b;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 45px;
+            color: #76594a;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 27px;
+            }
+
+            .option {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>TAQUERÍA EL TITI</h1>
+        <p>Sistema de Comandas</p>
+    </header>
+
+    <main class="container">
+
+        <div class="question">
+            ¿Qué tipo de cliente es?
+        </div>
+
+        <div class="options">
+
+            <button class="option" onclick="seleccionarCliente('mesa')">
+                <h2>MESAS</h2>
+                <p>Clientes que pagan al finalizar</p>
+            </button>
+
+            <button class="option" onclick="seleccionarCliente('grupo')">
+                <h2>GRUPO / CAMIÓN</h2>
+                <p>Pago al ordenar</p>
+            </button>
+
+        </div>
+
+        <div class="secondary">
+
+            <button onclick="mostrarMensaje('Caja')">
+                CAJA
+            </button>
+
+            <button onclick="mostrarMensaje('Cocina')">
+                COCINA
+            </button>
+
+            <button onclick="mostrarMensaje('Historial')">
+                HISTORIAL
+            </button>
+
+        </div>
+
+        <div class="footer">
+            Taquería El Titi
+        </div>
+
+    </main>
+
+    <script>
+
+        function seleccionarCliente(tipo) {
+
+            if (tipo === 'mesa') {
+                alert('Aquí aparecerán las 8 mesas.');
+            }
+
+            if (tipo === 'grupo') {
+                alert('Aquí podremos registrar un nuevo grupo o camión.');
+            }
+
+        }
+
+        function mostrarMensaje(seccion) {
+            alert('Sección: ' + seccion);
+        }
+
+    </script>
+
+</body>
+</html>
