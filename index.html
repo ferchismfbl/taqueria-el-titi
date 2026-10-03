@@ -65,7 +65,7 @@
             cursor: pointer;
         }
 
-        /* MESAS */
+        /* ==================== MESAS ==================== */
 
         .tables {
             display: grid;
@@ -83,6 +83,10 @@
             box-shadow: 0 5px 12px rgba(0,0,0,0.12);
             text-align: center;
             min-height: 145px;
+        }
+
+        .table-button:hover {
+            transform: translateY(-2px);
         }
 
         .table-number {
@@ -106,7 +110,7 @@
             font-size: 14px;
         }
 
-        /* PERSONAS */
+        /* ==================== PERSONAS ==================== */
 
         .people-screen {
             display: none;
@@ -154,7 +158,7 @@
             cursor: pointer;
         }
 
-        /* COMANDA */
+        /* ==================== COMANDA ==================== */
 
         .order-screen {
             display: none;
@@ -183,7 +187,7 @@
             gap: 20px;
         }
 
-        /* CATEGORIAS */
+        /* ==================== CATEGORIAS ==================== */
 
         .categories {
             display: flex;
@@ -207,7 +211,7 @@
             background: #d94f13;
         }
 
-        /* PRODUCTOS */
+        /* ==================== PRODUCTOS ==================== */
 
         .products {
             display: grid;
@@ -243,7 +247,7 @@
             font-weight: bold;
         }
 
-        /* RESUMEN */
+        /* ==================== RESUMEN ==================== */
 
         .order-summary {
             background: white;
@@ -276,10 +280,23 @@
             font-size: 16px;
         }
 
+        .order-item-option {
+            margin-top: 4px;
+            font-size: 14px;
+            color: #76594a;
+        }
+
+        .order-item-note {
+            margin-top: 4px;
+            font-size: 13px;
+            font-style: italic;
+            color: #76594a;
+        }
+
         .order-item-details {
             display: flex;
             justify-content: space-between;
-            margin-top: 5px;
+            margin-top: 7px;
             font-size: 15px;
         }
 
@@ -325,6 +342,113 @@
             cursor: pointer;
         }
 
+        /* ==================== VENTANA DE OPCIONES ==================== */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #fff8ed;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        .modal-content h2 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .modal-price {
+            color: #d94f13;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 22px;
+        }
+
+        .modal-question {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .option-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .option-button {
+            border: 2px solid #3b1f12;
+            background: white;
+            color: #3b1f12;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .option-button.selected {
+            background: #f5b82e;
+        }
+
+        .note-label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .note-input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbbcaf;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-cancel {
+            border: none;
+            background: #3b1f12;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .modal-add {
+            border: none;
+            background: #2f7d32;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         @media (max-width: 800px) {
 
             .order-layout {
@@ -361,6 +485,7 @@
 </head>
 
 <body>
+
 
 <header class="header">
 
@@ -537,6 +662,84 @@
 </main>
 
 
+<!-- ==================== MODAL DE OPCIONES ==================== -->
+
+<div class="modal" id="productModal">
+
+    <div class="modal-content">
+
+        <h2 id="modalProductName">
+            Producto
+        </h2>
+
+        <div class="modal-price" id="modalProductPrice">
+            $0
+        </div>
+
+
+        <div id="modalOptionsContainer">
+
+            <div class="modal-question">
+                ¿Cómo los quieres?
+            </div>
+
+            <div class="option-buttons">
+
+                <button
+                    class="option-button"
+                    onclick="seleccionarOpcion('Revueltos')">
+                    REVUELTOS
+                </button>
+
+                <button
+                    class="option-button"
+                    onclick="seleccionarOpcion('Estrellados')">
+                    ESTRELLADOS
+                </button>
+
+                <button
+                    class="option-button"
+                    onclick="seleccionarOpcion('Fritos')">
+                    FRITOS
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <label class="note-label">
+            Nota para cocina (opcional)
+        </label>
+
+        <textarea
+            id="productNote"
+            class="note-input"
+            placeholder="Ejemplo: sin tortillas, poca salsa...">
+        </textarea>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-cancel"
+                onclick="cerrarModal()">
+                CANCELAR
+            </button>
+
+            <button
+                class="modal-add"
+                onclick="confirmarProducto()">
+                AGREGAR
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <script>
 
     let mesaSeleccionada = 0;
@@ -544,6 +747,9 @@
     let personasSeleccionadas = 0;
 
     let pedido = [];
+
+    let productoTemporal = null;
+    let opcionTemporal = "";
 
 
     /* ==================== MENÚ ==================== */
@@ -745,7 +951,7 @@
     }
 
 
-    /* ==================== MOSTRAR PRODUCTOS ==================== */
+    /* ==================== PRODUCTOS ==================== */
 
     function mostrarCategoria(categoria) {
 
@@ -776,6 +982,7 @@
             boton.className = "product-button";
 
             boton.innerHTML = `
+
                 <div class="product-name">
                     ${nombre}
                 </div>
@@ -783,11 +990,12 @@
                 <div class="product-price">
                     $${precio}
                 </div>
+
             `;
 
             boton.onclick = function() {
 
-                agregarProducto(nombre, precio);
+                seleccionarProducto(nombre, precio);
 
             };
 
@@ -798,31 +1006,134 @@
     }
 
 
-    /* ==================== AGREGAR PRODUCTO ==================== */
+    /* ==================== SELECCIONAR PRODUCTO ==================== */
 
-    function agregarProducto(nombre, precio) {
+    function seleccionarProducto(nombre, precio) {
 
-        const existente = pedido.find(
-            producto => producto.nombre === nombre
-        );
+        productoTemporal = {
+            nombre: nombre,
+            precio: precio
+        };
 
-        if (existente) {
+        opcionTemporal = "";
 
-            existente.cantidad++;
+        document.getElementById("modalProductName").innerText =
+            nombre;
+
+        document.getElementById("modalProductPrice").innerText =
+            "$" + precio;
+
+        document.getElementById("productNote").value = "";
+
+
+        const opciones =
+            document.getElementById("modalOptionsContainer");
+
+
+        if (nombre === "Huevos al Gusto") {
+
+            opciones.style.display = "block";
 
         } else {
 
-            pedido.push({
-
-                nombre: nombre,
-                precio: precio,
-                cantidad: 1
-
-            });
+            opciones.style.display = "none";
 
         }
 
+
+        document.querySelectorAll(".option-button")
+            .forEach(boton => {
+
+                boton.classList.remove("selected");
+
+            });
+
+
+        document.getElementById("productModal").style.display =
+            "flex";
+
+    }
+
+
+    /* ==================== OPCIÓN ==================== */
+
+    function seleccionarOpcion(opcion) {
+
+        opcionTemporal = opcion;
+
+        document.querySelectorAll(".option-button")
+            .forEach(boton => {
+
+                boton.classList.remove("selected");
+
+                if (boton.innerText === opcion.toUpperCase()) {
+
+                    boton.classList.add("selected");
+
+                }
+
+            });
+
+    }
+
+
+    /* ==================== CONFIRMAR PRODUCTO ==================== */
+
+    function confirmarProducto() {
+
+        if (!productoTemporal) {
+            return;
+        }
+
+
+        if (
+            productoTemporal.nombre === "Huevos al Gusto"
+            &&
+            opcionTemporal === ""
+        ) {
+
+            alert("Selecciona cómo quieres los huevos.");
+
+            return;
+
+        }
+
+
+        const nota =
+            document.getElementById("productNote").value.trim();
+
+
+        pedido.push({
+
+            nombre: productoTemporal.nombre,
+
+            precio: productoTemporal.precio,
+
+            cantidad: 1,
+
+            opcion: opcionTemporal,
+
+            nota: nota
+
+        });
+
+
+        cerrarModal();
+
         actualizarPedido();
+
+    }
+
+
+    /* ==================== CERRAR MODAL ==================== */
+
+    function cerrarModal() {
+
+        document.getElementById("productModal").style.display =
+            "none";
+
+        productoTemporal = null;
+        opcionTemporal = "";
 
     }
 
@@ -836,6 +1147,9 @@
 
         contenedor.innerHTML = "";
 
+        let total = 0;
+
+
         if (pedido.length === 0) {
 
             contenedor.innerHTML = `
@@ -845,9 +1159,6 @@
             `;
 
         }
-
-
-        let total = 0;
 
 
         pedido.forEach((producto, indice) => {
@@ -863,11 +1174,42 @@
 
             item.className = "order-item";
 
+
+            let opcionHTML = "";
+
+            if (producto.opcion !== "") {
+
+                opcionHTML = `
+                    <div class="order-item-option">
+                        ${producto.opcion}
+                    </div>
+                `;
+
+            }
+
+
+            let notaHTML = "";
+
+            if (producto.nota !== "") {
+
+                notaHTML = `
+                    <div class="order-item-note">
+                        Nota: ${producto.nota}
+                    </div>
+                `;
+
+            }
+
+
             item.innerHTML = `
 
                 <div class="order-item-name">
                     ${producto.nombre}
                 </div>
+
+                ${opcionHTML}
+
+                ${notaHTML}
 
                 <div class="order-item-details">
 
@@ -903,6 +1245,7 @@
 
             `;
 
+
             contenedor.appendChild(item);
 
         });
@@ -914,7 +1257,7 @@
     }
 
 
-    /* ==================== CAMBIAR CANTIDAD ==================== */
+    /* ==================== CANTIDAD ==================== */
 
     function cambiarCantidad(indice, cambio) {
 
@@ -948,7 +1291,8 @@
             "COMANDA ENVIADA\n\n" +
             "Mesa: " + mesaSeleccionada +
             "\nPersonas: " + personasSeleccionadas +
-            "\nTotal: " + document.getElementById("orderTotal").innerText
+            "\nTotal: " +
+            document.getElementById("orderTotal").innerText
         );
 
     }
