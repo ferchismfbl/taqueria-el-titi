@@ -24,7 +24,7 @@
         .header {
             background: #d94f13;
             color: white;
-            padding: 22px 25px;
+            padding: 20px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -39,16 +39,16 @@
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: auto;
-            padding: 30px 25px;
+            padding: 25px;
         }
 
         .screen-title {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .screen-title h2 {
@@ -64,6 +64,8 @@
             font-size: 16px;
             cursor: pointer;
         }
+
+        /* MESAS */
 
         .tables {
             display: grid;
@@ -81,10 +83,6 @@
             box-shadow: 0 5px 12px rgba(0,0,0,0.12);
             text-align: center;
             min-height: 145px;
-        }
-
-        .table-button:hover {
-            transform: translateY(-2px);
         }
 
         .table-number {
@@ -108,14 +106,7 @@
             font-size: 14px;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 35px;
-            color: #76594a;
-            font-size: 14px;
-        }
-
-        /* PANTALLA DE PERSONAS */
+        /* PERSONAS */
 
         .people-screen {
             display: none;
@@ -152,10 +143,6 @@
             box-shadow: 0 5px 12px rgba(0,0,0,0.12);
         }
 
-        .people-button:hover {
-            transform: translateY(-2px);
-        }
-
         .cancel-button {
             margin-top: 30px;
             border: none;
@@ -167,41 +154,196 @@
             cursor: pointer;
         }
 
-        /* PANTALLA DE COMANDA */
+        /* COMANDA */
 
         .order-screen {
             display: none;
         }
 
-        .order-header {
+        .order-info {
             background: white;
             border-radius: 15px;
-            padding: 22px;
-            margin-bottom: 25px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
-        .order-header h2 {
-            font-size: 30px;
-            margin-bottom: 8px;
+        .order-info h2 {
+            font-size: 28px;
         }
 
-        .order-header p {
+        .order-info p {
+            margin-top: 6px;
+            font-size: 17px;
+        }
+
+        .order-layout {
+            display: grid;
+            grid-template-columns: 1.7fr 1fr;
+            gap: 20px;
+        }
+
+        /* CATEGORIAS */
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .category-button {
+            border: none;
+            background: #3b1f12;
+            color: white;
+            padding: 13px 18px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .category-button.active {
+            background: #d94f13;
+        }
+
+        /* PRODUCTOS */
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .product-button {
+            border: none;
+            background: white;
+            color: #3b1f12;
+            border-radius: 15px;
+            padding: 18px;
+            min-height: 110px;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+        }
+
+        .product-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .product-name {
             font-size: 18px;
-        }
-
-        .coming-soon {
-            background: #f5b82e;
-            border-radius: 18px;
-            padding: 50px 25px;
-            text-align: center;
-            font-size: 22px;
             font-weight: bold;
         }
 
-        @media (max-width: 700px) {
+        .product-price {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #d94f13;
+            font-weight: bold;
+        }
+
+        /* RESUMEN */
+
+        .order-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.10);
+            height: fit-content;
+            position: sticky;
+            top: 15px;
+        }
+
+        .order-summary h3 {
+            font-size: 23px;
+            margin-bottom: 15px;
+        }
+
+        .empty-order {
+            color: #76594a;
+            text-align: center;
+            padding: 25px 5px;
+        }
+
+        .order-item {
+            border-bottom: 1px solid #eadfd5;
+            padding: 12px 0;
+        }
+
+        .order-item-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .order-item-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 15px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .quantity-button {
+            border: none;
+            background: #f5b82e;
+            color: #3b1f12;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #3b1f12;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .send-button {
+            width: 100%;
+            border: none;
+            background: #2f7d32;
+            color: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-size: 19px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media (max-width: 800px) {
+
+            .order-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+        }
+
+        @media (max-width: 600px) {
 
             .tables {
+                grid-template-columns: 1fr;
+            }
+
+            .products {
                 grid-template-columns: 1fr;
             }
 
@@ -213,10 +355,6 @@
                 font-size: 23px;
             }
 
-            .screen-title h2 {
-                font-size: 23px;
-            }
-
         }
 
     </style>
@@ -224,212 +362,618 @@
 
 <body>
 
-    <header class="header">
-        <h1>TAQUERÍA EL TITI</h1>
-        <span>Sistema de Comandas</span>
-    </header>
+<header class="header">
+
+    <h1>TAQUERÍA EL TITI</h1>
+
+    <span>Sistema de Comandas</span>
+
+</header>
 
 
-    <!-- PANTALLA MESAS -->
+<!-- ==================== MESAS ==================== -->
 
-    <main class="container" id="tablesScreen">
+<main class="container" id="tablesScreen">
 
-        <div class="screen-title">
+    <div class="screen-title">
 
-            <h2>MESAS</h2>
+        <h2>MESAS</h2>
 
-            <button class="back-button" onclick="inicio()">
-                ← INICIO
-            </button>
-
-        </div>
-
-
-        <div class="tables">
-
-            <button class="table-button" onclick="seleccionarMesa(1, 6)">
-                <div class="table-number">MESA 1</div>
-                <div class="capacity">5–6 personas</div>
-                <div class="status">LIBRE</div>
-            </button>
-
-            <button class="table-button" onclick="seleccionarMesa(2, 6)">
-                <div class="table-number">MESA 2</div>
-                <div class="capacity">5–6 personas</div>
-                <div class="status">LIBRE</div>
-            </button>
-
-            <button class="table-button" onclick="seleccionarMesa(3, 6)">
-                <div class="table-number">MESA 3</div>
-                <div class="capacity">5–6 personas</div>
-                <div class="status">LIBRE</div>
-            </button>
-
-            <button class="table-button" onclick="seleccionarMesa(4, 6)">
-                <div class="table-number">MESA 4</div>
-                <div class="capacity">5–6 personas</div>
-                <div class="status">LIBRE</div>
-            </button>
-
-            <button class="table-button" onclick="seleccionarMesa(5, 6)">
-                <div class="table-number">MESA 5</div>
-                <div class="capacity">5–6 personas</div>
-                <div class="status">LIBRE</div>
-            </button>
-
-            <button class="table-button" onclick="seleccionarMesa(6, 4)">
-                <div class="table-number">MESA 6</div>
-                <div class="capacity">2–4 personas</div>
-                <div class="status">LIBRE</div>
-            </button>
-
-            <button class="table-button" onclick="seleccionarMesa(7, 4)">
-                <div class="table-number">MESA 7</div>
-                <div class="capacity">2–4 personas</div>
-                <div class="status">LIBRE</div>
-            </button>
-
-            <button class="table-button" onclick="seleccionarMesa(8, 4)">
-                <div class="table-number">MESA 8</div>
-                <div class="capacity">2–4 personas</div>
-                <div class="status">LIBRE</div>
-            </button>
-
-        </div>
-
-    </main>
-
-
-    <!-- PANTALLA ELEGIR PERSONAS -->
-
-    <main class="container people-screen" id="peopleScreen">
-
-        <h2 id="peopleTitle">MESA 1</h2>
-
-        <div class="people-info">
-            ¿Cuántas personas hay en la mesa?
-        </div>
-
-        <div class="people-buttons" id="peopleButtons">
-        </div>
-
-        <button class="cancel-button" onclick="volverMesas()">
-            ← VOLVER A MESAS
+        <button class="back-button" onclick="inicio()">
+            ← INICIO
         </button>
 
-    </main>
+    </div>
 
 
-    <!-- PANTALLA COMANDA -->
+    <div class="tables">
 
-    <main class="container order-screen" id="orderScreen">
+        <button class="table-button" onclick="seleccionarMesa(1, 6)">
+            <div class="table-number">MESA 1</div>
+            <div class="capacity">5–6 personas</div>
+            <div class="status">LIBRE</div>
+        </button>
 
-        <div class="screen-title">
+        <button class="table-button" onclick="seleccionarMesa(2, 6)">
+            <div class="table-number">MESA 2</div>
+            <div class="capacity">5–6 personas</div>
+            <div class="status">LIBRE</div>
+        </button>
 
-            <h2>COMANDA</h2>
+        <button class="table-button" onclick="seleccionarMesa(3, 6)">
+            <div class="table-number">MESA 3</div>
+            <div class="capacity">5–6 personas</div>
+            <div class="status">LIBRE</div>
+        </button>
 
-            <button class="back-button" onclick="volverMesas()">
-                ← MESAS
+        <button class="table-button" onclick="seleccionarMesa(4, 6)">
+            <div class="table-number">MESA 4</div>
+            <div class="capacity">5–6 personas</div>
+            <div class="status">LIBRE</div>
+        </button>
+
+        <button class="table-button" onclick="seleccionarMesa(5, 6)">
+            <div class="table-number">MESA 5</div>
+            <div class="capacity">5–6 personas</div>
+            <div class="status">LIBRE</div>
+        </button>
+
+        <button class="table-button" onclick="seleccionarMesa(6, 4)">
+            <div class="table-number">MESA 6</div>
+            <div class="capacity">2–4 personas</div>
+            <div class="status">LIBRE</div>
+        </button>
+
+        <button class="table-button" onclick="seleccionarMesa(7, 4)">
+            <div class="table-number">MESA 7</div>
+            <div class="capacity">2–4 personas</div>
+            <div class="status">LIBRE</div>
+        </button>
+
+        <button class="table-button" onclick="seleccionarMesa(8, 4)">
+            <div class="table-number">MESA 8</div>
+            <div class="capacity">2–4 personas</div>
+            <div class="status">LIBRE</div>
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- ==================== PERSONAS ==================== -->
+
+<main class="container people-screen" id="peopleScreen">
+
+    <h2 id="peopleTitle">MESA 1</h2>
+
+    <div class="people-info">
+        ¿Cuántas personas hay en la mesa?
+    </div>
+
+    <div class="people-buttons" id="peopleButtons"></div>
+
+    <button class="cancel-button" onclick="volverMesas()">
+        ← VOLVER A MESAS
+    </button>
+
+</main>
+
+
+<!-- ==================== COMANDA ==================== -->
+
+<main class="container order-screen" id="orderScreen">
+
+    <div class="screen-title">
+
+        <h2>COMANDA</h2>
+
+        <button class="back-button" onclick="volverMesas()">
+            ← MESAS
+        </button>
+
+    </div>
+
+
+    <div class="order-info">
+
+        <h2 id="orderTable">
+            MESA 1
+        </h2>
+
+        <p id="orderPeople">
+            0 personas
+        </p>
+
+    </div>
+
+
+    <div class="order-layout">
+
+
+        <!-- PRODUCTOS -->
+
+        <section>
+
+            <div class="categories" id="categories"></div>
+
+            <div class="products" id="products"></div>
+
+        </section>
+
+
+        <!-- RESUMEN -->
+
+        <aside class="order-summary">
+
+            <h3>COMANDA</h3>
+
+            <div id="orderItems">
+
+                <div class="empty-order">
+                    No hay productos agregados.
+                </div>
+
+            </div>
+
+            <div class="total">
+
+                <span>TOTAL</span>
+
+                <span id="orderTotal">
+                    $0
+                </span>
+
+            </div>
+
+            <button class="send-button" onclick="enviarComanda()">
+                ENVIAR COMANDA
             </button>
 
-        </div>
+        </aside>
 
-        <div class="order-header">
+    </div>
 
-            <h2 id="orderTable">
-                MESA 1
-            </h2>
-
-            <p id="orderPeople">
-                0 personas
-            </p>
-
-        </div>
-
-        <div class="coming-soon">
-            AQUÍ VAMOS A AGREGAR EL MENÚ
-        </div>
-
-    </main>
+</main>
 
 
-    <script>
+<script>
 
-        let mesaSeleccionada = 0;
-        let capacidadSeleccionada = 0;
+    let mesaSeleccionada = 0;
+    let capacidadSeleccionada = 0;
+    let personasSeleccionadas = 0;
+
+    let pedido = [];
 
 
-        function seleccionarMesa(numero, capacidad) {
+    /* ==================== MENÚ ==================== */
 
-            mesaSeleccionada = numero;
-            capacidadSeleccionada = capacidad;
+    const menu = {
 
-            document.getElementById("tablesScreen").style.display = "none";
-            document.getElementById("orderScreen").style.display = "none";
-            document.getElementById("peopleScreen").style.display = "block";
+        "HUEVOS": [
 
-            document.getElementById("peopleTitle").innerText =
-                "MESA " + numero;
+            ["Huevos al Gusto", 105],
+            ["Huevos a la Mexicana", 105],
+            ["Huevos con Jamón", 115],
+            ["Huevos con Chorizo", 115],
+            ["Huevos Rancheros", 115],
+            ["Huevos Divorciados", 120],
+            ["Huevos con Machaca", 135],
+            ["Huevos con Chicharrón", 130]
 
-            crearBotonesPersonas(capacidad);
+        ],
+
+        "OMELETTES": [
+
+            ["Omelette Clásico", 110],
+            ["Omelette Norteño", 135],
+            ["Omelette Sano", 130],
+            ["Omelette Mexicano", 125],
+            ["Omelette Campestre", 130],
+            ["Omelette de la Casa", 145]
+
+        ],
+
+        "CHILAQUILES": [
+
+            ["Chilaquiles Rojos", 105],
+            ["Chilaquiles Verdes", 105],
+            ["Chilaquiles Divorciados", 115],
+            ["Chilaquiles con Huevo", 120],
+            ["Chilaquiles con Machaca", 145]
+
+        ],
+
+        "MACHACA": [
+
+            ["Machaca con Huevo", 135],
+            ["Machaca a la Mexicana", 135]
+
+        ],
+
+        "CHICHARRÓN": [
+
+            ["Chicharrón en Salsa Roja", 115],
+            ["Chicharrón en Salsa Verde", 115],
+            ["Chicharrón con Huevo", 130]
+
+        ],
+
+        "DULCE": [
+
+            ["Hot Cakes Clásicos", 90],
+            ["Hot Cakes con Fruta", 110],
+            ["Pan Francés", 100]
+
+        ],
+
+        "BEBIDAS": [
+
+            ["Café de Olla", 25],
+            ["Café Americano", 25],
+            ["Jugo de Naranja", 40],
+            ["Agua Fresca del Día", 30],
+            ["Coca-Cola 600 ml", 30]
+
+        ],
+
+        "EXTRAS": [
+
+            ["Huevo extra", 20],
+            ["Chorizo", 25],
+            ["Jamón", 25],
+            ["Queso", 20],
+            ["Machaca", 40],
+            ["Chicharrón", 35],
+            ["Frijoles", 20],
+            ["Tortillas", 15],
+            ["Aguacate", 30]
+
+        ]
+
+    };
+
+
+    /* ==================== SELECCIONAR MESA ==================== */
+
+    function seleccionarMesa(numero, capacidad) {
+
+        mesaSeleccionada = numero;
+        capacidadSeleccionada = capacidad;
+
+        document.getElementById("tablesScreen").style.display = "none";
+        document.getElementById("orderScreen").style.display = "none";
+        document.getElementById("peopleScreen").style.display = "block";
+
+        document.getElementById("peopleTitle").innerText =
+            "MESA " + numero;
+
+        crearBotonesPersonas(capacidad);
+
+    }
+
+
+    /* ==================== PERSONAS ==================== */
+
+    function crearBotonesPersonas(capacidad) {
+
+        const contenedor =
+            document.getElementById("peopleButtons");
+
+        contenedor.innerHTML = "";
+
+        let minimo = capacidad === 4 ? 2 : 1;
+
+        for (
+            let personas = minimo;
+            personas <= capacidad;
+            personas++
+        ) {
+
+            const boton = document.createElement("button");
+
+            boton.className = "people-button";
+
+            boton.innerText = personas;
+
+            boton.onclick = function() {
+
+                comenzarComanda(personas);
+
+            };
+
+            contenedor.appendChild(boton);
+
+        }
+
+    }
+
+
+    /* ==================== COMENZAR COMANDA ==================== */
+
+    function comenzarComanda(personas) {
+
+        personasSeleccionadas = personas;
+
+        pedido = [];
+
+        document.getElementById("peopleScreen").style.display = "none";
+        document.getElementById("orderScreen").style.display = "block";
+
+        document.getElementById("orderTable").innerText =
+            "MESA " + mesaSeleccionada;
+
+        document.getElementById("orderPeople").innerText =
+            personas + (personas === 1 ? " persona" : " personas");
+
+        crearCategorias();
+
+        mostrarCategoria("HUEVOS");
+
+        actualizarPedido();
+
+    }
+
+
+    /* ==================== CATEGORÍAS ==================== */
+
+    function crearCategorias() {
+
+        const contenedor =
+            document.getElementById("categories");
+
+        contenedor.innerHTML = "";
+
+        Object.keys(menu).forEach(categoria => {
+
+            const boton = document.createElement("button");
+
+            boton.className = "category-button";
+
+            boton.innerText = categoria;
+
+            boton.onclick = function() {
+
+                mostrarCategoria(categoria);
+
+            };
+
+            contenedor.appendChild(boton);
+
+        });
+
+    }
+
+
+    /* ==================== MOSTRAR PRODUCTOS ==================== */
+
+    function mostrarCategoria(categoria) {
+
+        const contenedor =
+            document.getElementById("products");
+
+        contenedor.innerHTML = "";
+
+        document.querySelectorAll(".category-button")
+            .forEach(boton => {
+
+                boton.classList.remove("active");
+
+                if (boton.innerText === categoria) {
+                    boton.classList.add("active");
+                }
+
+            });
+
+
+        menu[categoria].forEach(producto => {
+
+            const nombre = producto[0];
+            const precio = producto[1];
+
+            const boton = document.createElement("button");
+
+            boton.className = "product-button";
+
+            boton.innerHTML = `
+                <div class="product-name">
+                    ${nombre}
+                </div>
+
+                <div class="product-price">
+                    $${precio}
+                </div>
+            `;
+
+            boton.onclick = function() {
+
+                agregarProducto(nombre, precio);
+
+            };
+
+            contenedor.appendChild(boton);
+
+        });
+
+    }
+
+
+    /* ==================== AGREGAR PRODUCTO ==================== */
+
+    function agregarProducto(nombre, precio) {
+
+        const existente = pedido.find(
+            producto => producto.nombre === nombre
+        );
+
+        if (existente) {
+
+            existente.cantidad++;
+
+        } else {
+
+            pedido.push({
+
+                nombre: nombre,
+                precio: precio,
+                cantidad: 1
+
+            });
+
+        }
+
+        actualizarPedido();
+
+    }
+
+
+    /* ==================== ACTUALIZAR PEDIDO ==================== */
+
+    function actualizarPedido() {
+
+        const contenedor =
+            document.getElementById("orderItems");
+
+        contenedor.innerHTML = "";
+
+        if (pedido.length === 0) {
+
+            contenedor.innerHTML = `
+                <div class="empty-order">
+                    No hay productos agregados.
+                </div>
+            `;
+
         }
 
 
-        function crearBotonesPersonas(capacidad) {
+        let total = 0;
 
-            const contenedor =
-                document.getElementById("peopleButtons");
 
-            contenedor.innerHTML = "";
+        pedido.forEach((producto, indice) => {
 
-            let minimo = capacidad === 4 ? 2 : 1;
+            const subtotal =
+                producto.precio * producto.cantidad;
 
-            for (let personas = minimo; personas <= capacidad; personas++) {
+            total += subtotal;
 
-                const boton = document.createElement("button");
 
-                boton.className = "people-button";
+            const item =
+                document.createElement("div");
 
-                boton.innerText = personas;
+            item.className = "order-item";
 
-                boton.onclick = function() {
-                    comenzarComanda(personas);
-                };
+            item.innerHTML = `
 
-                contenedor.appendChild(boton);
-            }
+                <div class="order-item-name">
+                    ${producto.nombre}
+                </div>
+
+                <div class="order-item-details">
+
+                    <span>
+                        $${producto.precio} c/u
+                    </span>
+
+                    <strong>
+                        $${subtotal}
+                    </strong>
+
+                </div>
+
+                <div class="quantity-controls">
+
+                    <button
+                        class="quantity-button"
+                        onclick="cambiarCantidad(${indice}, -1)">
+                        −
+                    </button>
+
+                    <strong>
+                        ${producto.cantidad}
+                    </strong>
+
+                    <button
+                        class="quantity-button"
+                        onclick="cambiarCantidad(${indice}, 1)">
+                        +
+                    </button>
+
+                </div>
+
+            `;
+
+            contenedor.appendChild(item);
+
+        });
+
+
+        document.getElementById("orderTotal").innerText =
+            "$" + total;
+
+    }
+
+
+    /* ==================== CAMBIAR CANTIDAD ==================== */
+
+    function cambiarCantidad(indice, cambio) {
+
+        pedido[indice].cantidad += cambio;
+
+        if (pedido[indice].cantidad <= 0) {
+
+            pedido.splice(indice, 1);
+
+        }
+
+        actualizarPedido();
+
+    }
+
+
+    /* ==================== ENVIAR COMANDA ==================== */
+
+    function enviarComanda() {
+
+        if (pedido.length === 0) {
+
+            alert("Agrega al menos un producto.");
+
+            return;
+
         }
 
 
-        function comenzarComanda(personas) {
+        alert(
+            "COMANDA ENVIADA\n\n" +
+            "Mesa: " + mesaSeleccionada +
+            "\nPersonas: " + personasSeleccionadas +
+            "\nTotal: " + document.getElementById("orderTotal").innerText
+        );
 
-            document.getElementById("peopleScreen").style.display = "none";
-            document.getElementById("orderScreen").style.display = "block";
-
-            document.getElementById("orderTable").innerText =
-                "MESA " + mesaSeleccionada;
-
-            document.getElementById("orderPeople").innerText =
-                personas + (personas === 1 ? " persona" : " personas");
-        }
+    }
 
 
-        function volverMesas() {
+    /* ==================== VOLVER ==================== */
 
-            document.getElementById("peopleScreen").style.display = "none";
-            document.getElementById("orderScreen").style.display = "none";
-            document.getElementById("tablesScreen").style.display = "block";
+    function volverMesas() {
 
-        }
+        document.getElementById("peopleScreen").style.display = "none";
+
+        document.getElementById("orderScreen").style.display = "none";
+
+        document.getElementById("tablesScreen").style.display = "block";
+
+    }
 
 
-        function inicio() {
+    function inicio() {
 
-            alert("Regresando al inicio.");
+        alert("Regresando al inicio.");
 
-        }
+    }
 
-    </script>
+</script>
 
 </body>
 </html>
