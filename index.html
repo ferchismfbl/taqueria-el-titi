@@ -5,1784 +5,2362 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Taquería El Titi</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#fff8e8;
-  color:#3b1f0f;
-}
-
-header{
-  background:#e85d04;
-  color:white;
-  padding:18px 15px;
-  text-align:center;
-  box-shadow:0 2px 5px rgba(0,0,0,.2);
-}
-
-header h1{
-  margin:0;
-  font-size:30px;
-  font-weight:900;
-}
-
-header p{
-  margin:5px 0 0;
-  font-size:16px;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:18px;
-}
-
-.screen-title{
-  text-align:center;
-  font-size:25px;
-  font-weight:900;
-  margin:10px 0 20px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f1e8;
+    color:#3b1f12;
 }
 
 button{
-  border:none;
-  border-radius:12px;
-  padding:18px 12px;
-  font-size:18px;
-  font-weight:800;
-  cursor:pointer;
-  min-height:60px;
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
 }
 
-button:active{
-  transform:scale(.98);
+.header{
+    background:#e85d04;
+    color:white;
+    padding:18px;
+    text-align:center;
+    position:sticky;
+    top:0;
+    z-index:20;
 }
 
-.main-btn{
-  background:#f9c80e;
-  color:#3b1f0f;
+.header h1{
+    margin:0;
+    font-size:28px;
 }
 
-.orange-btn{
-  background:#e85d04;
-  color:white;
+.header p{
+    margin:5px 0 0;
+    font-size:15px;
 }
 
-.brown-btn{
-  background:#5a2d0c;
-  color:white;
-}
-
-.green-btn{
-  background:#438a3d;
-  color:white;
-}
-
-.red-btn{
-  background:#b42318;
-  color:white;
-}
-
-.white-btn{
-  background:white;
-  color:#3b1f0f;
-  border:2px solid #e85d04;
-}
-
-.back{
-  margin-top:20px;
-  width:100%;
-}
-
-.table-card{
-  background:white;
-  border-radius:14px;
-  padding:18px;
-  box-shadow:0 2px 7px rgba(0,0,0,.12);
-  text-align:center;
-}
-
-.table-number{
-  font-size:28px;
-  font-weight:900;
-}
-
-.status{
-  margin-top:7px;
-  font-weight:800;
-  color:#438a3d;
-}
-
-.status.occupied{
-  color:#b42318;
-}
-
-.info-box{
-  background:white;
-  border-radius:14px;
-  padding:15px;
-  margin-bottom:15px;
-  box-shadow:0 2px 7px rgba(0,0,0,.12);
-}
-
-.info-box strong{
-  color:#e85d04;
-}
-
-.people-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-
-.category-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.category-btn{
-  background:#5a2d0c;
-  color:white;
-  padding:14px 8px;
-  font-size:15px;
-}
-
-.product-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.product-btn{
-  background:white;
-  border:2px solid #e85d04;
-  color:#3b1f0f;
-  min-height:75px;
-  font-size:15px;
-}
-
-.product-btn span{
-  display:block;
-  color:#e85d04;
-  margin-top:5px;
-  font-size:17px;
-}
-
-.order-box{
-  background:white;
-  border-radius:14px;
-  padding:15px;
-  margin-top:18px;
-  box-shadow:0 2px 7px rgba(0,0,0,.15);
-}
-
-.order-item{
-  border-bottom:1px solid #ddd;
-  padding:12px 0;
-}
-
-.order-item:last-child{
-  border-bottom:none;
-}
-
-.order-name{
-  font-weight:900;
-}
-
-.order-details{
-  font-size:14px;
-  color:#666;
-  margin-top:4px;
-}
-
-.qty-controls{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-top:8px;
-}
-
-.qty-controls button{
-  min-height:38px;
-  width:42px;
-  padding:5px;
-  font-size:20px;
-}
-
-.qty{
-  min-width:30px;
-  text-align:center;
-  font-weight:900;
-}
-
-.total{
-  font-size:27px;
-  font-weight:900;
-  text-align:right;
-  margin-top:15px;
-  color:#e85d04;
-}
-
-.send-btn{
-  width:100%;
-  margin-top:15px;
-  background:#438a3d;
-  color:white;
-}
-
-.modal-bg{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:15px;
-  z-index:1000;
-}
-
-.modal{
-  background:#fff8e8;
-  width:100%;
-  max-width:500px;
-  border-radius:16px;
-  padding:20px;
-  max-height:90vh;
-  overflow:auto;
-}
-
-.modal h2{
-  margin-top:0;
-  text-align:center;
-}
-
-.option-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:10px;
-}
-
-.note{
-  width:100%;
-  min-height:90px;
-  padding:12px;
-  border-radius:10px;
-  border:2px solid #ddd;
-  font-size:16px;
-  resize:vertical;
-}
-
-.modal-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
 }
 
 .hidden{
-  display:none !important;
+    display:none !important;
 }
 
-.account-card{
-  background:white;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:0 2px 7px rgba(0,0,0,.12);
+.card{
+    background:white;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.10);
+    margin-bottom:18px;
 }
 
-.account-header{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
+h2{
+    margin-top:0;
 }
 
-.account-title{
-  font-size:20px;
-  font-weight:900;
+.login{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-.account-total{
-  color:#e85d04;
-  font-size:22px;
-  font-weight:900;
+.login-box{
+    width:100%;
+    max-width:430px;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 5px 25px rgba(0,0,0,.15);
+    text-align:center;
 }
 
-.command-card{
-  background:#fff8e8;
-  border-radius:10px;
-  padding:10px;
-  margin-top:10px;
+.logo{
+    color:#e85d04;
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:5px;
 }
 
-.command-card strong{
-  color:#e85d04;
+.login-subtitle{
+    margin-bottom:25px;
+    color:#6b4a3a;
 }
 
-.history-card{
-  background:white;
-  border-radius:14px;
-  padding:16px;
-  margin-bottom:12px;
-  box-shadow:0 2px 7px rgba(0,0,0,.12);
+.pin-display{
+    background:#f5f1e8;
+    padding:15px;
+    border-radius:12px;
+    font-size:28px;
+    letter-spacing:8px;
+    min-height:58px;
+    margin-bottom:18px;
 }
 
-.history-total{
-  color:#438a3d;
-  font-size:22px;
-  font-weight:900;
+.pin-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
 }
 
-.payment-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
+.pin-grid button{
+    background:#e85d04;
+    color:white;
+    font-size:25px;
+    font-weight:bold;
+    padding:18px;
+    border-radius:12px;
 }
 
-.payment-btn{
-  background:#f9c80e;
-  color:#3b1f0f;
-  min-height:65px;
+.pin-grid button:active{
+    transform:scale(.96);
 }
 
-.cash-box{
-  background:white;
-  padding:15px;
-  border-radius:12px;
-  margin-top:15px;
+.pin-clear{
+    background:#3b1f12 !important;
 }
 
-.cash-box input{
-  width:100%;
-  padding:14px;
-  font-size:20px;
-  border:2px solid #ddd;
-  border-radius:10px;
-  margin-top:8px;
+.main-buttons{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
 }
 
-.change{
-  font-size:24px;
-  font-weight:900;
-  color:#438a3d;
-  text-align:center;
-  margin-top:12px;
+.main-button{
+    min-height:130px;
+    background:#fcbf49;
+    color:#3b1f12;
+    border-radius:16px;
+    font-size:24px;
+    font-weight:bold;
+    box-shadow:0 3px 8px rgba(0,0,0,.12);
+}
+
+.main-button:active{
+    transform:scale(.98);
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.btn{
+    padding:13px 18px;
+    border-radius:10px;
+    font-weight:bold;
+    font-size:16px;
+}
+
+.btn-primary{
+    background:#e85d04;
+    color:white;
+}
+
+.btn-dark{
+    background:#3b1f12;
+    color:white;
+}
+
+.btn-yellow{
+    background:#fcbf49;
+    color:#3b1f12;
+}
+
+.btn-green{
+    background:#588157;
+    color:white;
+}
+
+.btn-red{
+    background:#b23a48;
+    color:white;
+}
+
+.tables{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.table-btn{
+    background:#fcbf49;
+    border-radius:15px;
+    min-height:120px;
+    padding:20px;
+    font-size:24px;
+    font-weight:bold;
+    color:#3b1f12;
+}
+
+.table-btn small{
+    display:block;
+    margin-top:8px;
+    font-size:15px;
+}
+
+.categories{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:10px;
+    margin-bottom:15px;
+}
+
+.category-btn{
+    white-space:nowrap;
+    background:#3b1f12;
+    color:white;
+    padding:13px 18px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.category-btn.active{
+    background:#e85d04;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:12px;
+}
+
+.product-btn{
+    background:white;
+    border:3px solid #fcbf49;
+    border-radius:13px;
+    padding:15px;
+    min-height:90px;
+    text-align:left;
+}
+
+.product-btn strong{
+    display:block;
+    font-size:17px;
+}
+
+.product-price{
+    display:block;
+    margin-top:8px;
+    color:#e85d04;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.order-layout{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
+}
+
+.order-summary{
+    position:sticky;
+    top:100px;
+    height:max-content;
+}
+
+.order-item{
+    border-bottom:1px solid #ddd;
+    padding:12px 0;
+}
+
+.order-item:last-child{
+    border-bottom:none;
+}
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:8px;
+}
+
+.qty button{
+    width:34px;
+    height:34px;
+    border-radius:8px;
+    background:#3b1f12;
+    color:white;
+    font-size:20px;
+}
+
+.total{
+    font-size:28px;
+    font-weight:bold;
+    color:#e85d04;
+    text-align:right;
+    margin:20px 0;
+}
+
+.modal-bg{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal{
+    background:white;
+    width:100%;
+    max-width:500px;
+    max-height:90vh;
+    overflow:auto;
+    border-radius:18px;
+    padding:25px;
+}
+
+.option-buttons{
+    display:grid;
+    gap:10px;
+    margin:15px 0;
+}
+
+.option-btn{
+    padding:15px;
+    border-radius:10px;
+    background:#fcbf49;
+    font-size:17px;
+    font-weight:bold;
+}
+
+textarea{
+    width:100%;
+    min-height:90px;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-family:inherit;
+    resize:vertical;
+}
+
+.station-list{
+    display:grid;
+    gap:15px;
+}
+
+.station-order{
+    background:white;
+    border-radius:15px;
+    padding:18px;
+    box-shadow:0 3px 10px rgba(0,0,0,.1);
+    border-left:7px solid #e85d04;
+}
+
+.station-item{
+    padding:7px 0;
+    border-bottom:1px solid #eee;
+}
+
+.station-item:last-child{
+    border-bottom:none;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:7px;
+    background:#fcbf49;
+    font-size:12px;
+    font-weight:bold;
 }
 
 .empty{
-  background:white;
-  border-radius:14px;
-  padding:25px;
-  text-align:center;
-  color:#666;
+    text-align:center;
+    padding:40px 20px;
+    color:#777;
 }
 
-@media(max-width:500px){
-  .grid{
-    grid-template-columns:1fr 1fr;
-  }
+@media(max-width:800px){
+    .order-layout{
+        grid-template-columns:1fr;
+    }
 
-  .payment-grid{
-    grid-template-columns:1fr;
-  }
+    .order-summary{
+        position:static;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>TAQUERÍA EL TITI</h1>
-  <p>Sistema de Comandas</p>
-</header>
-
 <div id="app"></div>
 
 <script>
+const SUPABASE_URL = "https://svcsphqthbijznomchaa.supabase.co";
 
-let mesas = {};
+const SUPABASE_KEY =
+"sb_publishable_Ks1l7WK_v6mjhs-wrAE2HQ_EK6zAyEL";
 
-for(let i=1;i<=8;i++){
-  mesas[i]={
-    personas:0,
-    comandas:[],
-    estado:"LIBRE"
-  };
+const supabaseClient =
+supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let currentUser = null;
+let currentScreen = "login";
+
+let categories = [];
+let products = [];
+let tables = [];
+
+let selectedTable = null;
+let selectedPeople = null;
+let selectedCategory = null;
+
+let currentOrder = [];
+
+let selectedProductForModal = null;
+
+
+/* =========================================================
+   UTILIDADES
+========================================================= */
+
+function money(value){
+    return "$" + Number(value || 0).toFixed(2);
 }
 
-let historial=[];
-let pantalla="inicio";
-let mesaSeleccionada=null;
-let personasSeleccionadas=0;
-let categoriaActual="HUEVOS";
-let pedidoActual=[];
-let comandaNumero=1;
-let tipoOperacion="";
-let cuentaParaCobrar=null;
-
-const menu={
-
-  "HUEVOS":[
-    {nombre:"Huevos al Gusto",precio:105,opciones:["REVUELTOS","ESTRELLADOS","FRITOS"]},
-    {nombre:"Huevos a la Mexicana",precio:105},
-    {nombre:"Huevos con Jamón",precio:115},
-    {nombre:"Huevos con Chorizo",precio:115},
-    {nombre:"Huevos Rancheros",precio:115},
-    {nombre:"Huevos Divorciados",precio:120},
-    {nombre:"Huevos con Machaca",precio:135},
-    {nombre:"Huevos con Chicharrón",precio:130}
-  ],
-
-  "OMELETTES":[
-    {nombre:"Omelette Clásico",precio:110},
-    {nombre:"Omelette Norteño",precio:135},
-    {nombre:"Omelette Sano",precio:130},
-    {nombre:"Omelette Mexicano",precio:125},
-    {nombre:"Omelette Campestre",precio:130},
-    {nombre:"Omelette de la Casa",precio:145}
-  ],
-
-  "CHILAQUILES":[
-    {nombre:"Chilaquiles Rojos",precio:105},
-    {nombre:"Chilaquiles Verdes",precio:105},
-    {nombre:"Chilaquiles Divorciados",precio:115},
-    {nombre:"Chilaquiles con Huevo",precio:120},
-    {nombre:"Chilaquiles con Machaca",precio:145}
-  ],
-
-  "MACHACA":[
-    {nombre:"Machaca con Huevo",precio:135},
-    {nombre:"Machaca a la Mexicana",precio:135}
-  ],
-
-  "CHICHARRÓN":[
-    {nombre:"Chicharrón en Salsa Roja",precio:115},
-    {nombre:"Chicharrón en Salsa Verde",precio:115},
-    {nombre:"Chicharrón con Huevo",precio:130}
-  ],
-
-  "DULCE":[
-    {nombre:"Hot Cakes Clásicos",precio:90},
-    {nombre:"Hot Cakes con Fruta",precio:110},
-    {nombre:"Pan Francés",precio:100}
-  ],
-
-  "BEBIDAS":[
-    {nombre:"Café de Olla",precio:25},
-    {nombre:"Café Americano",precio:25},
-    {nombre:"Jugo de Naranja",precio:40},
-    {nombre:"Agua Fresca del Día",precio:30},
-    {nombre:"Coca-Cola 600 ml",precio:30}
-  ],
-
-  "EXTRAS":[
-    {nombre:"Huevo extra",precio:20},
-    {nombre:"Chorizo",precio:25},
-    {nombre:"Jamón",precio:25},
-    {nombre:"Queso",precio:20},
-    {nombre:"Machaca",precio:40},
-    {nombre:"Chicharrón",precio:35},
-    {nombre:"Frijoles",precio:20},
-    {nombre:"Tortillas",precio:15},
-    {nombre:"Aguacate",precio:30}
-  ]
-
-};
-
-function dinero(valor){
-  return "$"+Number(valor).toFixed(2);
+function escapeHtml(text){
+    if(text === null || text === undefined) return "";
+    return String(text)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 }
 
-function render(){
-  const app=document.getElementById("app");
-
-  if(pantalla==="inicio") renderInicio(app);
-  if(pantalla==="mesas") renderMesas(app);
-  if(pantalla==="personas") renderPersonas(app);
-  if(pantalla==="comanda") renderComanda(app);
-  if(pantalla==="comandasMesa") renderComandasMesa(app);
-  if(pantalla==="grupo") renderGrupo(app);
-  if(pantalla==="caja") renderCaja(app);
-  if(pantalla==="pago") renderPago(app);
-  if(pantalla==="historial") renderHistorial(app);
+function totalOrder(){
+    return currentOrder.reduce((sum,item)=>{
+        return sum + (Number(item.unit_price) * Number(item.quantity));
+    },0);
 }
 
-function renderInicio(app){
-
-  app.innerHTML=`
-    <div class="container">
-
-      <div class="screen-title">MENÚ PRINCIPAL</div>
-
-      <div class="grid">
-
-        <button class="main-btn" onclick="irMesas()">
-          MESAS
-        </button>
-
-        <button class="main-btn" onclick="irGrupo()">
-          GRUPO / CAMIÓN
-        </button>
-
-        <button class="orange-btn" onclick="irCaja()">
-          CAJA
-        </button>
-
-        <button class="brown-btn" onclick="irHistorial()">
-          HISTORIAL
-        </button>
-
-      </div>
-
-      <div class="info-box" style="margin-top:20px;text-align:center;">
-        <strong>POR LA MAÑANA: SOLO DESAYUNOS</strong><br>
-        TACOS A PARTIR DE LA 1:00 PM<br>
-        TAMBIÉN CONTAMOS CON TIENDITA
-      </div>
-
-    </div>
-  `;
+function roleLabel(role){
+    return role || "";
 }
 
-function irMesas(){
-  pantalla="mesas";
-  render();
-}
 
-function renderMesas(app){
+/* =========================================================
+   LOGIN
+========================================================= */
 
-  let html=`
-    <div class="container">
-      <div class="screen-title">MESAS</div>
-      <div class="grid">
-  `;
+let pin = "";
 
-  for(let i=1;i<=8;i++){
+function renderLogin(){
 
-    let capacidad=i<=5 ? "5–6 personas" : "2–4 personas";
-    let ocupada=mesas[i].comandas.length>0;
+    currentScreen = "login";
 
-    html+=`
-      <button class="table-card" onclick="seleccionarMesa(${i})">
-        <div class="table-number">MESA ${i}</div>
-        <div>${capacidad}</div>
-        <div class="status ${ocupada?"occupied":""}">
-          ${ocupada?"OCUPADA":"LIBRE"}
-        </div>
-      </button>
-    `;
-  }
+    document.getElementById("app").innerHTML = `
+        <div class="login">
+            <div class="login-box">
 
-  html+=`
-      </div>
+                <div class="logo">TAQUERÍA EL TITI</div>
+                <div class="login-subtitle">
+                    Sistema de Comandas
+                </div>
 
-      <button class="brown-btn back" onclick="irInicio()">
-        VOLVER
-      </button>
-    </div>
-  `;
+                <div class="pin-display">
+                    ${pin ? "•".repeat(pin.length) : " "}
+                </div>
 
-  app.innerHTML=html;
-}
+                <div class="pin-grid">
 
-function seleccionarMesa(numero){
+                    <button onclick="addPin('1')">1</button>
+                    <button onclick="addPin('2')">2</button>
+                    <button onclick="addPin('3')">3</button>
 
-  mesaSeleccionada=numero;
+                    <button onclick="addPin('4')">4</button>
+                    <button onclick="addPin('5')">5</button>
+                    <button onclick="addPin('6')">6</button>
 
-  if(mesas[numero].comandas.length>0){
-    pantalla="comandasMesa";
-    render();
-    return;
-  }
+                    <button onclick="addPin('7')">7</button>
+                    <button onclick="addPin('8')">8</button>
+                    <button onclick="addPin('9')">9</button>
 
-  pantalla="personas";
-  render();
-}
+                    <button class="pin-clear" onclick="clearPin()">BORRAR</button>
+                    <button onclick="addPin('0')">0</button>
+                    <button onclick="login()">ENTRAR</button>
 
-function renderPersonas(app){
+                </div>
 
-  let max=mesaSeleccionada<=5 ? 6 : 4;
-  let min=mesaSeleccionada<=5 ? 1 : 2;
+                <div id="loginMessage" style="margin-top:15px;color:#b23a48;"></div>
 
-  let html=`
-    <div class="container">
-
-      <div class="screen-title">
-        MESA ${mesaSeleccionada}
-      </div>
-
-      <div class="info-box" style="text-align:center;">
-        <strong>¿CUÁNTAS PERSONAS HAY EN LA MESA?</strong>
-      </div>
-
-      <div class="people-grid">
-  `;
-
-  for(let i=min;i<=max;i++){
-    html+=`
-      <button class="main-btn" onclick="seleccionarPersonas(${i})">
-        ${i}
-      </button>
-    `;
-  }
-
-  html+=`
-      </div>
-
-      <button class="brown-btn back" onclick="irMesas()">
-        VOLVER
-      </button>
-
-    </div>
-  `;
-
-  app.innerHTML=html;
-}
-
-function seleccionarPersonas(numero){
-
-  personasSeleccionadas=numero;
-
-  mesas[mesaSeleccionada].personas=numero;
-
-  nuevaComanda();
-}
-
-function nuevaComanda(){
-
-  pedidoActual=[];
-  categoriaActual="HUEVOS";
-
-  comandaNumero=mesas[mesaSeleccionada].comandas.length+1;
-
-  pantalla="comanda";
-  render();
-}
-
-function renderComanda(app){
-
-  let html=`
-    <div class="container">
-
-      <div class="screen-title">
-        COMANDA #${comandaNumero}
-      </div>
-
-      <div class="info-box">
-        <strong>MESA:</strong> ${mesaSeleccionada}<br>
-        <strong>PERSONAS:</strong> ${mesas[mesaSeleccionada].personas}
-      </div>
-
-      <div class="category-grid">
-  `;
-
-  Object.keys(menu).forEach(cat=>{
-    html+=`
-      <button class="category-btn" onclick="seleccionarCategoria('${cat}')">
-        ${cat}
-      </button>
-    `;
-  });
-
-  html+=`
-      </div>
-
-      <div class="product-grid">
-  `;
-
-  menu[categoriaActual].forEach((producto,index)=>{
-
-    html+=`
-      <button class="product-btn"
-        onclick="seleccionarProducto('${categoriaActual}',${index})">
-
-        ${producto.nombre}
-        <span>${dinero(producto.precio)}</span>
-
-      </button>
-    `;
-  });
-
-  html+=`
-      </div>
-
-      <div class="order-box">
-
-        <h3>COMANDA ACTUAL</h3>
-  `;
-
-  if(pedidoActual.length===0){
-
-    html+=`
-      <div class="empty">
-        No hay productos agregados.
-      </div>
-    `;
-
-  }else{
-
-    pedidoActual.forEach((item,index)=>{
-
-      html+=`
-        <div class="order-item">
-
-          <div class="order-name">
-            ${item.nombre}
-          </div>
-
-          ${item.opcion ? `
-            <div class="order-details">
-              Opción: ${item.opcion}
             </div>
-          `:""}
-
-          ${item.nota ? `
-            <div class="order-details">
-              Nota: ${item.nota}
-            </div>
-          `:""}
-
-          <div class="order-details">
-            ${dinero(item.precio)} c/u
-          </div>
-
-          <div class="qty-controls">
-
-            <button class="brown-btn"
-              onclick="cambiarCantidad(${index},-1)">
-              −
-            </button>
-
-            <div class="qty">
-              ${item.cantidad}
-            </div>
-
-            <button class="orange-btn"
-              onclick="cambiarCantidad(${index},1)">
-              +
-            </button>
-
-          </div>
-
-        </div>
-      `;
-    });
-  }
-
-  let total=calcularPedido();
-
-  html+=`
-        <div class="total">
-          TOTAL: ${dinero(total)}
-        </div>
-
-        <button class="send-btn"
-          onclick="enviarComanda()">
-          ENVIAR COMANDA
-        </button>
-
-      </div>
-
-      <button class="brown-btn back"
-        onclick="cancelarComanda()">
-        VOLVER
-      </button>
-
-    </div>
-  `;
-
-  app.innerHTML=html;
-}
-
-function seleccionarCategoria(cat){
-  categoriaActual=cat;
-  render();
-}
-
-function seleccionarProducto(categoria,index){
-
-  let producto=menu[categoria][index];
-
-  abrirModalProducto(producto);
-}
-
-function abrirModalProducto(producto){
-
-  let opciones="";
-
-  if(producto.opciones){
-
-    opciones=`
-      <div class="option-grid">
-
-        ${producto.opciones.map(op=>`
-          <button class="main-btn"
-            onclick="confirmarProducto('${producto.nombre}',${producto.precio},'${op}')">
-            ${op}
-          </button>
-        `).join("")}
-
-      </div>
-    `;
-
-  }else{
-
-    opciones=`
-      <button class="orange-btn"
-        onclick="confirmarProducto('${producto.nombre}',${producto.precio},'')">
-        AGREGAR PRODUCTO
-      </button>
-    `;
-  }
-
-  document.body.insertAdjacentHTML("beforeend",`
-
-    <div class="modal-bg" id="productoModal">
-
-      <div class="modal">
-
-        <h2>${producto.nombre}</h2>
-
-        <div style="text-align:center;margin-bottom:15px;">
-          <strong>${dinero(producto.precio)}</strong>
-        </div>
-
-        ${opciones}
-
-        <div style="margin-top:18px;">
-          <strong>NOTA PARA COCINA (OPCIONAL)</strong>
-
-          <textarea
-            id="notaProducto"
-            class="note"
-            placeholder="Ejemplo: sin cebolla, poca salsa, etc."></textarea>
-        </div>
-
-        <button class="brown-btn back"
-          onclick="cerrarModal()">
-          CANCELAR
-        </button>
-
-      </div>
-
-    </div>
-  `);
-}
-
-function cerrarModal(){
-  let modal=document.getElementById("productoModal");
-  if(modal) modal.remove();
-}
-
-function confirmarProducto(nombre,precio,opcion){
-
-  let nota=document.getElementById("notaProducto").value.trim();
-
-  let existente=pedidoActual.find(item=>
-    item.nombre===nombre &&
-    item.opcion===opcion &&
-    item.nota===nota
-  );
-
-  if(existente){
-    existente.cantidad++;
-  }else{
-    pedidoActual.push({
-      nombre:nombre,
-      precio:precio,
-      opcion:opcion,
-      nota:nota,
-      cantidad:1
-    });
-  }
-
-  cerrarModal();
-  render();
-}
-
-function cambiarCantidad(index,cambio){
-
-  pedidoActual[index].cantidad+=cambio;
-
-  if(pedidoActual[index].cantidad<=0){
-    pedidoActual.splice(index,1);
-  }
-
-  render();
-}
-
-function calcularPedido(){
-
-  return pedidoActual.reduce(
-    (total,item)=>total+(item.precio*item.cantidad),0
-  );
-}
-
-function enviarComanda(){
-
-  if(pedidoActual.length===0){
-    alert("Agrega al menos un producto antes de enviar la comanda.");
-    return;
-  }
-
-  let total=calcularPedido();
-
-  mesas[mesaSeleccionada].comandas.push({
-
-    numero:comandaNumero,
-
-    productos:JSON.parse(
-      JSON.stringify(pedidoActual)
-    ),
-
-    total:total,
-
-    fecha:new Date().toLocaleString()
-
-  });
-
-  mesas[mesaSeleccionada].estado="OCUPADA";
-
-  alert(
-    "COMANDA #"+comandaNumero+
-    " enviada correctamente."
-  );
-
-  pedidoActual=[];
-
-  pantalla="comandasMesa";
-
-  render();
-}
-
-function cancelarComanda(){
-
-  if(pedidoActual.length>0){
-
-    let confirmar=confirm(
-      "¿Seguro que quieres cancelar esta comanda?"
-    );
-
-    if(!confirmar) return;
-  }
-
-  pedidoActual=[];
-
-  if(mesas[mesaSeleccionada].comandas.length>0){
-    pantalla="comandasMesa";
-  }else{
-    pantalla="mesas";
-  }
-
-  render();
-}
-
-function renderComandasMesa(app){
-
-  let mesa=mesas[mesaSeleccionada];
-
-  let total=mesa.comandas.reduce(
-    (s,c)=>s+c.total,0
-  );
-
-  let html=`
-    <div class="container">
-
-      <div class="screen-title">
-        MESA ${mesaSeleccionada}
-      </div>
-
-      <div class="info-box">
-        <strong>PERSONAS:</strong> ${mesa.personas}<br>
-        <strong>COMANDAS:</strong> ${mesa.comandas.length}
-      </div>
-  `;
-
-  mesa.comandas.forEach(comanda=>{
-
-    html+=`
-      <div class="account-card">
-
-        <div class="account-header">
-          <div class="account-title">
-            COMANDA #${comanda.numero}
-          </div>
-
-          <div class="account-total">
-            ${dinero(comanda.total)}
-          </div>
         </div>
     `;
-
-    comanda.productos.forEach(item=>{
-
-      html+=`
-        <div class="command-card">
-
-          <strong>${item.cantidad} x ${item.nombre}</strong>
-
-          ${item.opcion ? `
-            <br>Opción: ${item.opcion}
-          `:""}
-
-          ${item.nota ? `
-            <br>Nota: ${item.nota}
-          `:""}
-
-        </div>
-      `;
-    });
-
-    html+=`
-      </div>
-    `;
-  });
-
-  html+=`
-
-      <div class="order-box">
-
-        <div class="total">
-          TOTAL DE LA CUENTA: ${dinero(total)}
-        </div>
-
-        <button class="green-btn"
-          style="width:100%;margin-top:15px;"
-          onclick="abrirPagoMesa()">
-          COBRAR MESA
-        </button>
-
-        <button class="orange-btn"
-          style="width:100%;margin-top:10px;"
-          onclick="nuevaComanda()">
-          NUEVA COMANDA
-        </button>
-
-      </div>
-
-      <button class="brown-btn back"
-        onclick="irMesas()">
-        VOLVER A MESAS
-      </button>
-
-    </div>
-  `;
-
-  app.innerHTML=html;
 }
 
-function abrirPagoMesa(){
+function addPin(number){
+    if(pin.length >= 8) return;
 
-  let total=mesas[mesaSeleccionada].comandas.reduce(
-    (s,c)=>s+c.total,0
-  );
+    pin += number;
 
-  cuentaParaCobrar={
-    tipo:"MESA",
-    mesa:mesaSeleccionada,
-    personas:mesas[mesaSeleccionada].personas,
-    total:total
-  };
-
-  pantalla="pago";
-
-  render();
+    renderLogin();
 }
 
-function irGrupo(){
-
-  pedidoActual=[];
-  tipoOperacion="GRUPO";
-
-  pantalla="grupo";
-
-  render();
+function clearPin(){
+    pin = "";
+    renderLogin();
 }
 
-function renderGrupo(app){
+async function login(){
 
-  let html=`
-    <div class="container">
-
-      <div class="screen-title">
-        GRUPO / CAMIÓN
-      </div>
-
-      <div class="info-box">
-        <strong>ESTA ORDEN SE COBRA INMEDIATAMENTE.</strong><br>
-        Si posteriormente consumen algo más, se crea una nueva orden.
-      </div>
-
-      <div class="category-grid">
-  `;
-
-  Object.keys(menu).forEach(cat=>{
-    html+=`
-      <button class="category-btn"
-        onclick="seleccionarCategoriaGrupo('${cat}')">
-        ${cat}
-      </button>
-    `;
-  });
-
-  html+=`
-      </div>
-
-      <div class="product-grid">
-  `;
-
-  let categoriaGrupo=window.categoriaGrupo||"HUEVOS";
-
-  menu[categoriaGrupo].forEach((producto,index)=>{
-
-    html+=`
-      <button class="product-btn"
-        onclick="seleccionarProductoGrupo('${categoriaGrupo}',${index})">
-
-        ${producto.nombre}
-
-        <span>${dinero(producto.precio)}</span>
-
-      </button>
-    `;
-  });
-
-  html+=`
-      </div>
-
-      <div class="order-box">
-
-        <h3>ORDEN ACTUAL</h3>
-  `;
-
-  if(pedidoActual.length===0){
-
-    html+=`
-      <div class="empty">
-        No hay productos agregados.
-      </div>
-    `;
-
-  }else{
-
-    pedidoActual.forEach((item,index)=>{
-
-      html+=`
-        <div class="order-item">
-
-          <div class="order-name">
-            ${item.nombre}
-          </div>
-
-          ${item.opcion ? `
-            <div class="order-details">
-              Opción: ${item.opcion}
-            </div>
-          `:""}
-
-          ${item.nota ? `
-            <div class="order-details">
-              Nota: ${item.nota}
-            </div>
-          `:""}
-
-          <div class="qty-controls">
-
-            <button class="brown-btn"
-              onclick="cambiarCantidadGrupo(${index},-1)">
-              −
-            </button>
-
-            <div class="qty">
-              ${item.cantidad}
-            </div>
-
-            <button class="orange-btn"
-              onclick="cambiarCantidadGrupo(${index},1)">
-              +
-            </button>
-
-          </div>
-
-        </div>
-      `;
-    });
-  }
-
-  html+=`
-
-        <div class="total">
-          TOTAL: ${dinero(calcularPedido())}
-        </div>
-
-        <button class="green-btn"
-          style="width:100%;margin-top:15px;"
-          onclick="cobrarGrupo()">
-          COBRAR GRUPO
-        </button>
-
-      </div>
-
-      <button class="brown-btn back"
-        onclick="irInicio()">
-        VOLVER
-      </button>
-
-    </div>
-  `;
-
-  app.innerHTML=html;
-}
-
-function seleccionarCategoriaGrupo(cat){
-
-  window.categoriaGrupo=cat;
-
-  render();
-}
-
-function seleccionarProductoGrupo(cat,index){
-
-  let producto=menu[cat][index];
-
-  let opciones="";
-
-  if(producto.opciones){
-
-    opciones=`
-      <div class="option-grid">
-
-        ${producto.opciones.map(op=>`
-          <button class="main-btn"
-            onclick="confirmarProductoGrupo('${producto.nombre}',${producto.precio},'${op}')">
-            ${op}
-          </button>
-        `).join("")}
-
-      </div>
-    `;
-
-  }else{
-
-    opciones=`
-      <button class="orange-btn"
-        onclick="confirmarProductoGrupo('${producto.nombre}',${producto.precio},'')">
-        AGREGAR PRODUCTO
-      </button>
-    `;
-  }
-
-  document.body.insertAdjacentHTML("beforeend",`
-
-    <div class="modal-bg" id="grupoModal">
-
-      <div class="modal">
-
-        <h2>${producto.nombre}</h2>
-
-        ${opciones}
-
-        <div style="margin-top:18px;">
-          <strong>NOTA PARA COCINA</strong>
-
-          <textarea
-            id="notaGrupo"
-            class="note"
-            placeholder="Nota opcional"></textarea>
-        </div>
-
-        <button class="brown-btn back"
-          onclick="document.getElementById('grupoModal').remove()">
-          CANCELAR
-        </button>
-
-      </div>
-
-    </div>
-  `);
-}
-
-function confirmarProductoGrupo(nombre,precio,opcion){
-
-  let nota=document.getElementById("notaGrupo").value.trim();
-
-  let existente=pedidoActual.find(item=>
-    item.nombre===nombre &&
-    item.opcion===opcion &&
-    item.nota===nota
-  );
-
-  if(existente){
-    existente.cantidad++;
-  }else{
-    pedidoActual.push({
-      nombre:nombre,
-      precio:precio,
-      opcion:opcion,
-      nota:nota,
-      cantidad:1
-    });
-  }
-
-  document.getElementById("grupoModal").remove();
-
-  render();
-}
-
-function cambiarCantidadGrupo(index,cambio){
-
-  pedidoActual[index].cantidad+=cambio;
-
-  if(pedidoActual[index].cantidad<=0){
-    pedidoActual.splice(index,1);
-  }
-
-  render();
-}
-
-function cobrarGrupo(){
-
-  if(pedidoActual.length===0){
-    alert("Agrega al menos un producto.");
-    return;
-  }
-
-  cuentaParaCobrar={
-    tipo:"GRUPO",
-    total:calcularPedido(),
-    productos:JSON.parse(
-      JSON.stringify(pedidoActual)
-    )
-  };
-
-  pantalla="pago";
-
-  render();
-}
-
-function renderCaja(app){
-
-  let mesasPendientes=[];
-
-  for(let i=1;i<=8;i++){
-
-    if(mesas[i].comandas.length>0){
-
-      let total=mesas[i].comandas.reduce(
-        (s,c)=>s+c.total,0
-      );
-
-      mesasPendientes.push({
-        mesa:i,
-        personas:mesas[i].personas,
-        comandas:mesas[i].comandas.length,
-        total:total
-      });
+    if(!pin){
+        return;
     }
-  }
 
-  let html=`
-    <div class="container">
+    const message = document.getElementById("loginMessage");
 
-      <div class="screen-title">
-        CAJA
-      </div>
-  `;
+    try{
 
-  if(mesasPendientes.length===0){
+        const { data, error } =
+            await supabaseClient.rpc("login_with_pin", {
+                p_pin: pin
+            });
 
-    html+=`
-      <div class="empty">
-        No hay mesas pendientes de cobro.
-      </div>
-    `;
+        if(error){
+            console.error(error);
+            message.textContent =
+                "Error al conectar con el sistema.";
+            return;
+        }
 
-  }else{
+        if(!data || data.length === 0){
+            message.textContent =
+                "Código incorrecto.";
+            pin = "";
+            return;
+        }
 
-    mesasPendientes.forEach(cuenta=>{
+        currentUser = data[0];
 
-      html+=`
-        <div class="account-card">
+        pin = "";
 
-          <div class="account-header">
+        renderHome();
 
-            <div>
-              <div class="account-title">
-                MESA ${cuenta.mesa}
-              </div>
+    }catch(error){
 
-              <div>
-                ${cuenta.personas} personas ·
-                ${cuenta.comandas} comanda(s)
-              </div>
-            </div>
+        console.error(error);
 
-            <div class="account-total">
-              ${dinero(cuenta.total)}
-            </div>
-
-          </div>
-
-          <button class="green-btn"
-            style="width:100%;margin-top:12px;"
-            onclick="prepararPagoMesa(${cuenta.mesa})">
-            COBRAR
-          </button>
-
-        </div>
-      `;
-    });
-  }
-
-  html+=`
-
-      <button class="brown-btn back"
-        onclick="irInicio()">
-        VOLVER
-      </button>
-
-    </div>
-  `;
-
-  app.innerHTML=html;
-}
-
-function prepararPagoMesa(numero){
-
-  let total=mesas[numero].comandas.reduce(
-    (s,c)=>s+c.total,0
-  );
-
-  cuentaParaCobrar={
-    tipo:"MESA",
-    mesa:numero,
-    personas:mesas[numero].personas,
-    total:total
-  };
-
-  pantalla="pago";
-
-  render();
-}
-
-function renderPago(app){
-
-  let cuenta=cuentaParaCobrar;
-
-  app.innerHTML=`
-    <div class="container">
-
-      <div class="screen-title">
-        COBRO
-      </div>
-
-      <div class="info-box">
-
-        <div style="font-size:22px;font-weight:900;">
-          ${cuenta.tipo==="MESA"
-            ? "MESA "+cuenta.mesa
-            : "GRUPO / CAMIÓN"}
-        </div>
-
-        <div style="margin-top:8px;">
-          TOTAL A COBRAR:
-        </div>
-
-        <div class="total">
-          ${dinero(cuenta.total)}
-        </div>
-
-      </div>
-
-      <div class="info-box">
-
-        <strong>MÉTODO DE PAGO</strong>
-
-        <div class="payment-grid" style="margin-top:12px;">
-
-          <button class="payment-btn"
-            onclick="seleccionarPago('EFECTIVO')">
-            EFECTIVO
-          </button>
-
-          <button class="payment-btn"
-            onclick="seleccionarPago('TARJETA')">
-            TARJETA
-          </button>
-
-          <button class="payment-btn"
-            onclick="seleccionarPago('TRANSFERENCIA')">
-            TRANSFERENCIA
-          </button>
-
-        </div>
-
-      </div>
-
-      <div id="pagoDetalle"></div>
-
-      <button class="brown-btn back"
-        onclick="cancelarPago()">
-        CANCELAR
-      </button>
-
-    </div>
-  `;
-}
-
-function seleccionarPago(metodo){
-
-  let detalle=document.getElementById("pagoDetalle");
-
-  if(metodo==="EFECTIVO"){
-
-    detalle.innerHTML=`
-
-      <div class="cash-box">
-
-        <strong>EFECTIVO RECIBIDO</strong>
-
-        <input
-          type="number"
-          id="efectivoRecibido"
-          placeholder="0.00"
-          step="0.01"
-          oninput="calcularCambio()">
-
-        <div id="cambio" class="change"></div>
-
-        <button class="green-btn"
-          style="width:100%;margin-top:15px;"
-          onclick="finalizarPago('EFECTIVO')">
-          FINALIZAR COBRO
-        </button>
-
-      </div>
-    `;
-
-  }else{
-
-    detalle.innerHTML=`
-
-      <div class="info-box">
-
-        <div style="text-align:center;">
-          Pago seleccionado:
-          <strong>${metodo}</strong>
-        </div>
-
-        <button class="green-btn"
-          style="width:100%;margin-top:15px;"
-          onclick="finalizarPago('${metodo}')">
-          FINALIZAR COBRO
-        </button>
-
-      </div>
-    `;
-  }
-}
-
-function calcularCambio(){
-
-  let recibido=Number(
-    document.getElementById("efectivoRecibido").value
-  );
-
-  let total=cuentaParaCobrar.total;
-
-  let cambio=recibido-total;
-
-  let div=document.getElementById("cambio");
-
-  if(recibido<=0){
-
-    div.innerHTML="";
-
-  }else if(cambio<0){
-
-    div.innerHTML=
-      "FALTAN "+dinero(Math.abs(cambio));
-
-  }else{
-
-    div.innerHTML=
-      "CAMBIO: "+dinero(cambio);
-  }
-}
-
-function finalizarPago(metodo){
-
-  if(metodo==="EFECTIVO"){
-
-    let recibido=Number(
-      document.getElementById("efectivoRecibido").value
-    );
-
-    if(recibido<cuentaParaCobrar.total){
-
-      alert("El efectivo recibido no es suficiente.");
-      return;
+        message.textContent =
+            "No se pudo iniciar sesión.";
     }
-  }
+}
 
-  let fecha=new Date();
 
-  let registro={
-    fecha:fecha.toLocaleString(),
-    tipo:cuentaParaCobrar.tipo,
-    total:cuentaParaCobrar.total,
-    metodo:metodo
-  };
+/* =========================================================
+   INICIO
+========================================================= */
 
-  if(cuentaParaCobrar.tipo==="MESA"){
+function renderHome(){
 
-    registro.mesa=cuentaParaCobrar.mesa;
-    registro.personas=cuentaParaCobrar.personas;
+    currentScreen = "home";
 
-    registro.comandas=
-      JSON.parse(
-        JSON.stringify(
-          mesas[cuentaParaCobrar.mesa].comandas
-        )
-      );
+    let buttons = "";
 
-    mesas[cuentaParaCobrar.mesa]={
-      personas:0,
-      comandas:[],
-      estado:"LIBRE"
+    if(currentUser.role === "ADMINISTRADOR"){
+
+        buttons += `
+            <button class="main-button"
+                onclick="openAdmin()">
+                ADMINISTRADOR
+            </button>
+        `;
+
+        buttons += `
+            <button class="main-button"
+                onclick="openMesera()">
+                MESAS / COMANDAS
+            </button>
+        `;
+
+        buttons += `
+            <button class="main-button"
+                onclick="openCaja()">
+                COBRAR
+            </button>
+        `;
+
+        buttons += `
+            <button class="main-button"
+                onclick="openStation('COCINA')">
+                COCINA / DESAYUNOS
+            </button>
+        `;
+
+        buttons += `
+            <button class="main-button"
+                onclick="openStation('PARRILLA')">
+                PARRILLA
+            </button>
+        `;
+    }
+
+    if(currentUser.role === "MESERA"){
+
+        buttons += `
+            <button class="main-button"
+                onclick="openMesera()">
+                MESAS / COMANDAS
+            </button>
+        `;
+    }
+
+    if(currentUser.role === "CAJA"){
+
+        buttons += `
+            <button class="main-button"
+                onclick="openCaja()">
+                COBRAR
+            </button>
+        `;
+    }
+
+    if(currentUser.role === "COCINA"){
+
+        buttons += `
+            <button class="main-button"
+                onclick="openStation('COCINA')">
+                COCINA / DESAYUNOS
+            </button>
+        `;
+    }
+
+    if(currentUser.role === "PARRILLA"){
+
+        buttons += `
+            <button class="main-button"
+                onclick="openStation('PARRILLA')">
+                PARRILLA
+            </button>
+        `;
+    }
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="header">
+            <h1>TAQUERÍA EL TITI</h1>
+            <p>
+                ${escapeHtml(currentUser.full_name)}
+                ·
+                ${roleLabel(currentUser.role)}
+            </p>
+        </div>
+
+        <div class="container">
+
+            <div class="topbar">
+                <h2>Menú principal</h2>
+
+                <button class="btn btn-dark"
+                    onclick="logout()">
+                    CERRAR SESIÓN
+                </button>
+            </div>
+
+            <div class="main-buttons">
+                ${buttons}
+            </div>
+
+        </div>
+    `;
+}
+
+function logout(){
+
+    currentUser = null;
+    pin = "";
+    currentOrder = [];
+
+    renderLogin();
+}
+
+
+/* =========================================================
+   MESERA
+========================================================= */
+
+async function openMesera(){
+
+    await loadBaseData();
+
+    renderTables();
+}
+
+async function loadBaseData(){
+
+    const [
+        categoriesResponse,
+        productsResponse,
+        tablesResponse
+    ] = await Promise.all([
+
+        supabaseClient
+            .from("categories")
+            .select("*")
+            .eq("active",true)
+            .order("sort_order"),
+
+        supabaseClient
+            .from("products")
+            .select("*")
+            .eq("active",true)
+            .order("sort_order"),
+
+        supabaseClient
+            .from("tables_restaurant")
+            .select("*")
+            .eq("active",true)
+            .order("id")
+    ]);
+
+    if(categoriesResponse.error){
+        console.error(categoriesResponse.error);
+    }
+
+    if(productsResponse.error){
+        console.error(productsResponse.error);
+    }
+
+    if(tablesResponse.error){
+        console.error(tablesResponse.error);
+    }
+
+    categories = categoriesResponse.data || [];
+    products = productsResponse.data || [];
+    tables = tablesResponse.data || [];
+}
+
+
+function renderTables(){
+
+    currentScreen = "tables";
+
+    let html = `
+
+        <div class="header">
+            <h1>TAQUERÍA EL TITI</h1>
+            <p>MESAS</p>
+        </div>
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <h2>Selecciona una mesa</h2>
+
+                <button class="btn btn-dark"
+                    onclick="renderHome()">
+                    REGRESAR
+                </button>
+
+            </div>
+
+            <div class="tables">
+    `;
+
+    tables.forEach(table=>{
+
+        html += `
+            <button class="table-btn"
+                onclick="selectTable(${table.id})">
+
+                MESA ${table.id}
+
+                <small>
+                    ${table.min_capacity}-${table.max_capacity} personas
+                </small>
+
+            </button>
+        `;
+    });
+
+    html += `
+            </div>
+
+            <div style="margin-top:20px">
+
+                <button class="main-button"
+                    style="width:100%;min-height:90px"
+                    onclick="openGroupOrder()">
+
+                    GRUPO / CAMIÓN
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    document.getElementById("app").innerHTML = html;
+}
+
+
+function selectTable(tableId){
+
+    selectedTable =
+        tables.find(t=>Number(t.id) === Number(tableId));
+
+    if(!selectedTable) return;
+
+    let buttons = "";
+
+    for(
+        let i = selectedTable.min_capacity;
+        i <= selectedTable.max_capacity;
+        i++
+    ){
+
+        buttons += `
+            <button class="main-button"
+                style="min-height:80px"
+                onclick="selectPeople(${i})">
+
+                ${i} ${i === 1 ? "PERSONA" : "PERSONAS"}
+
+            </button>
+        `;
+    }
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="header">
+            <h1>MESA ${selectedTable.id}</h1>
+            <p>¿Cuántas personas hay?</p>
+        </div>
+
+        <div class="container">
+
+            <div class="main-buttons">
+                ${buttons}
+            </div>
+
+            <br>
+
+            <button class="btn btn-dark"
+                onclick="renderTables()">
+                REGRESAR
+            </button>
+
+        </div>
+    `;
+}
+
+
+function selectPeople(number){
+
+    selectedPeople = number;
+
+    currentOrder = [];
+
+    renderComanda();
+}
+
+
+/* =========================================================
+   COMANDA
+========================================================= */
+
+function renderComanda(){
+
+    currentScreen = "comanda";
+
+    if(!selectedCategory && categories.length){
+        selectedCategory = categories[0].id;
+    }
+
+    const category =
+        categories.find(c=>c.id === selectedCategory);
+
+    const categoryProducts =
+        products.filter(p=>p.category_id === selectedCategory);
+
+    let categoryHtml = "";
+
+    categories.forEach(c=>{
+
+        categoryHtml += `
+            <button
+                class="category-btn ${c.id === selectedCategory ? "active" : ""}"
+                onclick="selectCategory('${c.id}')">
+
+                ${escapeHtml(c.name)}
+
+            </button>
+        `;
+    });
+
+    let productsHtml = "";
+
+    categoryProducts.forEach(product=>{
+
+        productsHtml += `
+            <button
+                class="product-btn"
+                onclick="addProduct('${product.id}')">
+
+                <strong>
+                    ${escapeHtml(product.name)}
+                </strong>
+
+                <span class="product-price">
+                    ${money(product.price)}
+                </span>
+
+            </button>
+        `;
+    });
+
+    let orderHtml = "";
+
+    if(currentOrder.length === 0){
+
+        orderHtml = `
+            <div class="empty">
+                Todavía no hay productos.
+            </div>
+        `;
+
+    }else{
+
+        currentOrder.forEach((item,index)=>{
+
+            orderHtml += `
+
+                <div class="order-item">
+
+                    <strong>
+                        ${escapeHtml(item.product_name)}
+                    </strong>
+
+                    ${
+                        item.option_text
+                        ? `<div>${escapeHtml(item.option_text)}</div>`
+                        : ""
+                    }
+
+                    ${
+                        item.note
+                        ? `<div style="font-size:13px;color:#777">
+                            Nota: ${escapeHtml(item.note)}
+                           </div>`
+                        : ""
+                    }
+
+                    <div class="qty">
+
+                        <button
+                            onclick="changeQty(${index},-1)">
+                            −
+                        </button>
+
+                        <strong>
+                            ${item.quantity}
+                        </strong>
+
+                        <button
+                            onclick="changeQty(${index},1)">
+                            +
+                        </button>
+
+                        <span style="margin-left:auto">
+                            ${money(item.unit_price * item.quantity)}
+                        </span>
+
+                    </div>
+
+                </div>
+            `;
+        });
+    }
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="header">
+
+            <h1>TAQUERÍA EL TITI</h1>
+
+            <p>
+                ${
+                    selectedTable
+                    ? `MESA ${selectedTable.id} · ${selectedPeople} PERSONAS`
+                    : "GRUPO / CAMIÓN"
+                }
+            </p>
+
+        </div>
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <h2>COMANDA</h2>
+
+                <button class="btn btn-dark"
+                    onclick="renderTables()">
+                    CANCELAR
+                </button>
+
+            </div>
+
+            <div class="order-layout">
+
+                <div>
+
+                    <div class="categories">
+                        ${categoryHtml}
+                    </div>
+
+                    <div class="products">
+
+                        ${
+                            productsHtml ||
+                            `<div class="empty">
+                                No hay productos en esta categoría.
+                             </div>`
+                        }
+
+                    </div>
+
+                </div>
+
+                <div class="card order-summary">
+
+                    <h2>Pedido</h2>
+
+                    ${orderHtml}
+
+                    <div class="total">
+                        ${money(totalOrder())}
+                    </div>
+
+                    <button
+                        class="btn btn-primary"
+                        style="width:100%;padding:18px"
+                        onclick="sendOrder()"
+                        ${currentOrder.length === 0 ? "disabled" : ""}>
+
+                        ENVIAR COMANDA
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+function selectCategory(categoryId){
+
+    selectedCategory = categoryId;
+
+    renderComanda();
+}
+
+
+async function addProduct(productId){
+
+    const product =
+        products.find(p=>p.id === productId);
+
+    if(!product) return;
+
+    /*
+       Huevos al Gusto necesita selección.
+    */
+
+    if(product.name === "Huevos al Gusto"){
+
+        selectedProductForModal = product;
+
+        showHuevosModal();
+
+        return;
+    }
+
+    /*
+       Productos normales.
+    */
+
+    addItemToOrder(
+        product,
+        "",
+        ""
+    );
+}
+
+
+function addItemToOrder(product,optionText,note){
+
+    const existing =
+        currentOrder.find(item=>
+            item.product_id === product.id &&
+            item.option_text === optionText &&
+            item.note === note
+        );
+
+    if(existing){
+
+        existing.quantity++;
+
+    }else{
+
+        currentOrder.push({
+
+            product_id:product.id,
+
+            product_name:product.name,
+
+            quantity:1,
+
+            unit_price:Number(product.price),
+
+            option_text:optionText,
+
+            note:note,
+
+            station:product.station || "COCINA"
+        });
+    }
+
+    renderComanda();
+}
+
+
+function changeQty(index,change){
+
+    if(!currentOrder[index]) return;
+
+    currentOrder[index].quantity += change;
+
+    if(currentOrder[index].quantity <= 0){
+
+        currentOrder.splice(index,1);
+    }
+
+    renderComanda();
+}
+
+
+/* =========================================================
+   MODAL HUEVOS
+========================================================= */
+
+function showHuevosModal(){
+
+    document.body.insertAdjacentHTML("beforeend",`
+
+        <div class="modal-bg" id="modal">
+
+            <div class="modal">
+
+                <h2>Huevos al Gusto</h2>
+
+                <p>
+                    Selecciona cómo preparar los huevos.
+                </p>
+
+                <div class="option-buttons">
+
+                    <button class="option-btn"
+                        onclick="chooseEggs('REVUELTOS')">
+                        REVUELTOS
+                    </button>
+
+                    <button class="option-btn"
+                        onclick="chooseEggs('ESTRELLADOS')">
+                        ESTRELLADOS
+                    </button>
+
+                    <button class="option-btn"
+                        onclick="chooseEggs('FRITOS')">
+                        FRITOS
+                    </button>
+
+                </div>
+
+                <button
+                    class="btn btn-dark"
+                    style="width:100%"
+                    onclick="closeModal()">
+
+                    CANCELAR
+
+                </button>
+
+            </div>
+
+        </div>
+    `);
+}
+
+
+function chooseEggs(option){
+
+    const product = selectedProductForModal;
+
+    closeModal();
+
+    document.body.insertAdjacentHTML("beforeend",`
+
+        <div class="modal-bg" id="modal">
+
+            <div class="modal">
+
+                <h2>Nota para cocina</h2>
+
+                <p>
+                    ${escapeHtml(option)}
+                </p>
+
+                <textarea
+                    id="productNote"
+                    placeholder="Ejemplo: sin cebolla, poca salsa, etc.">
+                </textarea>
+
+                <br><br>
+
+                <button
+                    class="btn btn-primary"
+                    style="width:100%"
+                    onclick="confirmEggs('${escapeHtml(option)}')">
+
+                    AGREGAR
+
+                </button>
+
+            </div>
+
+        </div>
+    `);
+
+    selectedProductForModal = {
+        ...product,
+        selectedOption:option
     };
-
-  }else{
-
-    registro.productos=
-      JSON.parse(
-        JSON.stringify(
-          cuentaParaCobrar.productos
-        )
-      );
-
-    pedidoActual=[];
-  }
-
-  historial.unshift(registro);
-
-  cuentaParaCobrar=null;
-
-  alert("COBRO REALIZADO CORRECTAMENTE.");
-
-  pantalla="caja";
-
-  render();
 }
 
-function cancelarPago(){
 
-  if(cuentaParaCobrar.tipo==="MESA"){
+function confirmEggs(option){
 
-    pantalla="caja";
+    const note =
+        document.getElementById("productNote").value.trim();
 
-  }else{
+    const product =
+        selectedProductForModal;
 
-    pantalla="grupo";
-  }
+    closeModal();
 
-  render();
+    addItemToOrder(
+        product,
+        option,
+        note
+    );
+
+    selectedProductForModal = null;
 }
 
-function irHistorial(){
 
-  pantalla="historial";
+function closeModal(){
 
-  render();
+    const modal =
+        document.getElementById("modal");
+
+    if(modal){
+        modal.remove();
+    }
 }
 
-function renderHistorial(app){
 
-  let html=`
-    <div class="container">
+/* =========================================================
+   GRUPO / CAMIÓN
+========================================================= */
 
-      <div class="screen-title">
-        HISTORIAL
-      </div>
-  `;
+function openGroupOrder(){
 
-  if(historial.length===0){
+    selectedTable = null;
+    selectedPeople = null;
+    currentOrder = [];
+    selectedCategory = categories.length ? categories[0].id : null;
 
-    html+=`
-      <div class="empty">
-        Todavía no hay ventas registradas.
-      </div>
-    `;
+    renderComanda();
+}
 
-  }else{
 
-    historial.forEach((venta,index)=>{
+/* =========================================================
+   ENVIAR COMANDA
+========================================================= */
 
-      html+=`
-        <div class="history-card">
+async function sendOrder(){
 
-          <div style="font-weight:900;font-size:19px;">
-            ${venta.tipo==="MESA"
-              ? "MESA "+venta.mesa
-              : "GRUPO / CAMIÓN"}
-          </div>
+    if(currentOrder.length === 0){
+        alert("La comanda está vacía.");
+        return;
+    }
 
-          <div style="margin-top:5px;">
-            ${venta.fecha}
-          </div>
+    try{
 
-          <div style="margin-top:5px;">
-            Pago: <strong>${venta.metodo}</strong>
-          </div>
+        const total = totalOrder();
 
-          <div class="history-total"
-            style="margin-top:8px;">
-            ${dinero(venta.total)}
-          </div>
+        const orderType =
+            selectedTable ? "MESA" : "GRUPO";
+
+        const {
+            data:order,
+            error:orderError
+        } = await supabaseClient
+            .from("orders")
+            .insert({
+
+                order_type:orderType,
+
+                table_id:
+                    selectedTable
+                    ? selectedTable.id
+                    : null,
+
+                people:
+                    selectedPeople || null,
+
+                status:"NUEVA",
+
+                total:total,
+
+                created_by:null
+
+            })
+            .select()
+            .single();
+
+        if(orderError){
+
+            console.error(orderError);
+
+            alert(
+                "No se pudo guardar la comanda:\n" +
+                orderError.message
+            );
+
+            return;
+        }
+
+
+        const items =
+            currentOrder.map(item=>({
+
+                order_id:order.id,
+
+                product_id:item.product_id,
+
+                product_name:item.product_name,
+
+                quantity:item.quantity,
+
+                unit_price:item.unit_price,
+
+                option_text:item.option_text,
+
+                note:item.note,
+
+                station:item.station
+
+            }));
+
+
+        const {
+            error:itemError
+        } = await supabaseClient
+            .from("order_items")
+            .insert(items);
+
+
+        if(itemError){
+
+            console.error(itemError);
+
+            alert(
+                "La orden se creó, pero hubo un problema con los productos:\n" +
+                itemError.message
+            );
+
+            return;
+        }
+
+
+        /*
+           Crear trabajos para las estaciones.
+        */
+
+        const stations =
+            [...new Set(
+                currentOrder.map(item=>
+                    item.station || "COCINA"
+                )
+            )];
+
+
+        const printJobs =
+            stations.map(station=>({
+
+                order_id:order.id,
+
+                station:station,
+
+                printed:false
+
+            }));
+
+
+        if(printJobs.length){
+
+            const {
+                error:printError
+            } = await supabaseClient
+                .from("print_jobs")
+                .insert(printJobs);
+
+            if(printError){
+                console.error(printError);
+            }
+        }
+
+
+        alert(
+            "COMANDA ENVIADA CORRECTAMENTE"
+        );
+
+
+        currentOrder = [];
+
+        selectedTable = null;
+        selectedPeople = null;
+
+        renderTables();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Ocurrió un error al enviar la comanda."
+        );
+    }
+}
+
+
+/* =========================================================
+   CAJA
+========================================================= */
+
+async function openCaja(){
+
+    currentScreen = "caja";
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("orders")
+        .select(`
+            *,
+            tables_restaurant (
+                id
+            )
+        `)
+        .eq("order_type","MESA")
+        .neq("status","PAGADA")
+        .order("created_at",{ascending:true});
+
+
+    if(error){
+
+        console.error(error);
+
+        renderCajaError(error.message);
+
+        return;
+    }
+
+
+    let html = "";
+
+    if(!data || data.length === 0){
+
+        html = `
+            <div class="empty">
+                No hay cuentas pendientes.
+            </div>
+        `;
+
+    }else{
+
+        data.forEach(order=>{
+
+            html += `
+
+                <div class="card">
+
+                    <h2>
+                        ${
+                            order.table_id
+                            ? "MESA " + order.table_id
+                            : "GRUPO"
+                        }
+                    </h2>
+
+                    <p>
+                        Personas:
+                        ${order.people || "-"}
+                    </p>
+
+                    <div class="total">
+                        ${money(order.total)}
+                    </div>
+
+                    <div style="display:flex;gap:10px;flex-wrap:wrap">
+
+                        <button
+                            class="btn btn-green"
+                            onclick="payOrder('${order.id}','EFECTIVO')">
+
+                            EFECTIVO
+
+                        </button>
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="payOrder('${order.id}','TARJETA')">
+
+                            TARJETA
+
+                        </button>
+
+                        <button
+                            class="btn btn-yellow"
+                            onclick="payOrder('${order.id}','TRANSFERENCIA')">
+
+                            TRANSFERENCIA
+
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+        });
+    }
+
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="header">
+
+            <h1>TAQUERÍA EL TITI</h1>
+
+            <p>COBRAR</p>
 
         </div>
-      `;
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <h2>Cuentas pendientes</h2>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="renderHome()">
+
+                    REGRESAR
+
+                </button>
+
+            </div>
+
+            ${html}
+
+        </div>
+    `;
+}
+
+
+function renderCajaError(message){
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="container">
+
+            <div class="card">
+
+                <h2>Error</h2>
+
+                <p>${escapeHtml(message)}</p>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="renderHome()">
+
+                    REGRESAR
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+async function payOrder(orderId,method){
+
+    if(!confirm(
+        "¿Confirmar pago por " + method + "?"
+    )){
+        return;
+    }
+
+
+    const {
+        data:order,
+        error:orderError
+    } = await supabaseClient
+        .from("orders")
+        .select("*")
+        .eq("id",orderId)
+        .single();
+
+
+    if(orderError){
+
+        alert(orderError.message);
+
+        return;
+    }
+
+
+    const {
+        error:paymentError
+    } = await supabaseClient
+        .from("payments")
+        .insert({
+
+            order_id:order.id,
+
+            table_id:order.table_id,
+
+            amount:order.total,
+
+            method:method,
+
+            received:order.total,
+
+            change_amount:0,
+
+            created_by:null
+
+        });
+
+
+    if(paymentError){
+
+        alert(
+            "No se pudo registrar el pago:\n" +
+            paymentError.message
+        );
+
+        return;
+    }
+
+
+    const {
+        error:updateError
+    } = await supabaseClient
+        .from("orders")
+        .update({
+
+            status:"PAGADA",
+
+            paid_at:new Date().toISOString()
+
+        })
+        .eq("id",orderId);
+
+
+    if(updateError){
+
+        alert(updateError.message);
+
+        return;
+    }
+
+
+    openCaja();
+}
+
+
+/* =========================================================
+   COCINA / PARRILLA
+========================================================= */
+
+async function openStation(station){
+
+    currentScreen = station;
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("print_jobs")
+        .select(`
+            *,
+            orders (
+                id,
+                order_number,
+                order_type,
+                table_id,
+                people,
+                status,
+                created_at,
+                order_items (
+                    product_name,
+                    quantity,
+                    option_text,
+                    note,
+                    station
+                )
+            )
+        `)
+        .eq("station",station)
+        .eq("printed",false)
+        .order("created_at",{ascending:true});
+
+
+    if(error){
+
+        console.error(error);
+
+        document.getElementById("app").innerHTML = `
+
+            <div class="container">
+
+                <div class="card">
+
+                    <h2>Error</h2>
+
+                    <p>
+                        ${escapeHtml(error.message)}
+                    </p>
+
+                    <button
+                        class="btn btn-dark"
+                        onclick="renderHome()">
+
+                        REGRESAR
+
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    let html = "";
+
+    if(!data || data.length === 0){
+
+        html = `
+            <div class="empty">
+                No hay comandas pendientes.
+            </div>
+        `;
+
+    }else{
+
+        data.forEach(job=>{
+
+            const order = job.orders;
+
+            if(!order) return;
+
+
+            const items =
+                (order.order_items || [])
+                .filter(item=>
+                    item.station === station
+                );
+
+
+            let itemsHtml = "";
+
+            items.forEach(item=>{
+
+                itemsHtml += `
+
+                    <div class="station-item">
+
+                        <strong>
+                            ${item.quantity} ×
+                            ${escapeHtml(item.product_name)}
+                        </strong>
+
+                        ${
+                            item.option_text
+                            ? `<div>
+                                ${escapeHtml(item.option_text)}
+                               </div>`
+                            : ""
+                        }
+
+                        ${
+                            item.note
+                            ? `<div style="color:#b23a48">
+                                NOTA:
+                                ${escapeHtml(item.note)}
+                               </div>`
+                            : ""
+                        }
+
+                    </div>
+                `;
+            });
+
+
+            html += `
+
+                <div class="station-order">
+
+                    <div class="topbar">
+
+                        <div>
+
+                            <h2>
+                                ${
+                                    order.table_id
+                                    ? "MESA " + order.table_id
+                                    : "GRUPO / CAMIÓN"
+                                }
+                            </h2>
+
+                            <span class="badge">
+                                ${order.order_type}
+                            </span>
+
+                        </div>
+
+                        <strong>
+                            ${new Date(
+                                order.created_at
+                            ).toLocaleTimeString()}
+                        </strong>
+
+                    </div>
+
+                    ${itemsHtml}
+
+                    <br>
+
+                    <button
+                        class="btn btn-green"
+                        onclick="markStationReady('${job.id}')">
+
+                        MARCAR LISTA
+
+                    </button>
+
+                </div>
+            `;
+        });
+    }
+
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="header">
+
+            <h1>TAQUERÍA EL TITI</h1>
+
+            <p>
+                ${station === "COCINA"
+                    ? "COCINA / DESAYUNOS"
+                    : "PARRILLA"}
+            </p>
+
+        </div>
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <h2>
+                    Comandas pendientes
+                </h2>
+
+                <div style="display:flex;gap:8px">
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="openStation('${station}')">
+
+                        ACTUALIZAR
+
+                    </button>
+
+                    <button
+                        class="btn btn-dark"
+                        onclick="renderHome()">
+
+                        REGRESAR
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="station-list">
+
+                ${html}
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+async function markStationReady(jobId){
+
+    const {
+        error
+    } = await supabaseClient
+        .from("print_jobs")
+        .update({
+            printed:true
+        })
+        .eq("id",jobId);
+
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    openStation(currentScreen);
+}
+
+
+/* =========================================================
+   ADMINISTRADOR
+========================================================= */
+
+async function openAdmin(){
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="header">
+
+            <h1>TAQUERÍA EL TITI</h1>
+
+            <p>ADMINISTRADOR</p>
+
+        </div>
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <h2>Administración</h2>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="renderHome()">
+
+                    REGRESAR
+
+                </button>
+
+            </div>
+
+            <div class="main-buttons">
+
+                <button
+                    class="main-button"
+                    onclick="adminProducts()">
+
+                    MENÚ Y PRECIOS
+
+                </button>
+
+                <button
+                    class="main-button"
+                    onclick="adminUsers()">
+
+                    USUARIOS
+
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+async function adminProducts(){
+
+    await loadBaseData();
+
+    let html = "";
+
+    categories.forEach(category=>{
+
+        const categoryProducts =
+            products.filter(p=>
+                p.category_id === category.id
+            );
+
+
+        html += `
+
+            <div class="card">
+
+                <h2>
+                    ${escapeHtml(category.name)}
+                </h2>
+
+        `;
+
+
+        categoryProducts.forEach(product=>{
+
+            html += `
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        align-items:center;
+                        gap:10px;
+                        padding:12px 0;
+                        border-bottom:1px solid #eee;
+                    "
+                >
+
+                    <div>
+
+                        <strong>
+                            ${escapeHtml(product.name)}
+                        </strong>
+
+                        <div style="color:#e85d04">
+                            ${money(product.price)}
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="btn btn-yellow"
+                        onclick="editProduct('${product.id}')">
+
+                        EDITAR
+
+                    </button>
+
+                </div>
+            `;
+        });
+
+
+        html += `</div>`;
     });
-  }
 
-  html+=`
 
-      <button class="brown-btn back"
-        onclick="irInicio()">
-        VOLVER
-      </button>
+    document.getElementById("app").innerHTML = `
 
-    </div>
-  `;
+        <div class="header">
 
-  app.innerHTML=html;
+            <h1>TAQUERÍA EL TITI</h1>
+
+            <p>MENÚ Y PRECIOS</p>
+
+        </div>
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <h2>Productos</h2>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="openAdmin()">
+
+                    REGRESAR
+
+                </button>
+
+            </div>
+
+            ${html}
+
+        </div>
+    `;
 }
 
-function irInicio(){
 
-  pantalla="inicio";
-  pedidoActual=[];
-  cuentaParaCobrar=null;
+function editProduct(productId){
 
-  render();
+    const product =
+        products.find(p=>p.id === productId);
+
+    if(!product) return;
+
+
+    document.body.insertAdjacentHTML("beforeend",`
+
+        <div class="modal-bg" id="modal">
+
+            <div class="modal">
+
+                <h2>
+                    Editar producto
+                </h2>
+
+                <label>
+                    Nombre
+                </label>
+
+                <input
+                    id="editName"
+                    value="${escapeHtml(product.name)}"
+                    style="
+                        width:100%;
+                        padding:12px;
+                        margin:7px 0 15px;
+                        border:1px solid #ccc;
+                        border-radius:8px;
+                    "
+                >
+
+                <label>
+                    Precio
+                </label>
+
+                <input
+                    id="editPrice"
+                    type="number"
+                    step="0.01"
+                    value="${product.price}"
+                    style="
+                        width:100%;
+                        padding:12px;
+                        margin:7px 0 15px;
+                        border:1px solid #ccc;
+                        border-radius:8px;
+                    "
+                >
+
+                <button
+                    class="btn btn-primary"
+                    style="width:100%"
+                    onclick="saveProduct('${product.id}')">
+
+                    GUARDAR
+
+                </button>
+
+                <br><br>
+
+                <button
+                    class="btn btn-dark"
+                    style="width:100%"
+                    onclick="closeModal()">
+
+                    CANCELAR
+
+                </button>
+
+            </div>
+
+        </div>
+    `);
 }
 
-render();
+
+async function saveProduct(productId){
+
+    const name =
+        document.getElementById("editName").value.trim();
+
+    const price =
+        Number(document.getElementById("editPrice").value);
+
+
+    if(!name || price < 0){
+
+        alert("Revisa el nombre y el precio.");
+
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("products")
+        .update({
+
+            name:name,
+
+            price:price,
+
+            updated_at:new Date().toISOString()
+
+        })
+        .eq("id",productId);
+
+
+    if(error){
+
+        alert(
+            "No se pudo guardar:\n" +
+            error.message
+        );
+
+        return;
+    }
+
+
+    closeModal();
+
+    adminProducts();
+}
+
+
+/* =========================================================
+   USUARIOS
+========================================================= */
+
+async function adminUsers(){
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("app_users")
+        .select("id,full_name,role,active")
+        .order("full_name");
+
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+    }
+
+
+    let html = "";
+
+    (data || []).forEach(user=>{
+
+        html += `
+
+            <div class="card">
+
+                <strong>
+                    ${escapeHtml(user.full_name)}
+                </strong>
+
+                <div>
+                    ${escapeHtml(user.role)}
+                </div>
+
+                <div>
+                    Estado:
+                    ${user.active ? "ACTIVO" : "INACTIVO"}
+                </div>
+
+            </div>
+        `;
+    });
+
+
+    document.getElementById("app").innerHTML = `
+
+        <div class="header">
+
+            <h1>TAQUERÍA EL TITI</h1>
+
+            <p>USUARIOS</p>
+
+        </div>
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <h2>Usuarios del sistema</h2>
+
+                <button
+                    class="btn btn-dark"
+                    onclick="openAdmin()">
+
+                    REGRESAR
+
+                </button>
+
+            </div>
+
+            ${html}
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   INICIO
+========================================================= */
+
+renderLogin();
 
 </script>
 
