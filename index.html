@@ -568,6 +568,7 @@ button {
 ========================= */
 
 @media (max-width: 800px) {
+
     .comanda-layout {
         grid-template-columns: 1fr;
     }
@@ -582,6 +583,7 @@ button {
 }
 
 @media (max-width: 480px) {
+
     .screen {
         padding: 12px;
     }
@@ -608,9 +610,13 @@ button {
 ========================= -->
 
 <div id="loginScreen">
+
     <div class="login-box">
 
-        <div class="logo-title">TAQUERÍA EL TITI</div>
+        <div class="logo-title">
+            TAQUERÍA EL TITI
+        </div>
+
         <div class="logo-subtitle">
             Sistema de pedidos
         </div>
@@ -618,27 +624,40 @@ button {
         <div id="pinDisplay" class="pin-display"></div>
 
         <div class="keypad">
+
             <button class="key" onclick="addPin('1')">1</button>
             <button class="key" onclick="addPin('2')">2</button>
             <button class="key" onclick="addPin('3')">3</button>
+
             <button class="key" onclick="addPin('4')">4</button>
             <button class="key" onclick="addPin('5')">5</button>
             <button class="key" onclick="addPin('6')">6</button>
+
             <button class="key" onclick="addPin('7')">7</button>
             <button class="key" onclick="addPin('8')">8</button>
             <button class="key" onclick="addPin('9')">9</button>
+
             <button class="key" onclick="clearPin()">C</button>
             <button class="key" onclick="addPin('0')">0</button>
             <button class="key" onclick="deletePin()">←</button>
+
         </div>
 
-        <button class="login-button" onclick="login()">
+        <button
+            class="login-button"
+            onclick="login()">
+
             ENTRAR
+
         </button>
 
-        <div id="loginError" class="login-error"></div>
+        <div
+            id="loginError"
+            class="login-error">
+        </div>
 
     </div>
+
 </div>
 
 
@@ -649,19 +668,31 @@ button {
 <div id="appScreen" class="hidden">
 
     <div class="topbar">
+
         <div>
-            <div class="topbar-title">TAQUERÍA EL TITI</div>
+            <div class="topbar-title">
+                TAQUERÍA EL TITI
+            </div>
         </div>
 
         <div>
-            <div id="userName" class="topbar-user"></div>
+
+            <div
+                id="userName"
+                class="topbar-user">
+            </div>
+
             <button
                 class="btn btn-secondary"
                 style="padding:7px 10px;font-size:12px;margin-top:4px;"
                 onclick="logout()">
+
                 SALIR
+
             </button>
+
         </div>
+
     </div>
 
     <div id="mainContent"></div>
@@ -673,8 +704,15 @@ button {
      MODAL
 ========================= -->
 
-<div id="modalBackdrop" class="modal-backdrop hidden">
-    <div id="modalContent" class="modal"></div>
+<div
+    id="modalBackdrop"
+    class="modal-backdrop hidden">
+
+    <div
+        id="modalContent"
+        class="modal">
+    </div>
+
 </div>
 
 
@@ -749,7 +787,9 @@ function clearPin() {
 
     updatePinDisplay();
 
-    document.getElementById("loginError").textContent = "";
+    document.getElementById(
+        "loginError"
+    ).textContent = "";
 }
 
 
@@ -764,7 +804,9 @@ function deletePin() {
 async function login() {
 
     const errorBox =
-        document.getElementById("loginError");
+        document.getElementById(
+            "loginError"
+        );
 
     errorBox.textContent = "";
 
@@ -778,7 +820,10 @@ async function login() {
 
     try {
 
-        const { data, error } =
+        const {
+            data,
+            error
+        } =
             await supabaseClient.rpc(
                 "login_with_pin",
                 {
@@ -796,7 +841,10 @@ async function login() {
             return;
         }
 
-        if (!data || data.length === 0) {
+        if (
+            !data ||
+            data.length === 0
+        ) {
 
             errorBox.textContent =
                 "PIN incorrecto.";
@@ -822,7 +870,9 @@ async function login() {
             .getElementById("appScreen")
             .classList.remove("hidden");
 
-        document.getElementById("userName").textContent =
+        document.getElementById(
+            "userName"
+        ).textContent =
             currentUser.full_name +
             " · " +
             currentUser.role;
@@ -844,6 +894,7 @@ function logout() {
     currentUser = null;
 
     selectedTable = null;
+
     currentOrderItems = [];
 
     document
@@ -867,6 +918,7 @@ function renderHome() {
     currentView = "home";
 
     let html = `
+
         <div class="screen">
 
             <div class="page-title">
@@ -878,9 +930,11 @@ function renderHome() {
             </div>
 
             <div class="home-grid">
+
     `;
 
-    const role = currentUser.role;
+    const role =
+        currentUser.role;
 
 
     if (
@@ -889,6 +943,7 @@ function renderHome() {
     ) {
 
         html += `
+
             <button
                 class="home-card primary"
                 onclick="openMesera()">
@@ -902,6 +957,7 @@ function renderHome() {
                 </div>
 
             </button>
+
         `;
     }
 
@@ -912,6 +968,7 @@ function renderHome() {
     ) {
 
         html += `
+
             <button
                 class="home-card yellow"
                 onclick="openCaja()">
@@ -925,6 +982,7 @@ function renderHome() {
                 </div>
 
             </button>
+
         `;
     }
 
@@ -935,6 +993,7 @@ function renderHome() {
     ) {
 
         html += `
+
             <button
                 class="home-card green"
                 onclick="openStation('COCINA')">
@@ -948,6 +1007,7 @@ function renderHome() {
                 </div>
 
             </button>
+
         `;
     }
 
@@ -958,6 +1018,7 @@ function renderHome() {
     ) {
 
         html += `
+
             <button
                 class="home-card dark"
                 onclick="openStation('PARRILLA')">
@@ -971,13 +1032,17 @@ function renderHome() {
                 </div>
 
             </button>
+
         `;
     }
 
 
-    if (role === "ADMINISTRADOR") {
+    if (
+        role === "ADMINISTRADOR"
+    ) {
 
         html += `
+
             <button
                 class="home-card primary"
                 onclick="openAdmin()">
@@ -991,17 +1056,22 @@ function renderHome() {
                 </div>
 
             </button>
+
         `;
     }
 
 
     html += `
+
             </div>
+
         </div>
+
     `;
 
-    document.getElementById("mainContent").innerHTML =
-        html;
+    document.getElementById(
+        "mainContent"
+    ).innerHTML = html;
 }
 
 
@@ -1011,7 +1081,9 @@ function renderHome() {
 
 async function loadBaseData() {
 
-    console.log("Cargando datos...");
+    console.log(
+        "Cargando datos..."
+    );
 
     categories = [];
     products = [];
@@ -1026,9 +1098,12 @@ async function loadBaseData() {
         await supabaseClient
             .from("categories")
             .select("*")
-            .order("sort_order", {
-                ascending: true
-            });
+            .order(
+                "sort_order",
+                {
+                    ascending: true
+                }
+            );
 
 
     if (categoryResult.error) {
@@ -1043,25 +1118,25 @@ async function loadBaseData() {
         categories =
             categoryResult.data || [];
 
-        /*
-         Si existe active, solamente mostramos
-         las activas.
-        */
         categories =
-            categories.filter(category => {
+            categories.filter(
+                category => {
 
-                if (
-                    Object.prototype.hasOwnProperty.call(
-                        category,
-                        "active"
-                    )
-                ) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            category,
+                            "active"
+                        )
+                    ) {
 
-                    return category.active === true;
+                        return (
+                            category.active === true
+                        );
+                    }
+
+                    return true;
                 }
-
-                return true;
-            });
+            );
     }
 
 
@@ -1073,9 +1148,12 @@ async function loadBaseData() {
         await supabaseClient
             .from("products")
             .select("*")
-            .order("sort_order", {
-                ascending: true
-            });
+            .order(
+                "sort_order",
+                {
+                    ascending: true
+                }
+            );
 
 
     if (productResult.error) {
@@ -1091,20 +1169,24 @@ async function loadBaseData() {
             productResult.data || [];
 
         products =
-            products.filter(product => {
+            products.filter(
+                product => {
 
-                if (
-                    Object.prototype.hasOwnProperty.call(
-                        product,
-                        "active"
-                    )
-                ) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            product,
+                            "active"
+                        )
+                    ) {
 
-                    return product.active === true;
+                        return (
+                            product.active === true
+                        );
+                    }
+
+                    return true;
                 }
-
-                return true;
-            });
+            );
     }
 
 
@@ -1116,9 +1198,12 @@ async function loadBaseData() {
         await supabaseClient
             .from("tables_restaurant")
             .select("*")
-            .order("id", {
-                ascending: true
-            });
+            .order(
+                "id",
+                {
+                    ascending: true
+                }
+            );
 
 
     if (tableResult.error) {
@@ -1128,7 +1213,8 @@ async function loadBaseData() {
             tableResult.error
         );
 
-        tables = createFallbackTables();
+        tables =
+            createFallbackTables();
 
     } else {
 
@@ -1136,25 +1222,33 @@ async function loadBaseData() {
             tableResult.data || [];
 
         dbTables =
-            dbTables.filter(table => {
+            dbTables.filter(
+                table => {
 
-                if (
-                    Object.prototype.hasOwnProperty.call(
-                        table,
-                        "active"
-                    )
-                ) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            table,
+                            "active"
+                        )
+                    ) {
 
-                    return table.active === true;
+                        return (
+                            table.active === true
+                        );
+                    }
+
+                    return true;
                 }
+            );
 
-                return true;
-            });
-
-        if (dbTables.length > 0) {
+        if (
+            dbTables.length > 0
+        ) {
 
             tables =
-                dbTables.map(normalizeTable);
+                dbTables.map(
+                    normalizeTable
+                );
 
         } else {
 
@@ -1189,19 +1283,28 @@ function createFallbackTables() {
 
     const result = [];
 
-    for (let i = 1; i <= 8; i++) {
+    for (
+        let i = 1;
+        i <= 8;
+        i++
+    ) {
 
         result.push({
 
             id: i,
 
-            name: "Mesa " + i,
+            name:
+                "Mesa " + i,
 
             min_capacity:
-                i <= 5 ? 1 : 2,
+                i <= 5
+                    ? 1
+                    : 2,
 
             max_capacity:
-                i <= 5 ? 6 : 4,
+                i <= 5
+                    ? 6
+                    : 4,
 
             active: true
         });
@@ -1237,14 +1340,18 @@ function normalizeTable(table) {
     if (!minCapacity) {
 
         minCapacity =
-            id <= 5 ? 1 : 2;
+            id <= 5
+                ? 1
+                : 2;
     }
 
 
     if (!maxCapacity) {
 
         maxCapacity =
-            id <= 5 ? 6 : 4;
+            id <= 5
+                ? 6
+                : 4;
     }
 
 
@@ -1274,13 +1381,17 @@ function normalizeTable(table) {
 
 async function openMesera() {
 
-    currentView = "tables";
+    currentView =
+        "tables";
 
     selectedTable = null;
 
     currentOrderItems = [];
 
-    document.getElementById("mainContent").innerHTML = `
+    document.getElementById(
+        "mainContent"
+    ).innerHTML = `
+
         <div class="screen">
 
             <div class="page-title">
@@ -1288,6 +1399,7 @@ async function openMesera() {
             </div>
 
         </div>
+
     `;
 
     await loadBaseData();
@@ -1299,6 +1411,7 @@ async function openMesera() {
 function renderTables() {
 
     let html = `
+
         <div class="screen">
 
             <div class="page-title">
@@ -1310,33 +1423,39 @@ function renderTables() {
             </div>
 
             <div class="tables-grid">
+
     `;
 
 
-    tables.forEach(table => {
+    tables.forEach(
+        table => {
 
-        html += `
-            <button
-                class="table-card"
-                onclick="selectTable(${table.id})">
+            html += `
 
-                <div class="table-number">
-                    MESA ${table.id}
-                </div>
+                <button
+                    class="table-card"
+                    onclick="selectTable(${table.id})">
 
-                <div class="table-capacity">
-                    ${table.min_capacity}
-                    -
-                    ${table.max_capacity}
-                    personas
-                </div>
+                    <div class="table-number">
+                        MESA ${table.id}
+                    </div>
 
-            </button>
-        `;
-    });
+                    <div class="table-capacity">
+                        ${table.min_capacity}
+                        -
+                        ${table.max_capacity}
+                        personas
+                    </div>
+
+                </button>
+
+            `;
+        }
+    );
 
 
     html += `
+
         <button
             class="group-card"
             onclick="openGroupOrder()">
@@ -1350,10 +1469,12 @@ function renderTables() {
             </div>
 
         </button>
+
     `;
 
 
     html += `
+
             </div>
 
             <button
@@ -1366,10 +1487,13 @@ function renderTables() {
             </button>
 
         </div>
+
     `;
 
 
-    document.getElementById("mainContent").innerHTML =
+    document.getElementById(
+        "mainContent"
+    ).innerHTML =
         html;
 }
 
@@ -1378,7 +1502,9 @@ function renderTables() {
    SELECCIONAR MESA
 ========================================================= */
 
-async function selectTable(tableId) {
+async function selectTable(
+    tableId
+) {
 
     selectedTable =
         tables.find(
@@ -1400,11 +1526,6 @@ async function selectTable(tableId) {
 
     currentOrderItems = [];
 
-
-    /*
-      Si por alguna razón el menú todavía
-      no está cargado, lo cargamos aquí.
-    */
 
     if (
         categories.length === 0 ||
@@ -1435,7 +1556,8 @@ async function openGroupOrder() {
 
         id: null,
 
-        name: "GRUPO / CAMIÓN",
+        name:
+            "GRUPO / CAMIÓN",
 
         min_capacity: 1,
 
@@ -1472,6 +1594,7 @@ async function openGroupOrder() {
 function renderComanda() {
 
     let html = `
+
         <div class="screen">
 
             <div class="page-title">
@@ -1483,21 +1606,30 @@ function renderComanda() {
             ${
                 selectedTable.id
                     ? `
+
                         <div class="page-subtitle">
+
                             Mesa ${selectedTable.id}
                             ·
                             ${selectedTable.max_capacity}
                             personas
+
                         </div>
+
                     `
                     : `
+
                         <div class="page-subtitle">
+
                             Cobro inmediato
+
                         </div>
+
                     `
             }
 
             <div class="cancel-row">
+
                 <button
                     class="btn btn-secondary"
                     onclick="renderTables()">
@@ -1505,6 +1637,7 @@ function renderComanda() {
                     CANCELAR
 
                 </button>
+
             </div>
 
             <div class="comanda-layout">
@@ -1512,6 +1645,7 @@ function renderComanda() {
                 <div class="menu-area">
 
                     <div class="category-list">
+
     `;
 
 
@@ -1519,58 +1653,70 @@ function renderComanda() {
        CATEGORÍAS
     ------------------------- */
 
-    if (categories.length === 0) {
+    if (
+        categories.length === 0
+    ) {
 
         html += `
-            <div class="empty-message"
-                 style="width:100%;">
+
+            <div
+                class="empty-message"
+                style="width:100%;">
 
                 No se encontraron categorías
                 del menú.
 
             </div>
+
         `;
 
     } else {
 
-        categories.forEach(category => {
+        categories.forEach(
+            category => {
 
-            const active =
-                String(category.id) ===
-                String(selectedCategory);
+                const active =
+                    String(category.id) ===
+                    String(selectedCategory);
 
 
-            html += `
-                <button
-                    class="category-button ${active ? "active" : ""}"
-                    onclick="selectCategory('${escapeAttribute(category.id)}')">
+                html += `
 
-                    ${escapeHtml(
-                        category.name
-                    )}
+                    <button
+                        class="category-button ${active ? "active" : ""}"
+                        onclick="selectCategory('${escapeAttribute(category.id)}')">
 
-                </button>
-            `;
-        });
+                        ${escapeHtml(
+                            category.name
+                        )}
+
+                    </button>
+
+                `;
+            }
+        );
     }
 
 
     html += `
+
                     </div>
 
                     <div id="productsContainer">
+
     `;
 
 
-    renderProductsIntoHtml = true;
-
-
     const categoryProducts =
-        products.filter(product => {
+        products.filter(
+            product => {
 
-            return String(product.category_id) ===
-                   String(selectedCategory);
-        });
+                return (
+                    String(product.category_id) ===
+                    String(selectedCategory)
+                );
+            }
+        );
 
 
     if (
@@ -1579,49 +1725,66 @@ function renderComanda() {
     ) {
 
         html += `
+
             <div class="empty-message">
 
                 No hay productos en esta categoría.
 
             </div>
+
         `;
 
     } else {
 
         html += `
+
             <div class="products-grid">
+
         `;
 
 
-        categoryProducts.forEach(product => {
+        categoryProducts.forEach(
+            product => {
 
-            html += `
-                <button
-                    class="product-card"
-                    onclick="addProduct('${escapeAttribute(product.id)}')">
+                html += `
 
-                    <div class="product-name">
-                        ${escapeHtml(
-                            product.name
-                        )}
-                    </div>
+                    <button
+                        class="product-card"
+                        onclick="addProduct('${escapeAttribute(product.id)}')">
 
-                    <div class="product-price">
-                        $${formatMoney(product.price)}
-                    </div>
+                        <div class="product-name">
 
-                </button>
-            `;
-        });
+                            ${escapeHtml(
+                                product.name
+                            )}
+
+                        </div>
+
+                        <div class="product-price">
+
+                            $${formatMoney(
+                                product.price
+                            )}
+
+                        </div>
+
+                    </button>
+
+                `;
+            }
+        );
 
 
         html += `
+
             </div>
+
         `;
     }
 
 
     html += `
+
                     </div>
 
                 </div>
@@ -1633,70 +1796,91 @@ function renderComanda() {
                     </div>
 
                     <div class="order-subtitle">
+
                         ${escapeHtml(
                             selectedTable.name
                         )}
+
                     </div>
 
                     <div id="orderItemsContainer">
+
     `;
 
 
-    if (currentOrderItems.length === 0) {
+    if (
+        currentOrderItems.length === 0
+    ) {
 
         html += `
+
             <div class="empty-message">
 
                 Agrega productos al pedido.
 
             </div>
+
         `;
 
     } else {
 
-        currentOrderItems.forEach((item, index) => {
+        currentOrderItems.forEach(
+            (item, index) => {
 
-            html += `
-                <div class="order-item">
+                html += `
 
-                    <div class="order-item-name">
-                        ${escapeHtml(item.name)}
-                    </div>
+                    <div class="order-item">
 
-                    <div class="order-item-line">
+                        <div class="order-item-name">
 
-                        <div class="quantity-controls">
-
-                            <button
-                                class="qty-button"
-                                onclick="changeQuantity(${index}, -1)">
-                                -
-                            </button>
-
-                            <strong>
-                                ${item.quantity}
-                            </strong>
-
-                            <button
-                                class="qty-button"
-                                onclick="changeQuantity(${index}, 1)">
-                                +
-                            </button>
+                            ${escapeHtml(
+                                item.name
+                            )}
 
                         </div>
 
-                        <strong>
-                            $${formatMoney(
-                                Number(item.price) *
-                                Number(item.quantity)
-                            )}
-                        </strong>
+                        <div class="order-item-line">
+
+                            <div class="quantity-controls">
+
+                                <button
+                                    class="qty-button"
+                                    onclick="changeQuantity(${index}, -1)">
+
+                                    -
+
+                                </button>
+
+                                <strong>
+                                    ${item.quantity}
+                                </strong>
+
+                                <button
+                                    class="qty-button"
+                                    onclick="changeQuantity(${index}, 1)">
+
+                                    +
+
+                                </button>
+
+                            </div>
+
+                            <strong>
+
+                                $${formatMoney(
+                                    Number(item.price) *
+                                    Number(item.quantity)
+                                )}
+
+                            </strong>
+
+                        </div>
 
                     </div>
 
-                </div>
-            `;
-        });
+                `;
+            }
+        );
     }
 
 
@@ -1711,6 +1895,7 @@ function renderComanda() {
 
 
     html += `
+
                     </div>
 
                     <div class="order-total">
@@ -1728,6 +1913,7 @@ function renderComanda() {
                     ${
                         currentOrderItems.length > 0
                             ? `
+
                                 <button
                                     class="send-button"
                                     onclick="sendOrder()">
@@ -1735,6 +1921,7 @@ function renderComanda() {
                                     ENVIAR COMANDA
 
                                 </button>
+
                               `
                             : ""
                     }
@@ -1744,22 +1931,24 @@ function renderComanda() {
             </div>
 
         </div>
+
     `;
 
 
-    document.getElementById("mainContent").innerHTML =
+    document.getElementById(
+        "mainContent"
+    ).innerHTML =
         html;
 }
-
-
-let renderProductsIntoHtml = false;
 
 
 /* =========================================================
    CATEGORÍAS
 ========================================================= */
 
-function selectCategory(categoryId) {
+function selectCategory(
+    categoryId
+) {
 
     selectedCategory =
         categoryId;
@@ -1772,7 +1961,9 @@ function selectCategory(categoryId) {
    PRODUCTOS
 ========================================================= */
 
-function addProduct(productId) {
+function addProduct(
+    productId
+) {
 
     const product =
         products.find(
@@ -1792,24 +1983,25 @@ function addProduct(productId) {
     }
 
 
-    /*
-      Huevos al gusto necesita elegir
-      preparación.
-    */
-
     if (
         String(product.name)
             .toLowerCase()
-            .includes("huevos al gusto")
+            .includes(
+                "huevos al gusto"
+            )
     ) {
 
-        openHuevosModal(product);
+        openHuevosModal(
+            product
+        );
 
         return;
     }
 
 
-    addProductToOrder(product);
+    addProductToOrder(
+        product
+    );
 }
 
 
@@ -1830,8 +2022,10 @@ function addProductToOrder(
     const existing =
         currentOrderItems.find(
             item =>
-                item.product_id === product.id &&
-                item.name === finalName
+                String(item.product_id) ===
+                String(product.id) &&
+                item.name ===
+                finalName
         );
 
 
@@ -1857,7 +2051,9 @@ function addProductToOrder(
 
             station:
                 product.station ||
-                getStationForProduct(product)
+                getStationForProduct(
+                    product
+                )
         });
     }
 
@@ -1866,7 +2062,9 @@ function addProductToOrder(
 }
 
 
-function getStationForProduct(product) {
+function getStationForProduct(
+    product
+) {
 
     const category =
         categories.find(
@@ -1878,19 +2076,17 @@ function getStationForProduct(product) {
 
     const categoryName =
         category
-            ? String(category.name).toUpperCase()
+            ? String(
+                category.name
+              ).toUpperCase()
             : "";
 
 
     const productName =
-        String(product.name)
-            .toUpperCase();
+        String(
+            product.name
+        ).toUpperCase();
 
-
-    /*
-      Desayunos -> COCINA
-      Tacos -> PARRILLA
-    */
 
     if (
         categoryName.includes("TACO") ||
@@ -1909,7 +2105,9 @@ function getStationForProduct(product) {
    HUEVOS AL GUSTO
 ========================================================= */
 
-function openHuevosModal(product) {
+function openHuevosModal(
+    product
+) {
 
     const modal =
         document.getElementById(
@@ -1925,7 +2123,9 @@ function openHuevosModal(product) {
     content.innerHTML = `
 
         <div class="modal-title">
+
             Huevos al Gusto
+
         </div>
 
         <button
@@ -1960,10 +2160,13 @@ function openHuevosModal(product) {
             CANCELAR
 
         </button>
+
     `;
 
 
-    modal.classList.remove("hidden");
+    modal.classList.remove(
+        "hidden"
+    );
 }
 
 
@@ -2009,10 +2212,13 @@ function changeQuantity(
     if (!item) return;
 
 
-    item.quantity += change;
+    item.quantity +=
+        change;
 
 
-    if (item.quantity <= 0) {
+    if (
+        item.quantity <= 0
+    ) {
 
         currentOrderItems.splice(
             index,
@@ -2079,13 +2285,19 @@ async function sendOrder() {
 
     try {
 
+        /* -------------------------
+           CREAR ORDEN
+        ------------------------- */
+
         const {
             data: order,
             error: orderError
         } =
             await supabaseClient
                 .from("orders")
-                .insert(orderData)
+                .insert(
+                    orderData
+                )
                 .select()
                 .single();
 
@@ -2106,25 +2318,55 @@ async function sendOrder() {
         }
 
 
+        /* -------------------------
+           PRODUCTOS DE LA ORDEN
+        ------------------------- */
+
         const itemsToInsert =
-            currentOrderItems.map(item => ({
+            currentOrderItems.map(
+                item => ({
 
-                order_id:
-                    order.id,
+                    order_id:
+                        order.id,
 
-                product_id:
-                    item.product_id,
+                    product_id:
+                        item.product_id,
 
-                quantity:
-                    item.quantity,
+                    /*
+                     IMPORTANTE:
+                     order_items exige
+                     product_name.
+                    */
 
-                unit_price:
-                    item.price,
+                    product_name:
+                        item.name,
 
-                subtotal:
-                    Number(item.price) *
-                    Number(item.quantity)
-            }));
+                    quantity:
+                        Number(
+                            item.quantity
+                        ),
+
+                    unit_price:
+                        Number(
+                            item.price
+                        ),
+
+                    subtotal:
+                        Number(
+                            item.price
+                        ) *
+                        Number(
+                            item.quantity
+                        )
+
+                })
+            );
+
+
+        console.log(
+            "PRODUCTOS A GUARDAR:",
+            itemsToInsert
+        );
 
 
         const {
@@ -2132,7 +2374,9 @@ async function sendOrder() {
         } =
             await supabaseClient
                 .from("order_items")
-                .insert(itemsToInsert);
+                .insert(
+                    itemsToInsert
+                );
 
 
         if (itemsError) {
@@ -2151,32 +2395,39 @@ async function sendOrder() {
         }
 
 
-        /*
-          Crear trabajos de impresión por estación.
-        */
+        /* -------------------------
+           IMPRESIONES
+        ------------------------- */
 
         const stations = {};
 
 
-        currentOrderItems.forEach(item => {
+        currentOrderItems.forEach(
+            item => {
 
-            const station =
-                item.station ||
-                "COCINA";
+                const station =
+                    item.station ||
+                    "COCINA";
 
 
-            if (!stations[station]) {
+                if (
+                    !stations[station]
+                ) {
 
-                stations[station] = [];
+                    stations[station] = [];
+                }
+
+
+                stations[station].push(
+                    item
+                );
             }
-
-
-            stations[station].push(item);
-        });
+        );
 
 
         for (
-            const station of Object.keys(stations)
+            const station of
+            Object.keys(stations)
         ) {
 
             const {
@@ -2194,6 +2445,7 @@ async function sendOrder() {
 
                         status:
                             "PENDING"
+
                     });
 
 
@@ -2207,18 +2459,21 @@ async function sendOrder() {
         }
 
 
-        /*
-          GRUPO / CAMIÓN:
-          cobro inmediato.
-        */
+        /* -------------------------
+           GRUPO / CAMIÓN
+        ------------------------- */
 
-        if (!selectedTable.id) {
+        if (
+            !selectedTable.id
+        ) {
 
             const paymentMethod =
                 await askPaymentMethod();
 
 
-            if (!paymentMethod) {
+            if (
+                !paymentMethod
+            ) {
 
                 alert(
                     "La comanda fue creada. Falta registrar el pago."
@@ -2250,6 +2505,7 @@ async function sendOrder() {
 
                         created_by:
                             null
+
                     });
 
 
@@ -2271,7 +2527,8 @@ async function sendOrder() {
             await supabaseClient
                 .from("orders")
                 .update({
-                    status: "PAGADA"
+                    status:
+                        "PAGADA"
                 })
                 .eq(
                     "id",
@@ -2279,6 +2536,10 @@ async function sendOrder() {
                 );
         }
 
+
+        /* -------------------------
+           TODO CORRECTO
+        ------------------------- */
 
         alert(
             "Comanda enviada correctamente."
@@ -2292,10 +2553,14 @@ async function sendOrder() {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "ERROR GENERAL:",
+            error
+        );
 
         alert(
-            "Ocurrió un error al enviar la comanda."
+            "Ocurrió un error al enviar la comanda:\n" +
+            error.message
         );
     }
 }
@@ -2307,72 +2572,79 @@ async function sendOrder() {
 
 function askPaymentMethod() {
 
-    return new Promise(resolve => {
+    return new Promise(
+        resolve => {
 
-        const modal =
-            document.getElementById(
-                "modalBackdrop"
+            const modal =
+                document.getElementById(
+                    "modalBackdrop"
+                );
+
+            const content =
+                document.getElementById(
+                    "modalContent"
+                );
+
+
+            content.innerHTML = `
+
+                <div class="modal-title">
+
+                    Método de pago
+
+                </div>
+
+                <button
+                    class="option-button"
+                    onclick="resolvePayment('EFECTIVO')">
+
+                    EFECTIVO
+
+                </button>
+
+                <button
+                    class="option-button"
+                    onclick="resolvePayment('TARJETA')">
+
+                    TARJETA
+
+                </button>
+
+                <button
+                    class="option-button"
+                    onclick="resolvePayment('TRANSFERENCIA')">
+
+                    TRANSFERENCIA
+
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    style="width:100%;margin-top:5px;"
+                    onclick="resolvePayment(null)">
+
+                    CANCELAR
+
+                </button>
+
+            `;
+
+
+            window.paymentResolver =
+                resolve;
+
+
+            modal.classList.remove(
+                "hidden"
             );
-
-        const content =
-            document.getElementById(
-                "modalContent"
-            );
-
-
-        content.innerHTML = `
-
-            <div class="modal-title">
-                Método de pago
-            </div>
-
-            <button
-                class="option-button"
-                onclick="resolvePayment('EFECTIVO')">
-
-                EFECTIVO
-
-            </button>
-
-            <button
-                class="option-button"
-                onclick="resolvePayment('TARJETA')">
-
-                TARJETA
-
-            </button>
-
-            <button
-                class="option-button"
-                onclick="resolvePayment('TRANSFERENCIA')">
-
-                TRANSFERENCIA
-
-            </button>
-
-            <button
-                class="btn btn-secondary"
-                style="width:100%;margin-top:5px;"
-                onclick="resolvePayment(null)">
-
-                CANCELAR
-
-            </button>
-        `;
-
-
-        window.paymentResolver =
-            resolve;
-
-
-        modal.classList.remove(
-            "hidden"
-        );
-    });
+        }
+    );
 }
 
 
-function resolvePayment(method) {
+function resolvePayment(
+    method
+) {
 
     closeModal();
 
@@ -2396,7 +2668,8 @@ function resolvePayment(method) {
 
 async function openCaja() {
 
-    currentView = "caja";
+    currentView =
+        "caja";
 
 
     document.getElementById(
@@ -2427,6 +2700,7 @@ async function openCaja() {
             </button>
 
         </div>
+
     `;
 
 
@@ -2461,22 +2735,35 @@ async function openCaja() {
     if (error) {
 
         container.innerHTML = `
+
             <div class="empty-message">
+
                 Error cargando cuentas:
-                ${escapeHtml(error.message)}
+                ${escapeHtml(
+                    error.message
+                )}
+
             </div>
+
         `;
 
         return;
     }
 
 
-    if (!data || data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         container.innerHTML = `
+
             <div class="empty-message">
+
                 No hay cuentas pendientes.
+
             </div>
+
         `;
 
         return;
@@ -2484,65 +2771,74 @@ async function openCaja() {
 
 
     container.innerHTML = `
+
         <div class="list-grid">
 
-            ${data.map(order => `
+            ${data.map(
+                order => `
 
-                <div class="list-card">
+                    <div class="list-card">
 
-                    <div class="list-card-title">
+                        <div class="list-card-title">
 
-                        ${
-                            order.table_id
-                                ? "Mesa " +
-                                  order.table_id
-                                : "Grupo / Camión"
-                        }
+                            ${
+                                order.table_id
+                                    ? "Mesa " +
+                                      order.table_id
+                                    : "Grupo / Camión"
+                            }
+
+                        </div>
+
+                        <div class="list-card-info">
+
+                            Total:
+
+                            <strong>
+
+                                $${formatMoney(
+                                    order.total
+                                )}
+
+                            </strong>
+
+                        </div>
+
+                        <div class="payment-buttons">
+
+                            <button
+                                class="btn btn-success"
+                                onclick="payOrder('${escapeAttribute(order.id)}','EFECTIVO')">
+
+                                EFECTIVO
+
+                            </button>
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="payOrder('${escapeAttribute(order.id)}','TARJETA')">
+
+                                TARJETA
+
+                            </button>
+
+                            <button
+                                class="btn btn-yellow"
+                                onclick="payOrder('${escapeAttribute(order.id)}','TRANSFERENCIA')">
+
+                                TRANSFERENCIA
+
+                            </button>
+
+                        </div>
 
                     </div>
 
-                    <div class="list-card-info">
-
-                        Total:
-                        <strong>
-                            $${formatMoney(order.total)}
-                        </strong>
-
-                    </div>
-
-                    <div class="payment-buttons">
-
-                        <button
-                            class="btn btn-success"
-                            onclick="payOrder('${escapeAttribute(order.id)}','EFECTIVO')">
-
-                            EFECTIVO
-
-                        </button>
-
-                        <button
-                            class="btn btn-primary"
-                            onclick="payOrder('${escapeAttribute(order.id)}','TARJETA')">
-
-                            TARJETA
-
-                        </button>
-
-                        <button
-                            class="btn btn-yellow"
-                            onclick="payOrder('${escapeAttribute(order.id)}','TRANSFERENCIA')">
-
-                            TRANSFERENCIA
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `).join("")}
+                `
+            ).join("")}
 
         </div>
+
     `;
 }
 
@@ -2570,7 +2866,10 @@ async function payOrder(
             .single();
 
 
-    if (orderError || !order) {
+    if (
+        orderError ||
+        !order
+    ) {
 
         alert(
             "No se encontró la orden."
@@ -2598,6 +2897,7 @@ async function payOrder(
 
                 created_by:
                     null
+
             });
 
 
@@ -2618,7 +2918,8 @@ async function payOrder(
         await supabaseClient
             .from("orders")
             .update({
-                status: "PAGADA"
+                status:
+                    "PAGADA"
             })
             .eq(
                 "id",
@@ -2685,6 +2986,7 @@ async function openStation(
             </button>
 
         </div>
+
     `;
 
 
@@ -2720,26 +3022,35 @@ async function openStation(
     if (error) {
 
         container.innerHTML = `
+
             <div class="empty-message">
 
                 Error:
-                ${escapeHtml(error.message)}
+                ${escapeHtml(
+                    error.message
+                )}
 
             </div>
+
         `;
 
         return;
     }
 
 
-    if (!data || data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         container.innerHTML = `
+
             <div class="empty-message">
 
                 No hay comandas pendientes.
 
             </div>
+
         `;
 
         return;
@@ -2747,42 +3058,50 @@ async function openStation(
 
 
     container.innerHTML = `
+
         <div class="list-grid">
 
-            ${data.map(job => `
+            ${data.map(
+                job => `
 
-                <div class="list-card">
+                    <div class="list-card">
 
-                    <div class="list-card-title">
+                        <div class="list-card-title">
 
-                        Comanda
-                        #${escapeHtml(
-                            String(job.order_id).slice(0,8)
-                        )}
+                            Comanda
+                            #${escapeHtml(
+                                String(
+                                    job.order_id
+                                ).slice(0,8)
+                            )}
+
+                        </div>
+
+                        <div class="list-card-info">
+
+                            Recibida:
+                            ${formatDate(
+                                job.created_at
+                            )}
+
+                        </div>
+
+                        <button
+                            class="btn btn-success"
+                            style="margin-top:15px;"
+                            onclick="completePrintJob('${escapeAttribute(job.id)}','${station}')">
+
+                            MARCAR COMO LISTA
+
+                        </button>
 
                     </div>
 
-                    <div class="list-card-info">
-
-                        Recibida:
-                        ${formatDate(job.created_at)}
-
-                    </div>
-
-                    <button
-                        class="btn btn-success"
-                        style="margin-top:15px;"
-                        onclick="completePrintJob('${escapeAttribute(job.id)}','${station}')">
-
-                        MARCAR COMO LISTA
-
-                    </button>
-
-                </div>
-
-            `).join("")}
+                `
+            ).join("")}
 
         </div>
+
     `;
 }
 
@@ -2802,7 +3121,8 @@ async function completePrintJob(
         await supabaseClient
             .from("print_jobs")
             .update({
-                status: "DONE"
+                status:
+                    "DONE"
             })
             .eq(
                 "id",
@@ -2820,7 +3140,9 @@ async function completePrintJob(
     }
 
 
-    openStation(station);
+    openStation(
+        station
+    );
 }
 
 
@@ -2882,6 +3204,7 @@ function openAdmin() {
             </button>
 
         </div>
+
     `;
 }
 
@@ -2916,6 +3239,7 @@ async function adminProducts() {
             </button>
 
         </div>
+
     `;
 
 
@@ -2928,12 +3252,18 @@ async function adminProducts() {
         );
 
 
-    if (categories.length === 0) {
+    if (
+        categories.length === 0
+    ) {
 
         container.innerHTML = `
+
             <div class="empty-message">
+
                 No hay categorías.
+
             </div>
+
         `;
 
         return;
@@ -2943,61 +3273,92 @@ async function adminProducts() {
     let html = "";
 
 
-    categories.forEach(category => {
+    categories.forEach(
+        category => {
 
-        const categoryProducts =
-            products.filter(
-                product =>
-                    String(product.category_id) ===
-                    String(category.id)
-            );
+            const categoryProducts =
+                products.filter(
+                    product =>
+                        String(
+                            product.category_id
+                        ) ===
+                        String(
+                            category.id
+                        )
+                );
 
-
-        html += `
-            <div class="admin-section">
-
-                <div class="page-title"
-                     style="font-size:20px;">
-
-                    ${escapeHtml(category.name)}
-
-                </div>
-        `;
-
-
-        if (categoryProducts.length === 0) {
 
             html += `
-                <div class="page-subtitle">
-                    Sin productos.
-                </div>
-            `;
 
-        } else {
+                <div class="admin-section">
 
-            categoryProducts.forEach(product => {
+                    <div
+                        class="page-title"
+                        style="font-size:20px;">
 
-                html += `
-                    <div class="admin-product">
-
-                        <div class="admin-product-name">
-                            ${escapeHtml(product.name)}
-                        </div>
-
-                        <div class="admin-product-price">
-                            $${formatMoney(product.price)}
-                        </div>
+                        ${escapeHtml(
+                            category.name
+                        )}
 
                     </div>
+
+            `;
+
+
+            if (
+                categoryProducts.length === 0
+            ) {
+
+                html += `
+
+                    <div class="page-subtitle">
+
+                        Sin productos.
+
+                    </div>
+
                 `;
-            });
+
+            } else {
+
+                categoryProducts.forEach(
+                    product => {
+
+                        html += `
+
+                            <div class="admin-product">
+
+                                <div class="admin-product-name">
+
+                                    ${escapeHtml(
+                                        product.name
+                                    )}
+
+                                </div>
+
+                                <div class="admin-product-price">
+
+                                    $${formatMoney(
+                                        product.price
+                                    )}
+
+                                </div>
+
+                            </div>
+
+                        `;
+                    }
+                );
+            }
+
+
+            html += `
+
+                </div>
+
+            `;
         }
-
-
-        html += `
-            </div>
-        `;
-    });
+    );
 
 
     container.innerHTML =
@@ -3035,6 +3396,7 @@ async function adminUsers() {
             </button>
 
         </div>
+
     `;
 
 
@@ -3064,24 +3426,35 @@ async function adminUsers() {
     if (error) {
 
         container.innerHTML = `
+
             <div class="empty-message">
 
                 Error:
-                ${escapeHtml(error.message)}
+                ${escapeHtml(
+                    error.message
+                )}
 
             </div>
+
         `;
 
         return;
     }
 
 
-    if (!data || data.length === 0) {
+    if (
+        !data ||
+        data.length === 0
+    ) {
 
         container.innerHTML = `
+
             <div class="empty-message">
+
                 No hay usuarios.
+
             </div>
+
         `;
 
         return;
@@ -3092,42 +3465,50 @@ async function adminUsers() {
 
         <div class="admin-section">
 
-            ${data.map(user => `
+            ${data.map(
+                user => `
 
-                <div class="user-row">
+                    <div class="user-row">
 
-                    <div>
+                        <div>
 
-                        <strong>
-                            ${escapeHtml(
-                                user.full_name
-                            )}
-                        </strong>
+                            <strong>
 
-                        <div class="page-subtitle"
-                             style="margin:4px 0 0;">
+                                ${escapeHtml(
+                                    user.full_name
+                                )}
 
-                            ${escapeHtml(user.role)}
+                            </strong>
+
+                            <div
+                                class="page-subtitle"
+                                style="margin:4px 0 0;">
+
+                                ${escapeHtml(
+                                    user.role
+                                )}
+
+                            </div>
+
+                        </div>
+
+                        <div>
+
+                            ${
+                                user.active
+                                    ? "ACTIVO"
+                                    : "INACTIVO"
+                            }
 
                         </div>
 
                     </div>
 
-                    <div>
-
-                        ${
-                            user.active
-                                ? "ACTIVO"
-                                : "INACTIVO"
-                        }
-
-                    </div>
-
-                </div>
-
-            `).join("")}
+                `
+            ).join("")}
 
         </div>
+
     `;
 }
 
@@ -3142,7 +3523,9 @@ function closeModal() {
         .getElementById(
             "modalBackdrop"
         )
-        .classList.add("hidden");
+        .classList.add(
+            "hidden"
+        );
 }
 
 
@@ -3150,27 +3533,33 @@ function closeModal() {
    UTILIDADES
 ========================================================= */
 
-function formatMoney(value) {
+function formatMoney(
+    value
+) {
 
-    return Number(value || 0)
-        .toFixed(2);
+    return Number(
+        value || 0
+    ).toFixed(2);
 }
 
 
-function formatDate(date) {
+function formatDate(
+    date
+) {
 
     if (!date) return "";
 
     try {
 
-        return new Date(date)
-            .toLocaleString(
-                "es-MX",
-                {
-                    dateStyle: "short",
-                    timeStyle: "short"
-                }
-            );
+        return new Date(
+            date
+        ).toLocaleString(
+            "es-MX",
+            {
+                dateStyle: "short",
+                timeStyle: "short"
+            }
+        );
 
     } catch {
 
@@ -3179,27 +3568,50 @@ function formatDate(date) {
 }
 
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
-    if (value === null ||
-        value === undefined) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
 
         return "";
     }
 
 
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
-function escapeAttribute(value) {
+function escapeAttribute(
+    value
+) {
 
-    return escapeHtml(value);
+    return escapeHtml(
+        value
+    );
 }
 
 
