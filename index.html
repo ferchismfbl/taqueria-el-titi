@@ -1,1592 +1,1788 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Taquería El Titi</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #fff8ed;
-            color: #3b1f12;
-            min-height: 100vh;
-        }
-
-        .header {
-            background: #d94f13;
-            color: white;
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            font-size: 30px;
-        }
-
-        .header span {
-            font-size: 15px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 25px;
-        }
-
-        .screen-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .screen-title h2 {
-            font-size: 28px;
-        }
-
-        .back-button {
-            border: none;
-            background: #3b1f12;
-            color: white;
-            padding: 13px 22px;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        /* ==================== MESAS ==================== */
-
-        .tables {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .table-button {
-            border: none;
-            border-radius: 18px;
-            padding: 30px 20px;
-            background: #f5b82e;
-            color: #3b1f12;
-            cursor: pointer;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.12);
-            text-align: center;
-            min-height: 145px;
-        }
-
-        .table-button.ocupada {
-            background: #d94f13;
-            color: white;
-        }
-
-        .table-number {
-            font-size: 29px;
-            font-weight: bold;
-        }
-
-        .capacity {
-            font-size: 17px;
-            margin-top: 8px;
-        }
-
-        .status {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 8px 18px;
-            border-radius: 20px;
-            background: #2f7d32;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .status.ocupada {
-            background: #3b1f12;
-        }
-
-        /* ==================== PERSONAS ==================== */
-
-        .people-screen {
-            display: none;
-            text-align: center;
-        }
-
-        .people-screen h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .people-info {
-            font-size: 19px;
-            margin-bottom: 30px;
-        }
-
-        .people-buttons {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            max-width: 650px;
-            margin: auto;
-        }
-
-        .people-button {
-            border: none;
-            background: #f5b82e;
-            color: #3b1f12;
-            font-size: 32px;
-            font-weight: bold;
-            padding: 35px 20px;
-            border-radius: 18px;
-            cursor: pointer;
-        }
-
-        .cancel-button {
-            margin-top: 30px;
-            border: none;
-            background: #3b1f12;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 17px;
-            cursor: pointer;
-        }
-
-        /* ==================== COMANDA ==================== */
-
-        .order-screen {
-            display: none;
-        }
-
-        .order-info {
-            background: white;
-            border-radius: 15px;
-            padding: 18px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-
-        .order-info h2 {
-            font-size: 28px;
-        }
-
-        .order-info p {
-            margin-top: 6px;
-            font-size: 17px;
-        }
-
-        .order-layout {
-            display: grid;
-            grid-template-columns: 1.7fr 1fr;
-            gap: 20px;
-        }
-
-        .categories {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 18px;
-        }
-
-        .category-button {
-            border: none;
-            background: #3b1f12;
-            color: white;
-            padding: 13px 18px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .category-button.active {
-            background: #d94f13;
-        }
-
-        .products {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-        }
-
-        .product-button {
-            border: none;
-            background: white;
-            color: #3b1f12;
-            border-radius: 15px;
-            padding: 18px;
-            min-height: 110px;
-            text-align: left;
-            cursor: pointer;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.10);
-        }
-
-        .product-name {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .product-price {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #d94f13;
-            font-weight: bold;
-        }
-
-        /* ==================== RESUMEN ==================== */
-
-        .order-summary {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.10);
-            height: fit-content;
-        }
-
-        .order-summary h3 {
-            font-size: 23px;
-            margin-bottom: 15px;
-        }
-
-        .empty-order {
-            color: #76594a;
-            text-align: center;
-            padding: 25px 5px;
-        }
-
-        .order-item {
-            border-bottom: 1px solid #eadfd5;
-            padding: 12px 0;
-        }
-
-        .order-item-name {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .order-item-option,
-        .order-item-note {
-            margin-top: 4px;
-            font-size: 14px;
-            color: #76594a;
-        }
-
-        .order-item-note {
-            font-style: italic;
-        }
-
-        .order-item-details {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 7px;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .quantity-button {
-            border: none;
-            background: #f5b82e;
-            color: #3b1f12;
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .total {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 2px solid #3b1f12;
-            font-size: 23px;
-            font-weight: bold;
-        }
-
-        .send-button {
-            width: 100%;
-            border: none;
-            background: #2f7d32;
-            color: white;
-            padding: 18px;
-            border-radius: 12px;
-            margin-top: 20px;
-            font-size: 19px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* ==================== COMANDAS DE LA MESA ==================== */
-
-        .table-orders-screen {
-            display: none;
-        }
-
-        .table-total {
-            background: #f5b82e;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .command-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.10);
-        }
-
-        .command-card h3 {
-            font-size: 21px;
-            margin-bottom: 12px;
-        }
-
-        .command-product {
-            padding: 7px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .command-total {
-            text-align: right;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-
-        .new-command-button {
-            width: 100%;
-            border: none;
-            background: #2f7d32;
-            color: white;
-            padding: 18px;
-            border-radius: 12px;
-            font-size: 19px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        /* ==================== MODAL ==================== */
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.55);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: #fff8ed;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 20px;
-            padding: 25px;
-        }
-
-        .modal-content h2 {
-            font-size: 25px;
-            margin-bottom: 8px;
-        }
-
-        .modal-price {
-            color: #d94f13;
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 22px;
-        }
-
-        .modal-question {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .option-buttons {
-            display: grid;
-            gap: 10px;
-        }
-
-        .option-button {
-            border: 2px solid #3b1f12;
-            background: white;
-            color: #3b1f12;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .option-button.selected {
-            background: #f5b82e;
-        }
-
-        .note-label {
-            display: block;
-            margin-top: 20px;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .note-input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #cbbcaf;
-            border-radius: 10px;
-            font-size: 16px;
-            min-height: 70px;
-            resize: vertical;
-        }
-
-        .modal-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .modal-cancel,
-        .modal-add {
-            border: none;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .modal-cancel {
-            background: #3b1f12;
-        }
-
-        .modal-add {
-            background: #2f7d32;
-            font-weight: bold;
-        }
-
-        @media (max-width: 800px) {
-
-            .order-layout {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-        @media (max-width: 600px) {
-
-            .tables,
-            .products {
-                grid-template-columns: 1fr;
-            }
-
-            .people-buttons {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .header h1 {
-                font-size: 23px;
-            }
-
-        }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taquería El Titi</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#fff8e8;
+  color:#3b1f0f;
+}
+
+header{
+  background:#e85d04;
+  color:white;
+  padding:18px 15px;
+  text-align:center;
+  box-shadow:0 2px 5px rgba(0,0,0,.2);
+}
+
+header h1{
+  margin:0;
+  font-size:30px;
+  font-weight:900;
+}
+
+header p{
+  margin:5px 0 0;
+  font-size:16px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
+
+.screen-title{
+  text-align:center;
+  font-size:25px;
+  font-weight:900;
+  margin:10px 0 20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+button{
+  border:none;
+  border-radius:12px;
+  padding:18px 12px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  min-height:60px;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+.main-btn{
+  background:#f9c80e;
+  color:#3b1f0f;
+}
+
+.orange-btn{
+  background:#e85d04;
+  color:white;
+}
+
+.brown-btn{
+  background:#5a2d0c;
+  color:white;
+}
+
+.green-btn{
+  background:#438a3d;
+  color:white;
+}
+
+.red-btn{
+  background:#b42318;
+  color:white;
+}
+
+.white-btn{
+  background:white;
+  color:#3b1f0f;
+  border:2px solid #e85d04;
+}
+
+.back{
+  margin-top:20px;
+  width:100%;
+}
+
+.table-card{
+  background:white;
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 2px 7px rgba(0,0,0,.12);
+  text-align:center;
+}
+
+.table-number{
+  font-size:28px;
+  font-weight:900;
+}
+
+.status{
+  margin-top:7px;
+  font-weight:800;
+  color:#438a3d;
+}
+
+.status.occupied{
+  color:#b42318;
+}
+
+.info-box{
+  background:white;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:15px;
+  box-shadow:0 2px 7px rgba(0,0,0,.12);
+}
+
+.info-box strong{
+  color:#e85d04;
+}
+
+.people-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.category-btn{
+  background:#5a2d0c;
+  color:white;
+  padding:14px 8px;
+  font-size:15px;
+}
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.product-btn{
+  background:white;
+  border:2px solid #e85d04;
+  color:#3b1f0f;
+  min-height:75px;
+  font-size:15px;
+}
+
+.product-btn span{
+  display:block;
+  color:#e85d04;
+  margin-top:5px;
+  font-size:17px;
+}
+
+.order-box{
+  background:white;
+  border-radius:14px;
+  padding:15px;
+  margin-top:18px;
+  box-shadow:0 2px 7px rgba(0,0,0,.15);
+}
+
+.order-item{
+  border-bottom:1px solid #ddd;
+  padding:12px 0;
+}
+
+.order-item:last-child{
+  border-bottom:none;
+}
+
+.order-name{
+  font-weight:900;
+}
+
+.order-details{
+  font-size:14px;
+  color:#666;
+  margin-top:4px;
+}
+
+.qty-controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:8px;
+}
+
+.qty-controls button{
+  min-height:38px;
+  width:42px;
+  padding:5px;
+  font-size:20px;
+}
+
+.qty{
+  min-width:30px;
+  text-align:center;
+  font-weight:900;
+}
+
+.total{
+  font-size:27px;
+  font-weight:900;
+  text-align:right;
+  margin-top:15px;
+  color:#e85d04;
+}
+
+.send-btn{
+  width:100%;
+  margin-top:15px;
+  background:#438a3d;
+  color:white;
+}
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  z-index:1000;
+}
+
+.modal{
+  background:#fff8e8;
+  width:100%;
+  max-width:500px;
+  border-radius:16px;
+  padding:20px;
+  max-height:90vh;
+  overflow:auto;
+}
+
+.modal h2{
+  margin-top:0;
+  text-align:center;
+}
+
+.option-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+
+.note{
+  width:100%;
+  min-height:90px;
+  padding:12px;
+  border-radius:10px;
+  border:2px solid #ddd;
+  font-size:16px;
+  resize:vertical;
+}
+
+.modal-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.hidden{
+  display:none !important;
+}
+
+.account-card{
+  background:white;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 2px 7px rgba(0,0,0,.12);
+}
+
+.account-header{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.account-title{
+  font-size:20px;
+  font-weight:900;
+}
+
+.account-total{
+  color:#e85d04;
+  font-size:22px;
+  font-weight:900;
+}
+
+.command-card{
+  background:#fff8e8;
+  border-radius:10px;
+  padding:10px;
+  margin-top:10px;
+}
+
+.command-card strong{
+  color:#e85d04;
+}
+
+.history-card{
+  background:white;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:12px;
+  box-shadow:0 2px 7px rgba(0,0,0,.12);
+}
+
+.history-total{
+  color:#438a3d;
+  font-size:22px;
+  font-weight:900;
+}
+
+.payment-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.payment-btn{
+  background:#f9c80e;
+  color:#3b1f0f;
+  min-height:65px;
+}
+
+.cash-box{
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+.cash-box input{
+  width:100%;
+  padding:14px;
+  font-size:20px;
+  border:2px solid #ddd;
+  border-radius:10px;
+  margin-top:8px;
+}
+
+.change{
+  font-size:24px;
+  font-weight:900;
+  color:#438a3d;
+  text-align:center;
+  margin-top:12px;
+}
+
+.empty{
+  background:white;
+  border-radius:14px;
+  padding:25px;
+  text-align:center;
+  color:#666;
+}
+
+@media(max-width:500px){
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .payment-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<header class="header">
-    <h1>TAQUERÍA EL TITI</h1>
-    <span>Sistema de Comandas</span>
+<header>
+  <h1>TAQUERÍA EL TITI</h1>
+  <p>Sistema de Comandas</p>
 </header>
 
-
-<!-- ==================== MESAS ==================== -->
-
-<main class="container" id="tablesScreen">
-
-    <div class="screen-title">
-
-        <h2>MESAS</h2>
-
-        <button class="back-button" onclick="inicio()">
-            ← INICIO
-        </button>
-
-    </div>
-
-    <div class="tables" id="tablesContainer"></div>
-
-</main>
-
-
-<!-- ==================== PERSONAS ==================== -->
-
-<main class="container people-screen" id="peopleScreen">
-
-    <h2 id="peopleTitle">MESA 1</h2>
-
-    <div class="people-info">
-        ¿Cuántas personas hay en la mesa?
-    </div>
-
-    <div class="people-buttons" id="peopleButtons"></div>
-
-    <button class="cancel-button" onclick="volverMesas()">
-        ← VOLVER A MESAS
-    </button>
-
-</main>
-
-
-<!-- ==================== COMANDA ==================== -->
-
-<main class="container order-screen" id="orderScreen">
-
-    <div class="screen-title">
-
-        <h2 id="commandTitle">COMANDA #1</h2>
-
-        <button class="back-button" onclick="cancelarComanda()">
-            ← VOLVER
-        </button>
-
-    </div>
-
-    <div class="order-info">
-
-        <h2 id="orderTable">MESA 1</h2>
-
-        <p id="orderPeople">0 personas</p>
-
-    </div>
-
-    <div class="order-layout">
-
-        <section>
-
-            <div class="categories" id="categories"></div>
-
-            <div class="products" id="products"></div>
-
-        </section>
-
-
-        <aside class="order-summary">
-
-            <h3>COMANDA</h3>
-
-            <div id="orderItems"></div>
-
-            <div class="total">
-
-                <span>TOTAL</span>
-
-                <span id="orderTotal">$0</span>
-
-            </div>
-
-            <button class="send-button" onclick="enviarComanda()">
-                ENVIAR COMANDA
-            </button>
-
-        </aside>
-
-    </div>
-
-</main>
-
-
-<!-- ==================== COMANDAS DE MESA ==================== -->
-
-<main class="container table-orders-screen" id="tableOrdersScreen">
-
-    <div class="screen-title">
-
-        <h2 id="tableOrdersTitle">MESA 1</h2>
-
-        <button class="back-button" onclick="volverMesas()">
-            ← MESAS
-        </button>
-
-    </div>
-
-    <div class="table-total">
-
-        <span>TOTAL DE LA CUENTA</span>
-
-        <span id="tableTotal">$0</span>
-
-    </div>
-
-    <div id="commandsContainer"></div>
-
-    <button class="new-command-button" onclick="nuevaComanda()">
-        + NUEVA COMANDA
-    </button>
-
-</main>
-
-
-<!-- ==================== MODAL ==================== -->
-
-<div class="modal" id="productModal">
-
-    <div class="modal-content">
-
-        <h2 id="modalProductName">Producto</h2>
-
-        <div class="modal-price" id="modalProductPrice">$0</div>
-
-        <div id="modalOptionsContainer">
-
-            <div class="modal-question">
-                ¿Cómo los quieres?
-            </div>
-
-            <div class="option-buttons">
-
-                <button class="option-button"
-                    onclick="seleccionarOpcion('Revueltos')">
-                    REVUELTOS
-                </button>
-
-                <button class="option-button"
-                    onclick="seleccionarOpcion('Estrellados')">
-                    ESTRELLADOS
-                </button>
-
-                <button class="option-button"
-                    onclick="seleccionarOpcion('Fritos')">
-                    FRITOS
-                </button>
-
-            </div>
-
-        </div>
-
-        <label class="note-label">
-            Nota para cocina (opcional)
-        </label>
-
-        <textarea
-            id="productNote"
-            class="note-input"
-            placeholder="Ejemplo: sin tortillas, poca salsa...">
-        </textarea>
-
-        <div class="modal-actions">
-
-            <button class="modal-cancel" onclick="cerrarModal()">
-                CANCELAR
-            </button>
-
-            <button class="modal-add" onclick="confirmarProducto()">
-                AGREGAR
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
+<div id="app"></div>
 
 <script>
 
-    /* ==================== DATOS ==================== */
+let mesas = {};
 
-    let mesaSeleccionada = 0;
-    let capacidadSeleccionada = 0;
-    let personasSeleccionadas = 0;
+for(let i=1;i<=8;i++){
+  mesas[i]={
+    personas:0,
+    comandas:[],
+    estado:"LIBRE"
+  };
+}
 
-    let pedido = [];
+let historial=[];
+let pantalla="inicio";
+let mesaSeleccionada=null;
+let personasSeleccionadas=0;
+let categoriaActual="HUEVOS";
+let pedidoActual=[];
+let comandaNumero=1;
+let tipoOperacion="";
+let cuentaParaCobrar=null;
 
-    let productoTemporal = null;
-    let opcionTemporal = "";
+const menu={
 
-    let comandaNumero = 1;
+  "HUEVOS":[
+    {nombre:"Huevos al Gusto",precio:105,opciones:["REVUELTOS","ESTRELLADOS","FRITOS"]},
+    {nombre:"Huevos a la Mexicana",precio:105},
+    {nombre:"Huevos con Jamón",precio:115},
+    {nombre:"Huevos con Chorizo",precio:115},
+    {nombre:"Huevos Rancheros",precio:115},
+    {nombre:"Huevos Divorciados",precio:120},
+    {nombre:"Huevos con Machaca",precio:135},
+    {nombre:"Huevos con Chicharrón",precio:130}
+  ],
 
+  "OMELETTES":[
+    {nombre:"Omelette Clásico",precio:110},
+    {nombre:"Omelette Norteño",precio:135},
+    {nombre:"Omelette Sano",precio:130},
+    {nombre:"Omelette Mexicano",precio:125},
+    {nombre:"Omelette Campestre",precio:130},
+    {nombre:"Omelette de la Casa",precio:145}
+  ],
 
-    /* Cada mesa guarda sus comandas */
+  "CHILAQUILES":[
+    {nombre:"Chilaquiles Rojos",precio:105},
+    {nombre:"Chilaquiles Verdes",precio:105},
+    {nombre:"Chilaquiles Divorciados",precio:115},
+    {nombre:"Chilaquiles con Huevo",precio:120},
+    {nombre:"Chilaquiles con Machaca",precio:145}
+  ],
 
-    let mesas = {
+  "MACHACA":[
+    {nombre:"Machaca con Huevo",precio:135},
+    {nombre:"Machaca a la Mexicana",precio:135}
+  ],
 
-        1: { personas: 0, comandas: [] },
-        2: { personas: 0, comandas: [] },
-        3: { personas: 0, comandas: [] },
-        4: { personas: 0, comandas: [] },
-        5: { personas: 0, comandas: [] },
-        6: { personas: 0, comandas: [] },
-        7: { personas: 0, comandas: [] },
-        8: { personas: 0, comandas: [] }
+  "CHICHARRÓN":[
+    {nombre:"Chicharrón en Salsa Roja",precio:115},
+    {nombre:"Chicharrón en Salsa Verde",precio:115},
+    {nombre:"Chicharrón con Huevo",precio:130}
+  ],
 
+  "DULCE":[
+    {nombre:"Hot Cakes Clásicos",precio:90},
+    {nombre:"Hot Cakes con Fruta",precio:110},
+    {nombre:"Pan Francés",precio:100}
+  ],
+
+  "BEBIDAS":[
+    {nombre:"Café de Olla",precio:25},
+    {nombre:"Café Americano",precio:25},
+    {nombre:"Jugo de Naranja",precio:40},
+    {nombre:"Agua Fresca del Día",precio:30},
+    {nombre:"Coca-Cola 600 ml",precio:30}
+  ],
+
+  "EXTRAS":[
+    {nombre:"Huevo extra",precio:20},
+    {nombre:"Chorizo",precio:25},
+    {nombre:"Jamón",precio:25},
+    {nombre:"Queso",precio:20},
+    {nombre:"Machaca",precio:40},
+    {nombre:"Chicharrón",precio:35},
+    {nombre:"Frijoles",precio:20},
+    {nombre:"Tortillas",precio:15},
+    {nombre:"Aguacate",precio:30}
+  ]
+
+};
+
+function dinero(valor){
+  return "$"+Number(valor).toFixed(2);
+}
+
+function render(){
+  const app=document.getElementById("app");
+
+  if(pantalla==="inicio") renderInicio(app);
+  if(pantalla==="mesas") renderMesas(app);
+  if(pantalla==="personas") renderPersonas(app);
+  if(pantalla==="comanda") renderComanda(app);
+  if(pantalla==="comandasMesa") renderComandasMesa(app);
+  if(pantalla==="grupo") renderGrupo(app);
+  if(pantalla==="caja") renderCaja(app);
+  if(pantalla==="pago") renderPago(app);
+  if(pantalla==="historial") renderHistorial(app);
+}
+
+function renderInicio(app){
+
+  app.innerHTML=`
+    <div class="container">
+
+      <div class="screen-title">MENÚ PRINCIPAL</div>
+
+      <div class="grid">
+
+        <button class="main-btn" onclick="irMesas()">
+          MESAS
+        </button>
+
+        <button class="main-btn" onclick="irGrupo()">
+          GRUPO / CAMIÓN
+        </button>
+
+        <button class="orange-btn" onclick="irCaja()">
+          CAJA
+        </button>
+
+        <button class="brown-btn" onclick="irHistorial()">
+          HISTORIAL
+        </button>
+
+      </div>
+
+      <div class="info-box" style="margin-top:20px;text-align:center;">
+        <strong>POR LA MAÑANA: SOLO DESAYUNOS</strong><br>
+        TACOS A PARTIR DE LA 1:00 PM<br>
+        TAMBIÉN CONTAMOS CON TIENDITA
+      </div>
+
+    </div>
+  `;
+}
+
+function irMesas(){
+  pantalla="mesas";
+  render();
+}
+
+function renderMesas(app){
+
+  let html=`
+    <div class="container">
+      <div class="screen-title">MESAS</div>
+      <div class="grid">
+  `;
+
+  for(let i=1;i<=8;i++){
+
+    let capacidad=i<=5 ? "5–6 personas" : "2–4 personas";
+    let ocupada=mesas[i].comandas.length>0;
+
+    html+=`
+      <button class="table-card" onclick="seleccionarMesa(${i})">
+        <div class="table-number">MESA ${i}</div>
+        <div>${capacidad}</div>
+        <div class="status ${ocupada?"occupied":""}">
+          ${ocupada?"OCUPADA":"LIBRE"}
+        </div>
+      </button>
+    `;
+  }
+
+  html+=`
+      </div>
+
+      <button class="brown-btn back" onclick="irInicio()">
+        VOLVER
+      </button>
+    </div>
+  `;
+
+  app.innerHTML=html;
+}
+
+function seleccionarMesa(numero){
+
+  mesaSeleccionada=numero;
+
+  if(mesas[numero].comandas.length>0){
+    pantalla="comandasMesa";
+    render();
+    return;
+  }
+
+  pantalla="personas";
+  render();
+}
+
+function renderPersonas(app){
+
+  let max=mesaSeleccionada<=5 ? 6 : 4;
+  let min=mesaSeleccionada<=5 ? 1 : 2;
+
+  let html=`
+    <div class="container">
+
+      <div class="screen-title">
+        MESA ${mesaSeleccionada}
+      </div>
+
+      <div class="info-box" style="text-align:center;">
+        <strong>¿CUÁNTAS PERSONAS HAY EN LA MESA?</strong>
+      </div>
+
+      <div class="people-grid">
+  `;
+
+  for(let i=min;i<=max;i++){
+    html+=`
+      <button class="main-btn" onclick="seleccionarPersonas(${i})">
+        ${i}
+      </button>
+    `;
+  }
+
+  html+=`
+      </div>
+
+      <button class="brown-btn back" onclick="irMesas()">
+        VOLVER
+      </button>
+
+    </div>
+  `;
+
+  app.innerHTML=html;
+}
+
+function seleccionarPersonas(numero){
+
+  personasSeleccionadas=numero;
+
+  mesas[mesaSeleccionada].personas=numero;
+
+  nuevaComanda();
+}
+
+function nuevaComanda(){
+
+  pedidoActual=[];
+  categoriaActual="HUEVOS";
+
+  comandaNumero=mesas[mesaSeleccionada].comandas.length+1;
+
+  pantalla="comanda";
+  render();
+}
+
+function renderComanda(app){
+
+  let html=`
+    <div class="container">
+
+      <div class="screen-title">
+        COMANDA #${comandaNumero}
+      </div>
+
+      <div class="info-box">
+        <strong>MESA:</strong> ${mesaSeleccionada}<br>
+        <strong>PERSONAS:</strong> ${mesas[mesaSeleccionada].personas}
+      </div>
+
+      <div class="category-grid">
+  `;
+
+  Object.keys(menu).forEach(cat=>{
+    html+=`
+      <button class="category-btn" onclick="seleccionarCategoria('${cat}')">
+        ${cat}
+      </button>
+    `;
+  });
+
+  html+=`
+      </div>
+
+      <div class="product-grid">
+  `;
+
+  menu[categoriaActual].forEach((producto,index)=>{
+
+    html+=`
+      <button class="product-btn"
+        onclick="seleccionarProducto('${categoriaActual}',${index})">
+
+        ${producto.nombre}
+        <span>${dinero(producto.precio)}</span>
+
+      </button>
+    `;
+  });
+
+  html+=`
+      </div>
+
+      <div class="order-box">
+
+        <h3>COMANDA ACTUAL</h3>
+  `;
+
+  if(pedidoActual.length===0){
+
+    html+=`
+      <div class="empty">
+        No hay productos agregados.
+      </div>
+    `;
+
+  }else{
+
+    pedidoActual.forEach((item,index)=>{
+
+      html+=`
+        <div class="order-item">
+
+          <div class="order-name">
+            ${item.nombre}
+          </div>
+
+          ${item.opcion ? `
+            <div class="order-details">
+              Opción: ${item.opcion}
+            </div>
+          `:""}
+
+          ${item.nota ? `
+            <div class="order-details">
+              Nota: ${item.nota}
+            </div>
+          `:""}
+
+          <div class="order-details">
+            ${dinero(item.precio)} c/u
+          </div>
+
+          <div class="qty-controls">
+
+            <button class="brown-btn"
+              onclick="cambiarCantidad(${index},-1)">
+              −
+            </button>
+
+            <div class="qty">
+              ${item.cantidad}
+            </div>
+
+            <button class="orange-btn"
+              onclick="cambiarCantidad(${index},1)">
+              +
+            </button>
+
+          </div>
+
+        </div>
+      `;
+    });
+  }
+
+  let total=calcularPedido();
+
+  html+=`
+        <div class="total">
+          TOTAL: ${dinero(total)}
+        </div>
+
+        <button class="send-btn"
+          onclick="enviarComanda()">
+          ENVIAR COMANDA
+        </button>
+
+      </div>
+
+      <button class="brown-btn back"
+        onclick="cancelarComanda()">
+        VOLVER
+      </button>
+
+    </div>
+  `;
+
+  app.innerHTML=html;
+}
+
+function seleccionarCategoria(cat){
+  categoriaActual=cat;
+  render();
+}
+
+function seleccionarProducto(categoria,index){
+
+  let producto=menu[categoria][index];
+
+  abrirModalProducto(producto);
+}
+
+function abrirModalProducto(producto){
+
+  let opciones="";
+
+  if(producto.opciones){
+
+    opciones=`
+      <div class="option-grid">
+
+        ${producto.opciones.map(op=>`
+          <button class="main-btn"
+            onclick="confirmarProducto('${producto.nombre}',${producto.precio},'${op}')">
+            ${op}
+          </button>
+        `).join("")}
+
+      </div>
+    `;
+
+  }else{
+
+    opciones=`
+      <button class="orange-btn"
+        onclick="confirmarProducto('${producto.nombre}',${producto.precio},'')">
+        AGREGAR PRODUCTO
+      </button>
+    `;
+  }
+
+  document.body.insertAdjacentHTML("beforeend",`
+
+    <div class="modal-bg" id="productoModal">
+
+      <div class="modal">
+
+        <h2>${producto.nombre}</h2>
+
+        <div style="text-align:center;margin-bottom:15px;">
+          <strong>${dinero(producto.precio)}</strong>
+        </div>
+
+        ${opciones}
+
+        <div style="margin-top:18px;">
+          <strong>NOTA PARA COCINA (OPCIONAL)</strong>
+
+          <textarea
+            id="notaProducto"
+            class="note"
+            placeholder="Ejemplo: sin cebolla, poca salsa, etc."></textarea>
+        </div>
+
+        <button class="brown-btn back"
+          onclick="cerrarModal()">
+          CANCELAR
+        </button>
+
+      </div>
+
+    </div>
+  `);
+}
+
+function cerrarModal(){
+  let modal=document.getElementById("productoModal");
+  if(modal) modal.remove();
+}
+
+function confirmarProducto(nombre,precio,opcion){
+
+  let nota=document.getElementById("notaProducto").value.trim();
+
+  let existente=pedidoActual.find(item=>
+    item.nombre===nombre &&
+    item.opcion===opcion &&
+    item.nota===nota
+  );
+
+  if(existente){
+    existente.cantidad++;
+  }else{
+    pedidoActual.push({
+      nombre:nombre,
+      precio:precio,
+      opcion:opcion,
+      nota:nota,
+      cantidad:1
+    });
+  }
+
+  cerrarModal();
+  render();
+}
+
+function cambiarCantidad(index,cambio){
+
+  pedidoActual[index].cantidad+=cambio;
+
+  if(pedidoActual[index].cantidad<=0){
+    pedidoActual.splice(index,1);
+  }
+
+  render();
+}
+
+function calcularPedido(){
+
+  return pedidoActual.reduce(
+    (total,item)=>total+(item.precio*item.cantidad),0
+  );
+}
+
+function enviarComanda(){
+
+  if(pedidoActual.length===0){
+    alert("Agrega al menos un producto antes de enviar la comanda.");
+    return;
+  }
+
+  let total=calcularPedido();
+
+  mesas[mesaSeleccionada].comandas.push({
+
+    numero:comandaNumero,
+
+    productos:JSON.parse(
+      JSON.stringify(pedidoActual)
+    ),
+
+    total:total,
+
+    fecha:new Date().toLocaleString()
+
+  });
+
+  mesas[mesaSeleccionada].estado="OCUPADA";
+
+  alert(
+    "COMANDA #"+comandaNumero+
+    " enviada correctamente."
+  );
+
+  pedidoActual=[];
+
+  pantalla="comandasMesa";
+
+  render();
+}
+
+function cancelarComanda(){
+
+  if(pedidoActual.length>0){
+
+    let confirmar=confirm(
+      "¿Seguro que quieres cancelar esta comanda?"
+    );
+
+    if(!confirmar) return;
+  }
+
+  pedidoActual=[];
+
+  if(mesas[mesaSeleccionada].comandas.length>0){
+    pantalla="comandasMesa";
+  }else{
+    pantalla="mesas";
+  }
+
+  render();
+}
+
+function renderComandasMesa(app){
+
+  let mesa=mesas[mesaSeleccionada];
+
+  let total=mesa.comandas.reduce(
+    (s,c)=>s+c.total,0
+  );
+
+  let html=`
+    <div class="container">
+
+      <div class="screen-title">
+        MESA ${mesaSeleccionada}
+      </div>
+
+      <div class="info-box">
+        <strong>PERSONAS:</strong> ${mesa.personas}<br>
+        <strong>COMANDAS:</strong> ${mesa.comandas.length}
+      </div>
+  `;
+
+  mesa.comandas.forEach(comanda=>{
+
+    html+=`
+      <div class="account-card">
+
+        <div class="account-header">
+          <div class="account-title">
+            COMANDA #${comanda.numero}
+          </div>
+
+          <div class="account-total">
+            ${dinero(comanda.total)}
+          </div>
+        </div>
+    `;
+
+    comanda.productos.forEach(item=>{
+
+      html+=`
+        <div class="command-card">
+
+          <strong>${item.cantidad} x ${item.nombre}</strong>
+
+          ${item.opcion ? `
+            <br>Opción: ${item.opcion}
+          `:""}
+
+          ${item.nota ? `
+            <br>Nota: ${item.nota}
+          `:""}
+
+        </div>
+      `;
+    });
+
+    html+=`
+      </div>
+    `;
+  });
+
+  html+=`
+
+      <div class="order-box">
+
+        <div class="total">
+          TOTAL DE LA CUENTA: ${dinero(total)}
+        </div>
+
+        <button class="green-btn"
+          style="width:100%;margin-top:15px;"
+          onclick="abrirPagoMesa()">
+          COBRAR MESA
+        </button>
+
+        <button class="orange-btn"
+          style="width:100%;margin-top:10px;"
+          onclick="nuevaComanda()">
+          NUEVA COMANDA
+        </button>
+
+      </div>
+
+      <button class="brown-btn back"
+        onclick="irMesas()">
+        VOLVER A MESAS
+      </button>
+
+    </div>
+  `;
+
+  app.innerHTML=html;
+}
+
+function abrirPagoMesa(){
+
+  let total=mesas[mesaSeleccionada].comandas.reduce(
+    (s,c)=>s+c.total,0
+  );
+
+  cuentaParaCobrar={
+    tipo:"MESA",
+    mesa:mesaSeleccionada,
+    personas:mesas[mesaSeleccionada].personas,
+    total:total
+  };
+
+  pantalla="pago";
+
+  render();
+}
+
+function irGrupo(){
+
+  pedidoActual=[];
+  tipoOperacion="GRUPO";
+
+  pantalla="grupo";
+
+  render();
+}
+
+function renderGrupo(app){
+
+  let html=`
+    <div class="container">
+
+      <div class="screen-title">
+        GRUPO / CAMIÓN
+      </div>
+
+      <div class="info-box">
+        <strong>ESTA ORDEN SE COBRA INMEDIATAMENTE.</strong><br>
+        Si posteriormente consumen algo más, se crea una nueva orden.
+      </div>
+
+      <div class="category-grid">
+  `;
+
+  Object.keys(menu).forEach(cat=>{
+    html+=`
+      <button class="category-btn"
+        onclick="seleccionarCategoriaGrupo('${cat}')">
+        ${cat}
+      </button>
+    `;
+  });
+
+  html+=`
+      </div>
+
+      <div class="product-grid">
+  `;
+
+  let categoriaGrupo=window.categoriaGrupo||"HUEVOS";
+
+  menu[categoriaGrupo].forEach((producto,index)=>{
+
+    html+=`
+      <button class="product-btn"
+        onclick="seleccionarProductoGrupo('${categoriaGrupo}',${index})">
+
+        ${producto.nombre}
+
+        <span>${dinero(producto.precio)}</span>
+
+      </button>
+    `;
+  });
+
+  html+=`
+      </div>
+
+      <div class="order-box">
+
+        <h3>ORDEN ACTUAL</h3>
+  `;
+
+  if(pedidoActual.length===0){
+
+    html+=`
+      <div class="empty">
+        No hay productos agregados.
+      </div>
+    `;
+
+  }else{
+
+    pedidoActual.forEach((item,index)=>{
+
+      html+=`
+        <div class="order-item">
+
+          <div class="order-name">
+            ${item.nombre}
+          </div>
+
+          ${item.opcion ? `
+            <div class="order-details">
+              Opción: ${item.opcion}
+            </div>
+          `:""}
+
+          ${item.nota ? `
+            <div class="order-details">
+              Nota: ${item.nota}
+            </div>
+          `:""}
+
+          <div class="qty-controls">
+
+            <button class="brown-btn"
+              onclick="cambiarCantidadGrupo(${index},-1)">
+              −
+            </button>
+
+            <div class="qty">
+              ${item.cantidad}
+            </div>
+
+            <button class="orange-btn"
+              onclick="cambiarCantidadGrupo(${index},1)">
+              +
+            </button>
+
+          </div>
+
+        </div>
+      `;
+    });
+  }
+
+  html+=`
+
+        <div class="total">
+          TOTAL: ${dinero(calcularPedido())}
+        </div>
+
+        <button class="green-btn"
+          style="width:100%;margin-top:15px;"
+          onclick="cobrarGrupo()">
+          COBRAR GRUPO
+        </button>
+
+      </div>
+
+      <button class="brown-btn back"
+        onclick="irInicio()">
+        VOLVER
+      </button>
+
+    </div>
+  `;
+
+  app.innerHTML=html;
+}
+
+function seleccionarCategoriaGrupo(cat){
+
+  window.categoriaGrupo=cat;
+
+  render();
+}
+
+function seleccionarProductoGrupo(cat,index){
+
+  let producto=menu[cat][index];
+
+  let opciones="";
+
+  if(producto.opciones){
+
+    opciones=`
+      <div class="option-grid">
+
+        ${producto.opciones.map(op=>`
+          <button class="main-btn"
+            onclick="confirmarProductoGrupo('${producto.nombre}',${producto.precio},'${op}')">
+            ${op}
+          </button>
+        `).join("")}
+
+      </div>
+    `;
+
+  }else{
+
+    opciones=`
+      <button class="orange-btn"
+        onclick="confirmarProductoGrupo('${producto.nombre}',${producto.precio},'')">
+        AGREGAR PRODUCTO
+      </button>
+    `;
+  }
+
+  document.body.insertAdjacentHTML("beforeend",`
+
+    <div class="modal-bg" id="grupoModal">
+
+      <div class="modal">
+
+        <h2>${producto.nombre}</h2>
+
+        ${opciones}
+
+        <div style="margin-top:18px;">
+          <strong>NOTA PARA COCINA</strong>
+
+          <textarea
+            id="notaGrupo"
+            class="note"
+            placeholder="Nota opcional"></textarea>
+        </div>
+
+        <button class="brown-btn back"
+          onclick="document.getElementById('grupoModal').remove()">
+          CANCELAR
+        </button>
+
+      </div>
+
+    </div>
+  `);
+}
+
+function confirmarProductoGrupo(nombre,precio,opcion){
+
+  let nota=document.getElementById("notaGrupo").value.trim();
+
+  let existente=pedidoActual.find(item=>
+    item.nombre===nombre &&
+    item.opcion===opcion &&
+    item.nota===nota
+  );
+
+  if(existente){
+    existente.cantidad++;
+  }else{
+    pedidoActual.push({
+      nombre:nombre,
+      precio:precio,
+      opcion:opcion,
+      nota:nota,
+      cantidad:1
+    });
+  }
+
+  document.getElementById("grupoModal").remove();
+
+  render();
+}
+
+function cambiarCantidadGrupo(index,cambio){
+
+  pedidoActual[index].cantidad+=cambio;
+
+  if(pedidoActual[index].cantidad<=0){
+    pedidoActual.splice(index,1);
+  }
+
+  render();
+}
+
+function cobrarGrupo(){
+
+  if(pedidoActual.length===0){
+    alert("Agrega al menos un producto.");
+    return;
+  }
+
+  cuentaParaCobrar={
+    tipo:"GRUPO",
+    total:calcularPedido(),
+    productos:JSON.parse(
+      JSON.stringify(pedidoActual)
+    )
+  };
+
+  pantalla="pago";
+
+  render();
+}
+
+function renderCaja(app){
+
+  let mesasPendientes=[];
+
+  for(let i=1;i<=8;i++){
+
+    if(mesas[i].comandas.length>0){
+
+      let total=mesas[i].comandas.reduce(
+        (s,c)=>s+c.total,0
+      );
+
+      mesasPendientes.push({
+        mesa:i,
+        personas:mesas[i].personas,
+        comandas:mesas[i].comandas.length,
+        total:total
+      });
+    }
+  }
+
+  let html=`
+    <div class="container">
+
+      <div class="screen-title">
+        CAJA
+      </div>
+  `;
+
+  if(mesasPendientes.length===0){
+
+    html+=`
+      <div class="empty">
+        No hay mesas pendientes de cobro.
+      </div>
+    `;
+
+  }else{
+
+    mesasPendientes.forEach(cuenta=>{
+
+      html+=`
+        <div class="account-card">
+
+          <div class="account-header">
+
+            <div>
+              <div class="account-title">
+                MESA ${cuenta.mesa}
+              </div>
+
+              <div>
+                ${cuenta.personas} personas ·
+                ${cuenta.comandas} comanda(s)
+              </div>
+            </div>
+
+            <div class="account-total">
+              ${dinero(cuenta.total)}
+            </div>
+
+          </div>
+
+          <button class="green-btn"
+            style="width:100%;margin-top:12px;"
+            onclick="prepararPagoMesa(${cuenta.mesa})">
+            COBRAR
+          </button>
+
+        </div>
+      `;
+    });
+  }
+
+  html+=`
+
+      <button class="brown-btn back"
+        onclick="irInicio()">
+        VOLVER
+      </button>
+
+    </div>
+  `;
+
+  app.innerHTML=html;
+}
+
+function prepararPagoMesa(numero){
+
+  let total=mesas[numero].comandas.reduce(
+    (s,c)=>s+c.total,0
+  );
+
+  cuentaParaCobrar={
+    tipo:"MESA",
+    mesa:numero,
+    personas:mesas[numero].personas,
+    total:total
+  };
+
+  pantalla="pago";
+
+  render();
+}
+
+function renderPago(app){
+
+  let cuenta=cuentaParaCobrar;
+
+  app.innerHTML=`
+    <div class="container">
+
+      <div class="screen-title">
+        COBRO
+      </div>
+
+      <div class="info-box">
+
+        <div style="font-size:22px;font-weight:900;">
+          ${cuenta.tipo==="MESA"
+            ? "MESA "+cuenta.mesa
+            : "GRUPO / CAMIÓN"}
+        </div>
+
+        <div style="margin-top:8px;">
+          TOTAL A COBRAR:
+        </div>
+
+        <div class="total">
+          ${dinero(cuenta.total)}
+        </div>
+
+      </div>
+
+      <div class="info-box">
+
+        <strong>MÉTODO DE PAGO</strong>
+
+        <div class="payment-grid" style="margin-top:12px;">
+
+          <button class="payment-btn"
+            onclick="seleccionarPago('EFECTIVO')">
+            EFECTIVO
+          </button>
+
+          <button class="payment-btn"
+            onclick="seleccionarPago('TARJETA')">
+            TARJETA
+          </button>
+
+          <button class="payment-btn"
+            onclick="seleccionarPago('TRANSFERENCIA')">
+            TRANSFERENCIA
+          </button>
+
+        </div>
+
+      </div>
+
+      <div id="pagoDetalle"></div>
+
+      <button class="brown-btn back"
+        onclick="cancelarPago()">
+        CANCELAR
+      </button>
+
+    </div>
+  `;
+}
+
+function seleccionarPago(metodo){
+
+  let detalle=document.getElementById("pagoDetalle");
+
+  if(metodo==="EFECTIVO"){
+
+    detalle.innerHTML=`
+
+      <div class="cash-box">
+
+        <strong>EFECTIVO RECIBIDO</strong>
+
+        <input
+          type="number"
+          id="efectivoRecibido"
+          placeholder="0.00"
+          step="0.01"
+          oninput="calcularCambio()">
+
+        <div id="cambio" class="change"></div>
+
+        <button class="green-btn"
+          style="width:100%;margin-top:15px;"
+          onclick="finalizarPago('EFECTIVO')">
+          FINALIZAR COBRO
+        </button>
+
+      </div>
+    `;
+
+  }else{
+
+    detalle.innerHTML=`
+
+      <div class="info-box">
+
+        <div style="text-align:center;">
+          Pago seleccionado:
+          <strong>${metodo}</strong>
+        </div>
+
+        <button class="green-btn"
+          style="width:100%;margin-top:15px;"
+          onclick="finalizarPago('${metodo}')">
+          FINALIZAR COBRO
+        </button>
+
+      </div>
+    `;
+  }
+}
+
+function calcularCambio(){
+
+  let recibido=Number(
+    document.getElementById("efectivoRecibido").value
+  );
+
+  let total=cuentaParaCobrar.total;
+
+  let cambio=recibido-total;
+
+  let div=document.getElementById("cambio");
+
+  if(recibido<=0){
+
+    div.innerHTML="";
+
+  }else if(cambio<0){
+
+    div.innerHTML=
+      "FALTAN "+dinero(Math.abs(cambio));
+
+  }else{
+
+    div.innerHTML=
+      "CAMBIO: "+dinero(cambio);
+  }
+}
+
+function finalizarPago(metodo){
+
+  if(metodo==="EFECTIVO"){
+
+    let recibido=Number(
+      document.getElementById("efectivoRecibido").value
+    );
+
+    if(recibido<cuentaParaCobrar.total){
+
+      alert("El efectivo recibido no es suficiente.");
+      return;
+    }
+  }
+
+  let fecha=new Date();
+
+  let registro={
+    fecha:fecha.toLocaleString(),
+    tipo:cuentaParaCobrar.tipo,
+    total:cuentaParaCobrar.total,
+    metodo:metodo
+  };
+
+  if(cuentaParaCobrar.tipo==="MESA"){
+
+    registro.mesa=cuentaParaCobrar.mesa;
+    registro.personas=cuentaParaCobrar.personas;
+
+    registro.comandas=
+      JSON.parse(
+        JSON.stringify(
+          mesas[cuentaParaCobrar.mesa].comandas
+        )
+      );
+
+    mesas[cuentaParaCobrar.mesa]={
+      personas:0,
+      comandas:[],
+      estado:"LIBRE"
     };
 
+  }else{
 
-    /* ==================== MENÚ ==================== */
-
-    const menu = {
+    registro.productos=
+      JSON.parse(
+        JSON.stringify(
+          cuentaParaCobrar.productos
+        )
+      );
 
-        "HUEVOS": [
-            ["Huevos al Gusto", 105],
-            ["Huevos a la Mexicana", 105],
-            ["Huevos con Jamón", 115],
-            ["Huevos con Chorizo", 115],
-            ["Huevos Rancheros", 115],
-            ["Huevos Divorciados", 120],
-            ["Huevos con Machaca", 135],
-            ["Huevos con Chicharrón", 130]
-        ],
-
-        "OMELETTES": [
-            ["Omelette Clásico", 110],
-            ["Omelette Norteño", 135],
-            ["Omelette Sano", 130],
-            ["Omelette Mexicano", 125],
-            ["Omelette Campestre", 130],
-            ["Omelette de la Casa", 145]
-        ],
+    pedidoActual=[];
+  }
 
-        "CHILAQUILES": [
-            ["Chilaquiles Rojos", 105],
-            ["Chilaquiles Verdes", 105],
-            ["Chilaquiles Divorciados", 115],
-            ["Chilaquiles con Huevo", 120],
-            ["Chilaquiles con Machaca", 145]
-        ],
+  historial.unshift(registro);
 
-        "MACHACA": [
-            ["Machaca con Huevo", 135],
-            ["Machaca a la Mexicana", 135]
-        ],
+  cuentaParaCobrar=null;
 
-        "CHICHARRÓN": [
-            ["Chicharrón en Salsa Roja", 115],
-            ["Chicharrón en Salsa Verde", 115],
-            ["Chicharrón con Huevo", 130]
-        ],
+  alert("COBRO REALIZADO CORRECTAMENTE.");
 
-        "DULCE": [
-            ["Hot Cakes Clásicos", 90],
-            ["Hot Cakes con Fruta", 110],
-            ["Pan Francés", 100]
-        ],
+  pantalla="caja";
 
-        "BEBIDAS": [
-            ["Café de Olla", 25],
-            ["Café Americano", 25],
-            ["Jugo de Naranja", 40],
-            ["Agua Fresca del Día", 30],
-            ["Coca-Cola 600 ml", 30]
-        ],
+  render();
+}
 
-        "EXTRAS": [
-            ["Huevo extra", 20],
-            ["Chorizo", 25],
-            ["Jamón", 25],
-            ["Queso", 20],
-            ["Machaca", 40],
-            ["Chicharrón", 35],
-            ["Frijoles", 20],
-            ["Tortillas", 15],
-            ["Aguacate", 30]
-        ]
+function cancelarPago(){
 
-    };
+  if(cuentaParaCobrar.tipo==="MESA"){
 
+    pantalla="caja";
 
-    /* ==================== CREAR MESAS ==================== */
+  }else{
 
-    function crearMesas() {
+    pantalla="grupo";
+  }
 
-        const contenedor =
-            document.getElementById("tablesContainer");
+  render();
+}
 
-        contenedor.innerHTML = "";
+function irHistorial(){
 
-        for (let i = 1; i <= 8; i++) {
+  pantalla="historial";
 
-            const capacidad = i <= 5 ? "5–6" : "2–4";
+  render();
+}
 
-            const ocupada =
-                mesas[i].comandas.length > 0;
+function renderHistorial(app){
 
-            const boton =
-                document.createElement("button");
+  let html=`
+    <div class="container">
 
-            boton.className =
-                "table-button" +
-                (ocupada ? " ocupada" : "");
+      <div class="screen-title">
+        HISTORIAL
+      </div>
+  `;
 
-            boton.onclick = function() {
+  if(historial.length===0){
 
-                seleccionarMesa(i, i <= 5 ? 6 : 4);
+    html+=`
+      <div class="empty">
+        Todavía no hay ventas registradas.
+      </div>
+    `;
 
-            };
+  }else{
 
-            boton.innerHTML = `
+    historial.forEach((venta,index)=>{
 
-                <div class="table-number">
-                    MESA ${i}
-                </div>
+      html+=`
+        <div class="history-card">
 
-                <div class="capacity">
-                    ${capacidad} personas
-                </div>
+          <div style="font-weight:900;font-size:19px;">
+            ${venta.tipo==="MESA"
+              ? "MESA "+venta.mesa
+              : "GRUPO / CAMIÓN"}
+          </div>
 
-                <div class="status ${ocupada ? "ocupada" : ""}">
-                    ${ocupada ? "OCUPADA" : "LIBRE"}
-                </div>
+          <div style="margin-top:5px;">
+            ${venta.fecha}
+          </div>
 
-            `;
+          <div style="margin-top:5px;">
+            Pago: <strong>${venta.metodo}</strong>
+          </div>
 
-            contenedor.appendChild(boton);
+          <div class="history-total"
+            style="margin-top:8px;">
+            ${dinero(venta.total)}
+          </div>
 
-        }
+        </div>
+      `;
+    });
+  }
 
-    }
+  html+=`
 
+      <button class="brown-btn back"
+        onclick="irInicio()">
+        VOLVER
+      </button>
 
-    /* ==================== SELECCIONAR MESA ==================== */
+    </div>
+  `;
 
-    function seleccionarMesa(numero, capacidad) {
+  app.innerHTML=html;
+}
 
-        mesaSeleccionada = numero;
-        capacidadSeleccionada = capacidad;
+function irInicio(){
 
-        if (mesas[numero].comandas.length > 0) {
+  pantalla="inicio";
+  pedidoActual=[];
+  cuentaParaCobrar=null;
 
-            mostrarComandasMesa();
+  render();
+}
 
-            return;
-
-        }
-
-        document.getElementById("tablesScreen").style.display =
-            "none";
-
-        document.getElementById("peopleScreen").style.display =
-            "block";
-
-        document.getElementById("peopleTitle").innerText =
-            "MESA " + numero;
-
-        crearBotonesPersonas(capacidad);
-
-    }
-
-
-    /* ==================== PERSONAS ==================== */
-
-    function crearBotonesPersonas(capacidad) {
-
-        const contenedor =
-            document.getElementById("peopleButtons");
-
-        contenedor.innerHTML = "";
-
-        let minimo = capacidad === 4 ? 2 : 1;
-
-        for (
-            let personas = minimo;
-            personas <= capacidad;
-            personas++
-        ) {
-
-            const boton =
-                document.createElement("button");
-
-            boton.className = "people-button";
-
-            boton.innerText = personas;
-
-            boton.onclick = function() {
-
-                comenzarPrimeraComanda(personas);
-
-            };
-
-            contenedor.appendChild(boton);
-
-        }
-
-    }
-
-
-    /* ==================== PRIMERA COMANDA ==================== */
-
-    function comenzarPrimeraComanda(personas) {
-
-        personasSeleccionadas = personas;
-
-        mesas[mesaSeleccionada].personas =
-            personas;
-
-        nuevaComanda();
-
-    }
-
-
-    /* ==================== NUEVA COMANDA ==================== */
-
-    function nuevaComanda() {
-
-        pedido = [];
-
-        comandaNumero =
-            mesas[mesaSeleccionada].comandas.length + 1;
-
-        document.getElementById("peopleScreen").style.display =
-            "none";
-
-        document.getElementById("tableOrdersScreen").style.display =
-            "none";
-
-        document.getElementById("orderScreen").style.display =
-            "block";
-
-        document.getElementById("commandTitle").innerText =
-            "COMANDA #" + comandaNumero;
-
-        document.getElementById("orderTable").innerText =
-            "MESA " + mesaSeleccionada;
-
-        document.getElementById("orderPeople").innerText =
-            mesas[mesaSeleccionada].personas +
-            (
-                mesas[mesaSeleccionada].personas === 1
-                    ? " persona"
-                    : " personas"
-            );
-
-        crearCategorias();
-
-        mostrarCategoria("HUEVOS");
-
-        actualizarPedido();
-
-    }
-
-
-    /* ==================== CATEGORÍAS ==================== */
-
-    function crearCategorias() {
-
-        const contenedor =
-            document.getElementById("categories");
-
-        contenedor.innerHTML = "";
-
-        Object.keys(menu).forEach(categoria => {
-
-            const boton =
-                document.createElement("button");
-
-            boton.className =
-                "category-button";
-
-            boton.innerText =
-                categoria;
-
-            boton.onclick = function() {
-
-                mostrarCategoria(categoria);
-
-            };
-
-            contenedor.appendChild(boton);
-
-        });
-
-    }
-
-
-    /* ==================== PRODUCTOS ==================== */
-
-    function mostrarCategoria(categoria) {
-
-        const contenedor =
-            document.getElementById("products");
-
-        contenedor.innerHTML = "";
-
-        document.querySelectorAll(".category-button")
-            .forEach(boton => {
-
-                boton.classList.remove("active");
-
-                if (boton.innerText === categoria) {
-                    boton.classList.add("active");
-                }
-
-            });
-
-
-        menu[categoria].forEach(producto => {
-
-            const nombre = producto[0];
-            const precio = producto[1];
-
-            const boton =
-                document.createElement("button");
-
-            boton.className =
-                "product-button";
-
-            boton.innerHTML = `
-
-                <div class="product-name">
-                    ${nombre}
-                </div>
-
-                <div class="product-price">
-                    $${precio}
-                </div>
-
-            `;
-
-            boton.onclick = function() {
-
-                seleccionarProducto(nombre, precio);
-
-            };
-
-            contenedor.appendChild(boton);
-
-        });
-
-    }
-
-
-    /* ==================== SELECCIONAR PRODUCTO ==================== */
-
-    function seleccionarProducto(nombre, precio) {
-
-        productoTemporal = {
-            nombre: nombre,
-            precio: precio
-        };
-
-        opcionTemporal = "";
-
-        document.getElementById("modalProductName").innerText =
-            nombre;
-
-        document.getElementById("modalProductPrice").innerText =
-            "$" + precio;
-
-        document.getElementById("productNote").value = "";
-
-
-        const opciones =
-            document.getElementById("modalOptionsContainer");
-
-
-        if (nombre === "Huevos al Gusto") {
-
-            opciones.style.display = "block";
-
-        } else {
-
-            opciones.style.display = "none";
-
-        }
-
-
-        document.querySelectorAll(".option-button")
-            .forEach(boton => {
-
-                boton.classList.remove("selected");
-
-            });
-
-
-        document.getElementById("productModal").style.display =
-            "flex";
-
-    }
-
-
-    /* ==================== OPCIÓN ==================== */
-
-    function seleccionarOpcion(opcion) {
-
-        opcionTemporal = opcion;
-
-        document.querySelectorAll(".option-button")
-            .forEach(boton => {
-
-                boton.classList.remove("selected");
-
-                if (boton.innerText === opcion.toUpperCase()) {
-
-                    boton.classList.add("selected");
-
-                }
-
-            });
-
-    }
-
-
-    /* ==================== CONFIRMAR PRODUCTO ==================== */
-
-    function confirmarProducto() {
-
-        if (!productoTemporal) {
-            return;
-        }
-
-
-        if (
-            productoTemporal.nombre === "Huevos al Gusto"
-            &&
-            opcionTemporal === ""
-        ) {
-
-            alert(
-                "Selecciona cómo quieres los huevos."
-            );
-
-            return;
-
-        }
-
-
-        const nota =
-            document.getElementById("productNote")
-            .value
-            .trim();
-
-
-        pedido.push({
-
-            nombre: productoTemporal.nombre,
-
-            precio: productoTemporal.precio,
-
-            cantidad: 1,
-
-            opcion: opcionTemporal,
-
-            nota: nota
-
-        });
-
-
-        cerrarModal();
-
-        actualizarPedido();
-
-    }
-
-
-    /* ==================== CERRAR MODAL ==================== */
-
-    function cerrarModal() {
-
-        document.getElementById("productModal").style.display =
-            "none";
-
-        productoTemporal = null;
-
-        opcionTemporal = "";
-
-    }
-
-
-    /* ==================== ACTUALIZAR PEDIDO ==================== */
-
-    function actualizarPedido() {
-
-        const contenedor =
-            document.getElementById("orderItems");
-
-        contenedor.innerHTML = "";
-
-        let total = 0;
-
-
-        if (pedido.length === 0) {
-
-            contenedor.innerHTML = `
-                <div class="empty-order">
-                    No hay productos agregados.
-                </div>
-            `;
-
-        }
-
-
-        pedido.forEach((producto, indice) => {
-
-            const subtotal =
-                producto.precio *
-                producto.cantidad;
-
-            total += subtotal;
-
-
-            const item =
-                document.createElement("div");
-
-            item.className =
-                "order-item";
-
-
-            let opcionHTML = "";
-
-            if (producto.opcion) {
-
-                opcionHTML = `
-                    <div class="order-item-option">
-                        ${producto.opcion}
-                    </div>
-                `;
-
-            }
-
-
-            let notaHTML = "";
-
-            if (producto.nota) {
-
-                notaHTML = `
-                    <div class="order-item-note">
-                        Nota: ${producto.nota}
-                    </div>
-                `;
-
-            }
-
-
-            item.innerHTML = `
-
-                <div class="order-item-name">
-                    ${producto.nombre}
-                </div>
-
-                ${opcionHTML}
-
-                ${notaHTML}
-
-                <div class="order-item-details">
-
-                    <span>
-                        $${producto.precio} c/u
-                    </span>
-
-                    <strong>
-                        $${subtotal}
-                    </strong>
-
-                </div>
-
-                <div class="quantity-controls">
-
-                    <button
-                        class="quantity-button"
-                        onclick="cambiarCantidad(${indice}, -1)">
-                        −
-                    </button>
-
-                    <strong>
-                        ${producto.cantidad}
-                    </strong>
-
-                    <button
-                        class="quantity-button"
-                        onclick="cambiarCantidad(${indice}, 1)">
-                        +
-                    </button>
-
-                </div>
-
-            `;
-
-            contenedor.appendChild(item);
-
-        });
-
-
-        document.getElementById("orderTotal").innerText =
-            "$" + total;
-
-    }
-
-
-    /* ==================== CANTIDAD ==================== */
-
-    function cambiarCantidad(indice, cambio) {
-
-        pedido[indice].cantidad += cambio;
-
-        if (pedido[indice].cantidad <= 0) {
-
-            pedido.splice(indice, 1);
-
-        }
-
-        actualizarPedido();
-
-    }
-
-
-    /* ==================== ENVIAR COMANDA ==================== */
-
-    function enviarComanda() {
-
-        if (pedido.length === 0) {
-
-            alert(
-                "Agrega al menos un producto."
-            );
-
-            return;
-
-        }
-
-
-        const total =
-            pedido.reduce(
-                (suma, producto) =>
-                    suma +
-                    producto.precio *
-                    producto.cantidad,
-                0
-            );
-
-
-        const nuevaComanda = {
-
-            numero: comandaNumero,
-
-            productos:
-                JSON.parse(
-                    JSON.stringify(pedido)
-                ),
-
-            total: total
-
-        };
-
-
-        mesas[mesaSeleccionada]
-            .comandas
-            .push(nuevaComanda);
-
-
-        alert(
-            "COMANDA #" +
-            comandaNumero +
-            " ENVIADA\n\n" +
-
-            "Mesa: " +
-            mesaSeleccionada +
-
-            "\nTotal: $" +
-            total
-        );
-
-
-        mostrarComandasMesa();
-
-        crearMesas();
-
-    }
-
-
-    /* ==================== MOSTRAR COMANDAS ==================== */
-
-    function mostrarComandasMesa() {
-
-        document.getElementById("tablesScreen").style.display =
-            "none";
-
-        document.getElementById("peopleScreen").style.display =
-            "none";
-
-        document.getElementById("orderScreen").style.display =
-            "none";
-
-        document.getElementById("tableOrdersScreen").style.display =
-            "block";
-
-
-        document.getElementById("tableOrdersTitle").innerText =
-            "MESA " + mesaSeleccionada;
-
-
-        const contenedor =
-            document.getElementById("commandsContainer");
-
-        contenedor.innerHTML = "";
-
-
-        let totalCuenta = 0;
-
-
-        mesas[mesaSeleccionada]
-            .comandas
-            .forEach(comanda => {
-
-                totalCuenta +=
-                    comanda.total;
-
-
-                const tarjeta =
-                    document.createElement("div");
-
-                tarjeta.className =
-                    "command-card";
-
-
-                let productosHTML = "";
-
-
-                comanda.productos.forEach(producto => {
-
-                    let detalles = "";
-
-                    if (producto.opcion) {
-                        detalles +=
-                            " — " +
-                            producto.opcion;
-                    }
-
-                    if (producto.nota) {
-                        detalles +=
-                            " — " +
-                            producto.nota;
-                    }
-
-
-                    productosHTML += `
-
-                        <div class="command-product">
-
-                            ${producto.cantidad}
-                            ×
-                            ${producto.nombre}
-
-                            ${detalles}
-
-                        </div>
-
-                    `;
-
-                });
-
-
-                tarjeta.innerHTML = `
-
-                    <h3>
-                        COMANDA #${comanda.numero}
-                    </h3>
-
-                    ${productosHTML}
-
-                    <div class="command-total">
-                        $${comanda.total}
-                    </div>
-
-                `;
-
-
-                contenedor.appendChild(tarjeta);
-
-            });
-
-
-        document.getElementById("tableTotal").innerText =
-            "$" + totalCuenta;
-
-    }
-
-
-    /* ==================== CANCELAR COMANDA ==================== */
-
-    function cancelarComanda() {
-
-        if (pedido.length > 0) {
-
-            const salir =
-                confirm(
-                    "Hay productos en esta comanda.\n\n" +
-                    "¿Quieres salir sin enviarla?"
-                );
-
-            if (!salir) {
-                return;
-            }
-
-        }
-
-
-        mostrarComandasMesa();
-
-    }
-
-
-    /* ==================== VOLVER A MESAS ==================== */
-
-    function volverMesas() {
-
-        document.getElementById("peopleScreen").style.display =
-            "none";
-
-        document.getElementById("orderScreen").style.display =
-            "none";
-
-        document.getElementById("tableOrdersScreen").style.display =
-            "none";
-
-        document.getElementById("tablesScreen").style.display =
-            "block";
-
-        crearMesas();
-
-    }
-
-
-    function inicio() {
-
-        alert(
-            "La pantalla de INICIO la conectaremos después."
-        );
-
-    }
-
-
-    /* ==================== INICIO ==================== */
-
-    crearMesas();
+render();
 
 </script>
 
