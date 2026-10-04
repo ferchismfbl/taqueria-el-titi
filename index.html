@@ -2,440 +2,600 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>Taquería El Titi</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f5f1e8;
-    color:#3b1f12;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f3ed;
+    color: #3b2416;
 }
 
-button{
-    font-family:inherit;
-    cursor:pointer;
-    border:none;
+button {
+    font-family: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
 }
 
-button:disabled{
-    opacity:.5;
-    cursor:not-allowed;
+.hidden {
+    display: none !important;
 }
 
-.header{
-    background:#e85d04;
-    color:white;
-    padding:18px;
-    text-align:center;
-    position:sticky;
-    top:0;
-    z-index:20;
+/* =========================
+   LOGIN
+========================= */
+
+#loginScreen {
+    min-height: 100vh;
+    background: #3b2416;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
-.header h1{
-    margin:0;
-    font-size:28px;
+.login-box {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    border-radius: 20px;
+    padding: 30px 22px;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(0,0,0,.25);
 }
 
-.header p{
-    margin:5px 0 0;
-    font-size:15px;
+.logo-title {
+    font-size: 32px;
+    font-weight: 900;
+    color: #d95b16;
+    margin-bottom: 5px;
 }
 
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:20px;
+.logo-subtitle {
+    font-size: 14px;
+    color: #6d4a34;
+    margin-bottom: 25px;
 }
 
-.hidden{
-    display:none !important;
+.pin-display {
+    height: 55px;
+    background: #f4eee8;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 12px;
+    font-size: 25px;
+    margin-bottom: 18px;
+    color: #3b2416;
 }
 
-.card{
-    background:white;
-    border-radius:14px;
-    padding:18px;
-    box-shadow:0 3px 12px rgba(0,0,0,.10);
-    margin-bottom:18px;
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
 
-h2{
-    margin-top:0;
+.key {
+    border: none;
+    background: #f3e3d4;
+    color: #3b2416;
+    height: 62px;
+    border-radius: 13px;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.login{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+.key:active {
+    transform: scale(.96);
+    background: #e5c5aa;
 }
 
-.login-box{
-    width:100%;
-    max-width:430px;
-    background:white;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 5px 25px rgba(0,0,0,.15);
-    text-align:center;
+.login-button {
+    width: 100%;
+    height: 58px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 13px;
+    background: #d95b16;
+    color: white;
+    font-size: 19px;
+    font-weight: bold;
 }
 
-.logo{
-    color:#e85d04;
-    font-size:32px;
-    font-weight:bold;
-    margin-bottom:5px;
+.login-error {
+    color: #b00020;
+    min-height: 24px;
+    margin-top: 10px;
 }
 
-.login-subtitle{
-    margin-bottom:25px;
-    color:#6b4a3a;
+/* =========================
+   APP
+========================= */
+
+#appScreen {
+    min-height: 100vh;
 }
 
-.pin-display{
-    background:#f5f1e8;
-    padding:15px;
-    border-radius:12px;
-    font-size:28px;
-    letter-spacing:8px;
-    min-height:58px;
-    margin-bottom:18px;
+.topbar {
+    background: #3b2416;
+    color: white;
+    min-height: 68px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
-.pin-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
+.topbar-title {
+    font-size: 22px;
+    font-weight: 900;
 }
 
-.pin-grid button{
-    background:#e85d04;
-    color:white;
-    font-size:25px;
-    font-weight:bold;
-    padding:18px;
-    border-radius:12px;
+.topbar-user {
+    font-size: 12px;
+    opacity: .85;
+    text-align: right;
 }
 
-.pin-grid button:active{
-    transform:scale(.96);
+.screen {
+    padding: 18px;
+    max-width: 1200px;
+    margin: auto;
 }
 
-.pin-clear{
-    background:#3b1f12 !important;
+.page-title {
+    font-size: 25px;
+    font-weight: 900;
+    margin-bottom: 15px;
 }
 
-.main-buttons{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:18px;
+.page-subtitle {
+    color: #72523d;
+    margin-bottom: 18px;
 }
 
-.main-button{
-    min-height:130px;
-    background:#fcbf49;
-    color:#3b1f12;
-    border-radius:16px;
-    font-size:24px;
-    font-weight:bold;
-    box-shadow:0 3px 8px rgba(0,0,0,.12);
+.btn {
+    border: none;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-.main-button:active{
-    transform:scale(.98);
+.btn-primary {
+    background: #d95b16;
+    color: white;
 }
 
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
+.btn-secondary {
+    background: #f0d5bd;
+    color: #3b2416;
 }
 
-.btn{
-    padding:13px 18px;
-    border-radius:10px;
-    font-weight:bold;
-    font-size:16px;
+.btn-dark {
+    background: #3b2416;
+    color: white;
 }
 
-.btn-primary{
-    background:#e85d04;
-    color:white;
+.btn-yellow {
+    background: #e9b72b;
+    color: #3b2416;
 }
 
-.btn-dark{
-    background:#3b1f12;
-    color:white;
+.btn-danger {
+    background: #b52b20;
+    color: white;
 }
 
-.btn-yellow{
-    background:#fcbf49;
-    color:#3b1f12;
+.btn-success {
+    background: #31834a;
+    color: white;
 }
 
-.btn-green{
-    background:#588157;
-    color:white;
+/* =========================
+   HOME
+========================= */
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
 }
 
-.btn-red{
-    background:#b23a48;
-    color:white;
+.home-card {
+    border: none;
+    border-radius: 18px;
+    padding: 25px 18px;
+    min-height: 125px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+    text-align: left;
+    color: #3b2416;
 }
 
-.tables{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
+.home-card-title {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 7px;
 }
 
-.table-btn{
-    background:#fcbf49;
-    border-radius:15px;
-    min-height:130px;
-    padding:20px;
-    font-size:24px;
-    font-weight:bold;
-    color:#3b1f12;
+.home-card-text {
+    font-size: 14px;
+    color: #72523d;
 }
 
-.table-btn small{
-    display:block;
-    margin-top:8px;
-    font-size:15px;
+.home-card.primary {
+    border-left: 7px solid #d95b16;
 }
 
-.group-button{
-    width:100%;
-    min-height:110px;
-    background:#e85d04;
-    color:white;
-    border-radius:15px;
-    font-size:24px;
-    font-weight:bold;
+.home-card.yellow {
+    border-left: 7px solid #e9b72b;
 }
 
-.categories{
-    display:flex;
-    gap:10px;
-    overflow-x:auto;
-    padding-bottom:10px;
-    margin-bottom:15px;
+.home-card.green {
+    border-left: 7px solid #31834a;
 }
 
-.category-btn{
-    white-space:nowrap;
-    background:#3b1f12;
-    color:white;
-    padding:13px 18px;
-    border-radius:10px;
-    font-weight:bold;
+.home-card.dark {
+    border-left: 7px solid #3b2416;
 }
 
-.category-btn.active{
-    background:#e85d04;
+/* =========================
+   MESAS
+========================= */
+
+.tables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
 }
 
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-    gap:12px;
+.table-card {
+    border: none;
+    background: white;
+    border-radius: 16px;
+    min-height: 130px;
+    padding: 18px;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
 }
 
-.product-btn{
-    background:white;
-    border:3px solid #fcbf49;
-    border-radius:13px;
-    padding:15px;
-    min-height:100px;
-    text-align:left;
+.table-number {
+    font-size: 27px;
+    font-weight: 900;
+    color: #d95b16;
 }
 
-.product-btn:active{
-    transform:scale(.98);
+.table-capacity {
+    margin-top: 7px;
+    color: #72523d;
+    font-size: 14px;
 }
 
-.product-btn strong{
-    display:block;
-    font-size:17px;
+.group-card {
+    border: none;
+    background: #3b2416;
+    color: white;
+    border-radius: 16px;
+    min-height: 130px;
+    padding: 18px;
+    text-align: left;
 }
 
-.product-price{
-    display:block;
-    margin-top:8px;
-    color:#e85d04;
-    font-weight:bold;
-    font-size:18px;
+.group-card .table-number {
+    color: #e9b72b;
 }
 
-.order-layout{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
+/* =========================
+   COMANDA
+========================= */
+
+.comanda-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 18px;
 }
 
-.order-summary{
-    position:sticky;
-    top:100px;
-    height:max-content;
+.menu-area {
+    min-width: 0;
 }
 
-.order-item{
-    border-bottom:1px solid #ddd;
-    padding:12px 0;
+.order-area {
+    background: white;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+    height: fit-content;
+    position: sticky;
+    top: 15px;
 }
 
-.order-item:last-child{
-    border-bottom:none;
+.cancel-row {
+    margin-bottom: 15px;
 }
 
-.qty{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-top:8px;
+.category-list {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
 }
 
-.qty button{
-    width:34px;
-    height:34px;
-    border-radius:8px;
-    background:#3b1f12;
-    color:white;
-    font-size:20px;
+.category-button {
+    white-space: nowrap;
+    border: none;
+    background: #ead9ca;
+    color: #3b2416;
+    border-radius: 20px;
+    padding: 11px 16px;
+    font-weight: bold;
 }
 
-.total{
-    font-size:28px;
-    font-weight:bold;
-    color:#e85d04;
-    text-align:right;
-    margin:20px 0;
+.category-button.active {
+    background: #d95b16;
+    color: white;
 }
 
-.modal-bg{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.55);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:100;
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 12px;
 }
 
-.modal{
-    background:white;
-    width:100%;
-    max-width:500px;
-    max-height:90vh;
-    overflow:auto;
-    border-radius:18px;
-    padding:25px;
+.product-card {
+    border: none;
+    background: white;
+    border-radius: 15px;
+    padding: 16px;
+    text-align: left;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    min-height: 105px;
 }
 
-.option-buttons{
-    display:grid;
-    gap:10px;
-    margin:15px 0;
+.product-name {
+    font-size: 17px;
+    font-weight: 900;
 }
 
-.option-btn{
-    padding:15px;
-    border-radius:10px;
-    background:#fcbf49;
-    font-size:17px;
-    font-weight:bold;
+.product-price {
+    color: #d95b16;
+    font-size: 19px;
+    font-weight: 900;
+    margin-top: 8px;
 }
 
-textarea{
-    width:100%;
-    min-height:90px;
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:10px;
-    font-family:inherit;
-    resize:vertical;
+.empty-message {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    color: #72523d;
+    text-align: center;
 }
 
-.station-list{
-    display:grid;
-    gap:15px;
+.order-title {
+    font-size: 21px;
+    font-weight: 900;
+    margin-bottom: 5px;
 }
 
-.station-order{
-    background:white;
-    border-radius:15px;
-    padding:18px;
-    box-shadow:0 3px 10px rgba(0,0,0,.1);
-    border-left:7px solid #e85d04;
+.order-subtitle {
+    color: #72523d;
+    font-size: 14px;
+    margin-bottom: 15px;
 }
 
-.station-item{
-    padding:7px 0;
-    border-bottom:1px solid #eee;
+.order-item {
+    border-bottom: 1px solid #eaded4;
+    padding: 10px 0;
 }
 
-.station-item:last-child{
-    border-bottom:none;
+.order-item-name {
+    font-weight: bold;
 }
 
-.badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:7px;
-    background:#fcbf49;
-    font-size:12px;
-    font-weight:bold;
+.order-item-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 5px;
 }
 
-.empty{
-    text-align:center;
-    padding:40px 20px;
-    color:#777;
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
 
-.error-box{
-    background:#fff0f0;
-    border:2px solid #b23a48;
-    border-radius:12px;
-    padding:18px;
-    color:#7a202d;
-    margin-bottom:20px;
+.qty-button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background: #f0d5bd;
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.loading{
-    text-align:center;
-    padding:40px;
-    font-size:20px;
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 23px;
+    font-weight: 900;
+    padding: 18px 0;
 }
 
-@media(max-width:800px){
+.send-button {
+    width: 100%;
+    border: none;
+    background: #31834a;
+    color: white;
+    border-radius: 13px;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 900;
+}
 
-    .order-layout{
-        grid-template-columns:1fr;
+/* =========================
+   MODAL
+========================= */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 100;
+}
+
+.modal {
+    width: 100%;
+    max-width: 450px;
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+}
+
+.modal-title {
+    font-size: 23px;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.option-button {
+    width: 100%;
+    border: none;
+    background: #f3e3d4;
+    padding: 15px;
+    border-radius: 11px;
+    margin-bottom: 9px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* =========================
+   CAJA / ESTACIONES
+========================= */
+
+.list-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.list-card {
+    background: white;
+    border-radius: 15px;
+    padding: 18px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+.list-card-title {
+    font-size: 19px;
+    font-weight: 900;
+}
+
+.list-card-info {
+    margin-top: 7px;
+    color: #72523d;
+}
+
+.payment-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 15px;
+}
+
+/* =========================
+   ADMIN
+========================= */
+
+.admin-section {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.07);
+}
+
+.admin-product {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.admin-product:last-child {
+    border-bottom: none;
+}
+
+.admin-product-name {
+    font-weight: bold;
+}
+
+.admin-product-price {
+    color: #d95b16;
+    font-weight: 900;
+}
+
+.user-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+    .comanda-layout {
+        grid-template-columns: 1fr;
     }
 
-    .order-summary{
-        position:static;
+    .order-area {
+        position: static;
     }
 
-    .main-button{
-        min-height:110px;
+    .products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .screen {
+        padding: 12px;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tables-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .topbar-title {
+        font-size: 18px;
     }
 }
 </style>
@@ -443,221 +603,207 @@ textarea{
 
 <body>
 
-<div id="app"></div>
+<!-- =========================
+     LOGIN
+========================= -->
+
+<div id="loginScreen">
+    <div class="login-box">
+
+        <div class="logo-title">TAQUERÍA EL TITI</div>
+        <div class="logo-subtitle">
+            Sistema de pedidos
+        </div>
+
+        <div id="pinDisplay" class="pin-display"></div>
+
+        <div class="keypad">
+            <button class="key" onclick="addPin('1')">1</button>
+            <button class="key" onclick="addPin('2')">2</button>
+            <button class="key" onclick="addPin('3')">3</button>
+            <button class="key" onclick="addPin('4')">4</button>
+            <button class="key" onclick="addPin('5')">5</button>
+            <button class="key" onclick="addPin('6')">6</button>
+            <button class="key" onclick="addPin('7')">7</button>
+            <button class="key" onclick="addPin('8')">8</button>
+            <button class="key" onclick="addPin('9')">9</button>
+            <button class="key" onclick="clearPin()">C</button>
+            <button class="key" onclick="addPin('0')">0</button>
+            <button class="key" onclick="deletePin()">←</button>
+        </div>
+
+        <button class="login-button" onclick="login()">
+            ENTRAR
+        </button>
+
+        <div id="loginError" class="login-error"></div>
+
+    </div>
+</div>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<div id="appScreen" class="hidden">
+
+    <div class="topbar">
+        <div>
+            <div class="topbar-title">TAQUERÍA EL TITI</div>
+        </div>
+
+        <div>
+            <div id="userName" class="topbar-user"></div>
+            <button
+                class="btn btn-secondary"
+                style="padding:7px 10px;font-size:12px;margin-top:4px;"
+                onclick="logout()">
+                SALIR
+            </button>
+        </div>
+    </div>
+
+    <div id="mainContent"></div>
+
+</div>
+
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div id="modalBackdrop" class="modal-backdrop hidden">
+    <div id="modalContent" class="modal"></div>
+</div>
+
 
 <script>
 
+/* =========================================================
+   SUPABASE
+========================================================= */
+
 const SUPABASE_URL =
-"https://svcsphqthbijznomchaa.supabase.co";
+    "https://svcsphqthbijznomchaa.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_Ks1l7WK_v6mjhs-wrAE2HQ_EK6zAyEL";
+    "sb_publishable_Ks1l7WK_v6mjhs-wrAE2HQ_EK6zAyEL";
 
 const supabaseClient =
-supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
 /* =========================================================
    ESTADO
 ========================================================= */
 
+let pin = "";
+
 let currentUser = null;
-let currentScreen = "login";
 
 let categories = [];
 let products = [];
 let tables = [];
 
 let selectedTable = null;
-let selectedPeople = null;
 let selectedCategory = null;
 
-let currentOrder = [];
+let currentOrderItems = [];
 
-let selectedProductForModal = null;
-
-
-/* =========================================================
-   UTILIDADES
-========================================================= */
-
-function money(value){
-
-    return "$" +
-        Number(value || 0).toFixed(2);
-}
-
-
-function escapeHtml(text){
-
-    if(text === null || text === undefined){
-        return "";
-    }
-
-    return String(text)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
-
-
-function totalOrder(){
-
-    return currentOrder.reduce(
-        (sum,item)=>{
-
-            return sum +
-                (
-                    Number(item.unit_price) *
-                    Number(item.quantity)
-                );
-
-        },
-        0
-    );
-}
-
-
-function roleLabel(role){
-
-    return role || "";
-}
+let currentView = "home";
 
 
 /* =========================================================
    LOGIN
 ========================================================= */
 
-let pin = "";
+function updatePinDisplay() {
 
+    const display =
+        document.getElementById("pinDisplay");
 
-function renderLogin(){
-
-    currentScreen = "login";
-
-    document.getElementById("app").innerHTML = `
-
-        <div class="login">
-
-            <div class="login-box">
-
-                <div class="logo">
-                    TAQUERÍA EL TITI
-                </div>
-
-                <div class="login-subtitle">
-                    Sistema de Comandas
-                </div>
-
-                <div class="pin-display">
-                    ${pin ? "•".repeat(pin.length) : " "}
-                </div>
-
-                <div class="pin-grid">
-
-                    <button onclick="addPin('1')">1</button>
-                    <button onclick="addPin('2')">2</button>
-                    <button onclick="addPin('3')">3</button>
-
-                    <button onclick="addPin('4')">4</button>
-                    <button onclick="addPin('5')">5</button>
-                    <button onclick="addPin('6')">6</button>
-
-                    <button onclick="addPin('7')">7</button>
-                    <button onclick="addPin('8')">8</button>
-                    <button onclick="addPin('9')">9</button>
-
-                    <button
-                        class="pin-clear"
-                        onclick="clearPin()">
-                        BORRAR
-                    </button>
-
-                    <button onclick="addPin('0')">
-                        0
-                    </button>
-
-                    <button onclick="login()">
-                        ENTRAR
-                    </button>
-
-                </div>
-
-                <div
-                    id="loginMessage"
-                    style="margin-top:15px;color:#b23a48;">
-                </div>
-
-            </div>
-
-        </div>
-    `;
+    display.textContent =
+        pin.length > 0
+            ? "•".repeat(pin.length)
+            : "";
 }
 
 
-function addPin(number){
+function addPin(number) {
 
-    if(pin.length >= 8){
-        return;
-    }
+    if (pin.length >= 8) return;
 
     pin += number;
 
-    renderLogin();
+    updatePinDisplay();
 }
 
 
-function clearPin(){
+function clearPin() {
 
     pin = "";
 
-    renderLogin();
+    updatePinDisplay();
+
+    document.getElementById("loginError").textContent = "";
 }
 
 
-async function login(){
+function deletePin() {
 
-    if(!pin){
+    pin = pin.slice(0, -1);
+
+    updatePinDisplay();
+}
+
+
+async function login() {
+
+    const errorBox =
+        document.getElementById("loginError");
+
+    errorBox.textContent = "";
+
+    if (!pin) {
+
+        errorBox.textContent =
+            "Escribe tu PIN.";
+
         return;
     }
 
-    const message =
-        document.getElementById("loginMessage");
+    try {
 
-    try{
+        const { data, error } =
+            await supabaseClient.rpc(
+                "login_with_pin",
+                {
+                    p_pin: pin
+                }
+            );
 
-        const {
-            data,
-            error
-        } = await supabaseClient.rpc(
-            "login_with_pin",
-            {
-                p_pin:pin
-            }
-        );
-
-        if(error){
+        if (error) {
 
             console.error(error);
 
-            message.textContent =
-                error.message ||
-                "Error al conectar con el sistema.";
+            errorBox.textContent =
+                "Error al iniciar sesión.";
 
             return;
         }
 
-        if(!data || data.length === 0){
+        if (!data || data.length === 0) {
 
-            message.textContent =
-                "Código incorrecto.";
+            errorBox.textContent =
+                "PIN incorrecto.";
 
             pin = "";
+
+            updatePinDisplay();
 
             return;
         }
@@ -666,245 +812,196 @@ async function login(){
 
         pin = "";
 
+        updatePinDisplay();
+
+        document
+            .getElementById("loginScreen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("appScreen")
+            .classList.remove("hidden");
+
+        document.getElementById("userName").textContent =
+            currentUser.full_name +
+            " · " +
+            currentUser.role;
+
         renderHome();
 
-    }catch(error){
+    } catch (error) {
 
         console.error(error);
 
-        message.textContent =
+        errorBox.textContent =
             "No se pudo iniciar sesión.";
     }
 }
 
 
-/* =========================================================
-   INICIO
-========================================================= */
-
-function renderHome(){
-
-    currentScreen = "home";
-
-    let buttons = "";
-
-
-    if(currentUser.role === "ADMINISTRADOR"){
-
-        buttons += `
-
-            <button
-                class="main-button"
-                onclick="openAdmin()">
-
-                ADMINISTRADOR
-
-            </button>
-
-            <button
-                class="main-button"
-                onclick="openMesera()">
-
-                MESAS / COMANDAS
-
-            </button>
-
-            <button
-                class="main-button"
-                onclick="openCaja()">
-
-                COBRAR
-
-            </button>
-
-            <button
-                class="main-button"
-                onclick="openStation('COCINA')">
-
-                COCINA / DESAYUNOS
-
-            </button>
-
-            <button
-                class="main-button"
-                onclick="openStation('PARRILLA')">
-
-                PARRILLA
-
-            </button>
-        `;
-    }
-
-
-    if(currentUser.role === "MESERA"){
-
-        buttons += `
-
-            <button
-                class="main-button"
-                onclick="openMesera()">
-
-                MESAS / COMANDAS
-
-            </button>
-        `;
-    }
-
-
-    if(currentUser.role === "CAJA"){
-
-        buttons += `
-
-            <button
-                class="main-button"
-                onclick="openCaja()">
-
-                COBRAR
-
-            </button>
-        `;
-    }
-
-
-    if(currentUser.role === "COCINA"){
-
-        buttons += `
-
-            <button
-                class="main-button"
-                onclick="openStation('COCINA')">
-
-                COCINA / DESAYUNOS
-
-            </button>
-        `;
-    }
-
-
-    if(currentUser.role === "PARRILLA"){
-
-        buttons += `
-
-            <button
-                class="main-button"
-                onclick="openStation('PARRILLA')">
-
-                PARRILLA
-
-            </button>
-        `;
-    }
-
-
-    document.getElementById("app").innerHTML = `
-
-        <div class="header">
-
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
-                ${escapeHtml(currentUser.full_name)}
-                ·
-                ${roleLabel(currentUser.role)}
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="topbar">
-
-                <h2>
-                    Menú principal
-                </h2>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="logout()">
-
-                    CERRAR SESIÓN
-
-                </button>
-
-            </div>
-
-            <div class="main-buttons">
-
-                ${buttons}
-
-            </div>
-
-        </div>
-    `;
-}
-
-
-function logout(){
+function logout() {
 
     currentUser = null;
 
-    pin = "";
-
-    currentOrder = [];
-
     selectedTable = null;
+    currentOrderItems = [];
 
-    selectedPeople = null;
+    document
+        .getElementById("appScreen")
+        .classList.add("hidden");
 
-    selectedCategory = null;
+    document
+        .getElementById("loginScreen")
+        .classList.remove("hidden");
 
-    renderLogin();
+    clearPin();
 }
 
 
 /* =========================================================
-   MESERA
+   HOME
 ========================================================= */
 
-async function openMesera(){
+function renderHome() {
 
-    document.getElementById("app").innerHTML = `
+    currentView = "home";
 
-        <div class="header">
+    let html = `
+        <div class="screen">
 
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
-                MESAS / COMANDAS
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="loading">
-                Cargando mesas y menú...
+            <div class="page-title">
+                Bienvenido
             </div>
 
-        </div>
+            <div class="page-subtitle">
+                Selecciona una sección.
+            </div>
+
+            <div class="home-grid">
     `;
 
-
-    const success =
-        await loadBaseData();
+    const role = currentUser.role;
 
 
-    if(!success){
-        return;
+    if (
+        role === "ADMINISTRADOR" ||
+        role === "MESERA"
+    ) {
+
+        html += `
+            <button
+                class="home-card primary"
+                onclick="openMesera()">
+
+                <div class="home-card-title">
+                    MESAS / COMANDAS
+                </div>
+
+                <div class="home-card-text">
+                    Tomar pedidos de mesas y grupos.
+                </div>
+
+            </button>
+        `;
     }
 
 
-    selectedCategory =
-        categories.length
-        ? categories[0].id
-        : null;
+    if (
+        role === "ADMINISTRADOR" ||
+        role === "CAJA"
+    ) {
+
+        html += `
+            <button
+                class="home-card yellow"
+                onclick="openCaja()">
+
+                <div class="home-card-title">
+                    COBRAR
+                </div>
+
+                <div class="home-card-text">
+                    Cobrar cuentas de mesas y grupos.
+                </div>
+
+            </button>
+        `;
+    }
 
 
-    renderTables();
+    if (
+        role === "ADMINISTRADOR" ||
+        role === "COCINA"
+    ) {
+
+        html += `
+            <button
+                class="home-card green"
+                onclick="openStation('COCINA')">
+
+                <div class="home-card-title">
+                    COCINA
+                </div>
+
+                <div class="home-card-text">
+                    Ver comandas de desayunos.
+                </div>
+
+            </button>
+        `;
+    }
+
+
+    if (
+        role === "ADMINISTRADOR" ||
+        role === "PARRILLA"
+    ) {
+
+        html += `
+            <button
+                class="home-card dark"
+                onclick="openStation('PARRILLA')">
+
+                <div class="home-card-title">
+                    PARRILLA
+                </div>
+
+                <div class="home-card-text">
+                    Ver comandas de tacos.
+                </div>
+
+            </button>
+        `;
+    }
+
+
+    if (role === "ADMINISTRADOR") {
+
+        html += `
+            <button
+                class="home-card primary"
+                onclick="openAdmin()">
+
+                <div class="home-card-title">
+                    ADMINISTRACIÓN
+                </div>
+
+                <div class="home-card-text">
+                    Menú, precios y usuarios.
+                </div>
+
+            </button>
+        `;
+    }
+
+
+    html += `
+            </div>
+        </div>
+    `;
+
+    document.getElementById("mainContent").innerHTML =
+        html;
 }
 
 
@@ -912,230 +1009,356 @@ async function openMesera(){
    CARGAR DATOS
 ========================================================= */
 
-async function loadBaseData(){
+async function loadBaseData() {
 
-    const [
-        categoriesResponse,
-        productsResponse,
-        tablesResponse
-    ] = await Promise.all([
+    console.log("Cargando datos...");
 
-        supabaseClient
+    categories = [];
+    products = [];
+    tables = [];
+
+
+    /* -------------------------
+       CATEGORÍAS
+    ------------------------- */
+
+    const categoryResult =
+        await supabaseClient
             .from("categories")
             .select("*")
-            .eq("active",true)
-            .order("sort_order"),
+            .order("sort_order", {
+                ascending: true
+            });
 
-        supabaseClient
+
+    if (categoryResult.error) {
+
+        console.error(
+            "ERROR CATEGORÍAS:",
+            categoryResult.error
+        );
+
+    } else {
+
+        categories =
+            categoryResult.data || [];
+
+        /*
+         Si existe active, solamente mostramos
+         las activas.
+        */
+        categories =
+            categories.filter(category => {
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        category,
+                        "active"
+                    )
+                ) {
+
+                    return category.active === true;
+                }
+
+                return true;
+            });
+    }
+
+
+    /* -------------------------
+       PRODUCTOS
+    ------------------------- */
+
+    const productResult =
+        await supabaseClient
             .from("products")
             .select("*")
-            .eq("active",true)
-            .order("sort_order"),
+            .order("sort_order", {
+                ascending: true
+            });
 
-        supabaseClient
+
+    if (productResult.error) {
+
+        console.error(
+            "ERROR PRODUCTOS:",
+            productResult.error
+        );
+
+    } else {
+
+        products =
+            productResult.data || [];
+
+        products =
+            products.filter(product => {
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        product,
+                        "active"
+                    )
+                ) {
+
+                    return product.active === true;
+                }
+
+                return true;
+            });
+    }
+
+
+    /* -------------------------
+       MESAS
+    ------------------------- */
+
+    const tableResult =
+        await supabaseClient
             .from("tables_restaurant")
             .select("*")
-            .eq("active",true)
-            .order("id")
-    ]);
+            .order("id", {
+                ascending: true
+            });
 
 
-    if(categoriesResponse.error){
-
-        console.error(
-            "Error categorías:",
-            categoriesResponse.error
-        );
-    }
-
-
-    if(productsResponse.error){
+    if (tableResult.error) {
 
         console.error(
-            "Error productos:",
-            productsResponse.error
-        );
-    }
-
-
-    if(tablesResponse.error){
-
-        console.error(
-            "Error mesas:",
-            tablesResponse.error
+            "ERROR MESAS:",
+            tableResult.error
         );
 
-        renderDataError(
-            "No se pudieron cargar las mesas.",
-            tablesResponse.error.message
-        );
+        tables = createFallbackTables();
 
-        return false;
-    }
+    } else {
 
+        let dbTables =
+            tableResult.data || [];
 
-    categories =
-        categoriesResponse.data || [];
+        dbTables =
+            dbTables.filter(table => {
 
-
-    products =
-        productsResponse.data || [];
-
-
-    /*
-       IMPORTANTE:
-
-       Tu tabla real utiliza:
-
-       id
-       name
-       capacity
-       active
-
-       Por eso convertimos esos datos al formato
-       que utiliza el resto de la aplicación.
-    */
-
-    tables =
-        (tablesResponse.data || []).map(table=>{
-
-            const tableId =
-                Number(table.id);
-
-            const capacity =
-                Number(table.capacity || 0);
-
-
-            return {
-
-                ...table,
-
-                id:tableId,
-
-                displayName:
-                    table.name ||
-                    "MESA " + tableId,
-
-                min_capacity:
-                    tableId >= 6
-                    ? 2
-                    : 1,
-
-                max_capacity:
-                    capacity ||
-                    (
-                        tableId >= 6
-                        ? 4
-                        : 6
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        table,
+                        "active"
                     )
-            };
-        });
+                ) {
 
+                    return table.active === true;
+                }
 
-    /*
-       Si Supabase no devuelve mesas, mostramos
-       las 8 mesas configuradas para El Titi.
+                return true;
+            });
 
-       Esto permite que la pantalla de la mesera
-       siga funcionando mientras terminamos
-       de ajustar la base de datos.
-    */
+        if (dbTables.length > 0) {
 
-    if(tables.length === 0){
+            tables =
+                dbTables.map(normalizeTable);
 
-        tables = [
+        } else {
 
-            {
-                id:1,
-                displayName:"MESA 1",
-                min_capacity:1,
-                max_capacity:6
-            },
-
-            {
-                id:2,
-                displayName:"MESA 2",
-                min_capacity:1,
-                max_capacity:6
-            },
-
-            {
-                id:3,
-                displayName:"MESA 3",
-                min_capacity:1,
-                max_capacity:6
-            },
-
-            {
-                id:4,
-                displayName:"MESA 4",
-                min_capacity:1,
-                max_capacity:6
-            },
-
-            {
-                id:5,
-                displayName:"MESA 5",
-                min_capacity:1,
-                max_capacity:6
-            },
-
-            {
-                id:6,
-                displayName:"MESA 6",
-                min_capacity:2,
-                max_capacity:4
-            },
-
-            {
-                id:7,
-                displayName:"MESA 7",
-                min_capacity:2,
-                max_capacity:4
-            },
-
-            {
-                id:8,
-                displayName:"MESA 8",
-                min_capacity:2,
-                max_capacity:4
-            }
-        ];
+            tables =
+                createFallbackTables();
+        }
     }
 
 
-    return true;
+    console.log(
+        "CATEGORÍAS CARGADAS:",
+        categories
+    );
+
+    console.log(
+        "PRODUCTOS CARGADOS:",
+        products
+    );
+
+    console.log(
+        "MESAS CARGADAS:",
+        tables
+    );
 }
 
 
-function renderDataError(title,message){
+/* =========================================================
+   MESAS
+========================================================= */
 
-    document.getElementById("app").innerHTML = `
+function createFallbackTables() {
 
-        <div class="header">
+    const result = [];
 
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
+    for (let i = 1; i <= 8; i++) {
+
+        result.push({
+
+            id: i,
+
+            name: "Mesa " + i,
+
+            min_capacity:
+                i <= 5 ? 1 : 2,
+
+            max_capacity:
+                i <= 5 ? 6 : 4,
+
+            active: true
+        });
+    }
+
+    return result;
+}
+
+
+function normalizeTable(table) {
+
+    const id =
+        Number(table.id);
+
+
+    let minCapacity =
+        table.min_capacity ??
+        table.min_people ??
+        table.min_persons ??
+        table.minimum_capacity ??
+        null;
+
+
+    let maxCapacity =
+        table.max_capacity ??
+        table.capacity ??
+        table.max_people ??
+        table.max_persons ??
+        table.maximum_capacity ??
+        null;
+
+
+    if (!minCapacity) {
+
+        minCapacity =
+            id <= 5 ? 1 : 2;
+    }
+
+
+    if (!maxCapacity) {
+
+        maxCapacity =
+            id <= 5 ? 6 : 4;
+    }
+
+
+    return {
+
+        ...table,
+
+        id,
+
+        name:
+            table.name ||
+            table.table_name ||
+            "Mesa " + id,
+
+        min_capacity:
+            Number(minCapacity),
+
+        max_capacity:
+            Number(maxCapacity)
+    };
+}
+
+
+/* =========================================================
+   MESERA
+========================================================= */
+
+async function openMesera() {
+
+    currentView = "tables";
+
+    selectedTable = null;
+
+    currentOrderItems = [];
+
+    document.getElementById("mainContent").innerHTML = `
+        <div class="screen">
+
+            <div class="page-title">
+                Cargando mesas...
+            </div>
 
         </div>
+    `;
 
-        <div class="container">
+    await loadBaseData();
 
-            <div class="error-box">
+    renderTables();
+}
 
-                <h2>
-                    ${escapeHtml(title)}
-                </h2>
 
-                <p>
-                    ${escapeHtml(message)}
-                </p>
+function renderTables() {
 
+    let html = `
+        <div class="screen">
+
+            <div class="page-title">
+                MESAS / COMANDAS
+            </div>
+
+            <div class="page-subtitle">
+                Selecciona una mesa o un grupo/camión.
+            </div>
+
+            <div class="tables-grid">
+    `;
+
+
+    tables.forEach(table => {
+
+        html += `
+            <button
+                class="table-card"
+                onclick="selectTable(${table.id})">
+
+                <div class="table-number">
+                    MESA ${table.id}
+                </div>
+
+                <div class="table-capacity">
+                    ${table.min_capacity}
+                    -
+                    ${table.max_capacity}
+                    personas
+                </div>
+
+            </button>
+        `;
+    });
+
+
+    html += `
+        <button
+            class="group-card"
+            onclick="openGroupOrder()">
+
+            <div class="table-number">
+                GRUPO / CAMIÓN
+            </div>
+
+            <div style="margin-top:7px;">
+                Cobro inmediato
+            </div>
+
+        </button>
+    `;
+
+
+    html += `
             </div>
 
             <button
-                class="btn btn-dark"
+                class="btn btn-secondary"
+                style="margin-top:20px;"
                 onclick="renderHome()">
 
                 REGRESAR
@@ -1144,100 +1367,9 @@ function renderDataError(title,message){
 
         </div>
     `;
-}
 
 
-/* =========================================================
-   MESAS
-========================================================= */
-
-function renderTables(){
-
-    currentScreen = "tables";
-
-
-    let html = `
-
-        <div class="header">
-
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
-                MESAS / COMANDAS
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="topbar">
-
-                <h2>
-                    Selecciona una mesa
-                </h2>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="renderHome()">
-
-                    REGRESAR
-
-                </button>
-
-            </div>
-
-            <div class="tables">
-    `;
-
-
-    tables.forEach(table=>{
-
-        html += `
-
-            <button
-                class="table-btn"
-                onclick="selectTable(${table.id})">
-
-                ${escapeHtml(
-                    table.displayName ||
-                    "MESA " + table.id
-                )}
-
-                <small>
-                    ${table.min_capacity}
-                    -
-                    ${table.max_capacity}
-                    personas
-                </small>
-
-            </button>
-        `;
-    });
-
-
-    html += `
-
-            </div>
-
-            <div style="margin-top:20px">
-
-                <button
-                    class="group-button"
-                    onclick="openGroupOrder()">
-
-                    GRUPO / CAMIÓN
-
-                </button>
-
-            </div>
-
-        </div>
-    `;
-
-
-    document.getElementById("app").innerHTML =
+    document.getElementById("mainContent").innerHTML =
         html;
 }
 
@@ -1246,95 +1378,88 @@ function renderTables(){
    SELECCIONAR MESA
 ========================================================= */
 
-function selectTable(tableId){
+async function selectTable(tableId) {
 
     selectedTable =
         tables.find(
-            t=>Number(t.id) === Number(tableId)
+            table =>
+                Number(table.id) ===
+                Number(tableId)
         );
 
 
-    if(!selectedTable){
+    if (!selectedTable) {
+
+        alert(
+            "No se encontró la mesa seleccionada."
+        );
+
         return;
     }
 
 
-    let buttons = "";
+    currentOrderItems = [];
 
 
-    for(
-        let i = selectedTable.min_capacity;
-        i <= selectedTable.max_capacity;
-        i++
-    ){
+    /*
+      Si por alguna razón el menú todavía
+      no está cargado, lo cargamos aquí.
+    */
 
-        buttons += `
+    if (
+        categories.length === 0 ||
+        products.length === 0
+    ) {
 
-            <button
-                class="main-button"
-                style="min-height:80px"
-                onclick="selectPeople(${i})">
-
-                ${i}
-                ${i === 1
-                    ? "PERSONA"
-                    : "PERSONAS"}
-
-            </button>
-        `;
+        await loadBaseData();
     }
 
 
-    document.getElementById("app").innerHTML = `
+    selectedCategory =
+        categories.length > 0
+            ? categories[0].id
+            : null;
 
-        <div class="header">
 
-            <h1>
-                ${escapeHtml(
-                    selectedTable.displayName ||
-                    "MESA " + selectedTable.id
-                )}
-            </h1>
-
-            <p>
-                ¿Cuántas personas hay?
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="main-buttons">
-
-                ${buttons}
-
-            </div>
-
-            <br>
-
-            <button
-                class="btn btn-dark"
-                onclick="renderTables()">
-
-                REGRESAR
-
-            </button>
-
-        </div>
-    `;
+    renderComanda();
 }
 
 
-function selectPeople(number){
+/* =========================================================
+   GRUPO / CAMIÓN
+========================================================= */
 
-    selectedPeople = number;
+async function openGroupOrder() {
 
-    currentOrder = [];
+    selectedTable = {
+
+        id: null,
+
+        name: "GRUPO / CAMIÓN",
+
+        min_capacity: 1,
+
+        max_capacity: 999
+    };
+
+
+    currentOrderItems = [];
+
+
+    if (
+        categories.length === 0 ||
+        products.length === 0
+    ) {
+
+        await loadBaseData();
+    }
+
 
     selectedCategory =
-        categories.length
-        ? categories[0].id
-        : null;
+        categories.length > 0
+            ? categories[0].id
+            : null;
+
 
     renderComanda();
 }
@@ -1344,146 +1469,208 @@ function selectPeople(number){
    COMANDA
 ========================================================= */
 
-function renderComanda(){
+function renderComanda() {
 
-    currentScreen = "comanda";
+    let html = `
+        <div class="screen">
 
+            <div class="page-title">
+                ${escapeHtml(
+                    selectedTable.name
+                )}
+            </div>
 
-    if(
-        !selectedCategory &&
-        categories.length
-    ){
+            ${
+                selectedTable.id
+                    ? `
+                        <div class="page-subtitle">
+                            Mesa ${selectedTable.id}
+                            ·
+                            ${selectedTable.max_capacity}
+                            personas
+                        </div>
+                    `
+                    : `
+                        <div class="page-subtitle">
+                            Cobro inmediato
+                        </div>
+                    `
+            }
 
-        selectedCategory =
-            categories[0].id;
-    }
+            <div class="cancel-row">
+                <button
+                    class="btn btn-secondary"
+                    onclick="renderTables()">
 
+                    CANCELAR
 
-    const category =
-        categories.find(
-            c=>c.id === selectedCategory
-        );
+                </button>
+            </div>
 
+            <div class="comanda-layout">
 
-    const categoryProducts =
-        products.filter(
-            p=>p.category_id === selectedCategory
-        );
+                <div class="menu-area">
 
-
-    let categoryHtml = "";
-
-
-    categories.forEach(c=>{
-
-        categoryHtml += `
-
-            <button
-                class="category-btn
-                ${c.id === selectedCategory
-                    ? "active"
-                    : ""}"
-                onclick="selectCategory('${c.id}')">
-
-                ${escapeHtml(c.name)}
-
-            </button>
-        `;
-    });
+                    <div class="category-list">
+    `;
 
 
-    let productsHtml = "";
+    /* -------------------------
+       CATEGORÍAS
+    ------------------------- */
 
+    if (categories.length === 0) {
 
-    categoryProducts.forEach(product=>{
+        html += `
+            <div class="empty-message"
+                 style="width:100%;">
 
-        productsHtml += `
-
-            <button
-                class="product-btn"
-                onclick="addProduct('${product.id}')">
-
-                <strong>
-                    ${escapeHtml(product.name)}
-                </strong>
-
-                <span class="product-price">
-                    ${money(product.price)}
-                </span>
-
-            </button>
-        `;
-    });
-
-
-    let orderHtml = "";
-
-
-    if(currentOrder.length === 0){
-
-        orderHtml = `
-
-            <div class="empty">
-
-                Todavía no hay productos.
+                No se encontraron categorías
+                del menú.
 
             </div>
         `;
 
-    }else{
+    } else {
 
-        currentOrder.forEach(
-            (item,index)=>{
+        categories.forEach(category => {
 
-                orderHtml += `
+            const active =
+                String(category.id) ===
+                String(selectedCategory);
 
-                    <div class="order-item">
 
-                        <strong>
-                            ${escapeHtml(
-                                item.product_name
-                            )}
-                        </strong>
+            html += `
+                <button
+                    class="category-button ${active ? "active" : ""}"
+                    onclick="selectCategory('${escapeAttribute(category.id)}')">
 
-                        ${
-                            item.option_text
-                            ?
-                            `<div>
-                                ${escapeHtml(
-                                    item.option_text
-                                )}
-                             </div>`
-                            :
-                            ""
-                        }
+                    ${escapeHtml(
+                        category.name
+                    )}
 
-                        ${
-                            item.note
-                            ?
-                            `<div
-                                style="
-                                font-size:13px;
-                                color:#777">
-                                Nota:
-                                ${escapeHtml(
-                                    item.note
-                                )}
-                             </div>`
-                            :
-                            ""
-                        }
+                </button>
+            `;
+        });
+    }
 
-                        <div class="qty">
+
+    html += `
+                    </div>
+
+                    <div id="productsContainer">
+    `;
+
+
+    renderProductsIntoHtml = true;
+
+
+    const categoryProducts =
+        products.filter(product => {
+
+            return String(product.category_id) ===
+                   String(selectedCategory);
+        });
+
+
+    if (
+        categories.length > 0 &&
+        categoryProducts.length === 0
+    ) {
+
+        html += `
+            <div class="empty-message">
+
+                No hay productos en esta categoría.
+
+            </div>
+        `;
+
+    } else {
+
+        html += `
+            <div class="products-grid">
+        `;
+
+
+        categoryProducts.forEach(product => {
+
+            html += `
+                <button
+                    class="product-card"
+                    onclick="addProduct('${escapeAttribute(product.id)}')">
+
+                    <div class="product-name">
+                        ${escapeHtml(
+                            product.name
+                        )}
+                    </div>
+
+                    <div class="product-price">
+                        $${formatMoney(product.price)}
+                    </div>
+
+                </button>
+            `;
+        });
+
+
+        html += `
+            </div>
+        `;
+    }
+
+
+    html += `
+                    </div>
+
+                </div>
+
+                <div class="order-area">
+
+                    <div class="order-title">
+                        COMANDA
+                    </div>
+
+                    <div class="order-subtitle">
+                        ${escapeHtml(
+                            selectedTable.name
+                        )}
+                    </div>
+
+                    <div id="orderItemsContainer">
+    `;
+
+
+    if (currentOrderItems.length === 0) {
+
+        html += `
+            <div class="empty-message">
+
+                Agrega productos al pedido.
+
+            </div>
+        `;
+
+    } else {
+
+        currentOrderItems.forEach((item, index) => {
+
+            html += `
+                <div class="order-item">
+
+                    <div class="order-item-name">
+                        ${escapeHtml(item.name)}
+                    </div>
+
+                    <div class="order-item-line">
+
+                        <div class="quantity-controls">
 
                             <button
-                                onclick="
-                                changeQty(
-                                    ${index},
-                                    -1
-                                )">
-
-                                −
-
+                                class="qty-button"
+                                onclick="changeQuantity(${index}, -1)">
+                                -
                             </button>
 
                             <strong>
@@ -1491,161 +1678,66 @@ function renderComanda(){
                             </strong>
 
                             <button
-                                onclick="
-                                changeQty(
-                                    ${index},
-                                    1
-                                )">
-
+                                class="qty-button"
+                                onclick="changeQuantity(${index}, 1)">
                                 +
-
                             </button>
-
-                            <span
-                                style="margin-left:auto">
-
-                                ${money(
-                                    item.unit_price *
-                                    item.quantity
-                                )}
-
-                            </span>
 
                         </div>
 
+                        <strong>
+                            $${formatMoney(
+                                Number(item.price) *
+                                Number(item.quantity)
+                            )}
+                        </strong>
+
                     </div>
-                `;
-            }
-        );
+
+                </div>
+            `;
+        });
     }
 
 
-    document.getElementById("app").innerHTML = `
-
-        <div class="header">
-
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
-
-                ${
-                    selectedTable
-                    ?
-                    `
-                    MESA ${selectedTable.id}
-                    ·
-                    ${selectedPeople}
-                    PERSONAS
-                    `
-                    :
-                    "GRUPO / CAMIÓN"
-                }
-
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="topbar">
-
-                <h2>
-                    COMANDA
-                </h2>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="renderTables()">
-
-                    CANCELAR
-
-                </button>
-
-            </div>
+    const total =
+        currentOrderItems.reduce(
+            (sum, item) =>
+                sum +
+                Number(item.price) *
+                Number(item.quantity),
+            0
+        );
 
 
-            ${
-                categories.length === 0
-                ?
-                `
-                <div class="error-box">
+    html += `
+                    </div>
 
-                    No se encontraron categorías
-                    del menú.
+                    <div class="order-total">
 
-                </div>
-                `
-                :
-                ""
-            }
+                        <span>
+                            TOTAL
+                        </span>
 
-
-            <div class="order-layout">
-
-                <div>
-
-                    <div class="categories">
-
-                        ${categoryHtml}
+                        <span>
+                            $${formatMoney(total)}
+                        </span>
 
                     </div>
 
+                    ${
+                        currentOrderItems.length > 0
+                            ? `
+                                <button
+                                    class="send-button"
+                                    onclick="sendOrder()">
 
-                    <div class="products">
+                                    ENVIAR COMANDA
 
-                        ${
-                            productsHtml
-                            ||
-                            `
-                            <div class="empty">
-
-                                No hay productos
-                                en esta categoría.
-
-                            </div>
-                            `
-                        }
-
-                    </div>
-
-                </div>
-
-
-                <div class="card order-summary">
-
-                    <h2>
-                        Pedido
-                    </h2>
-
-                    ${orderHtml}
-
-                    <div class="total">
-
-                        ${money(
-                            totalOrder()
-                        )}
-
-                    </div>
-
-
-                    <button
-                        class="btn btn-primary"
-                        style="
-                            width:100%;
-                            padding:18px
-                        "
-                        onclick="sendOrder()"
-                        ${
-                            currentOrder.length === 0
-                            ? "disabled"
+                                </button>
+                              `
                             : ""
-                        }>
-
-                        ENVIAR COMANDA
-
-                    </button>
+                    }
 
                 </div>
 
@@ -1653,10 +1745,21 @@ function renderComanda(){
 
         </div>
     `;
+
+
+    document.getElementById("mainContent").innerHTML =
+        html;
 }
 
 
-function selectCategory(categoryId){
+let renderProductsIntoHtml = false;
+
+
+/* =========================================================
+   CATEGORÍAS
+========================================================= */
+
+function selectCategory(categoryId) {
 
     selectedCategory =
         categoryId;
@@ -1666,84 +1769,95 @@ function selectCategory(categoryId){
 
 
 /* =========================================================
-   AGREGAR PRODUCTOS
+   PRODUCTOS
 ========================================================= */
 
-async function addProduct(productId){
+function addProduct(productId) {
 
     const product =
         products.find(
-            p=>p.id === productId
+            p =>
+                String(p.id) ===
+                String(productId)
         );
 
 
-    if(!product){
-        return;
-    }
+    if (!product) {
 
-
-    if(product.name === "Huevos al Gusto"){
-
-        selectedProductForModal =
-            product;
-
-        showHuevosModal();
+        alert(
+            "No se encontró el producto."
+        );
 
         return;
     }
 
 
-    addItemToOrder(
-        product,
-        "",
-        ""
-    );
+    /*
+      Huevos al gusto necesita elegir
+      preparación.
+    */
+
+    if (
+        String(product.name)
+            .toLowerCase()
+            .includes("huevos al gusto")
+    ) {
+
+        openHuevosModal(product);
+
+        return;
+    }
+
+
+    addProductToOrder(product);
 }
 
 
-function addItemToOrder(
+function addProductToOrder(
     product,
-    optionText,
-    note
-){
+    extraName = null
+) {
+
+    const finalName =
+        extraName
+            ? product.name +
+              " (" +
+              extraName +
+              ")"
+            : product.name;
+
 
     const existing =
-        currentOrder.find(
-            item=>
+        currentOrderItems.find(
+            item =>
                 item.product_id === product.id &&
-                item.option_text === optionText &&
-                item.note === note
+                item.name === finalName
         );
 
 
-    if(existing){
+    if (existing) {
 
         existing.quantity++;
 
-    }else{
+    } else {
 
-        currentOrder.push({
+        currentOrderItems.push({
 
             product_id:
                 product.id,
 
-            product_name:
-                product.name,
+            name:
+                finalName,
 
-            quantity:1,
-
-            unit_price:
+            price:
                 Number(product.price),
 
-            option_text:
-                optionText,
-
-            note:
-                note,
+            quantity:
+                1,
 
             station:
                 product.station ||
-                "COCINA"
+                getStationForProduct(product)
         });
     }
 
@@ -1752,25 +1866,155 @@ function addItemToOrder(
 }
 
 
-function changeQty(
-    index,
-    change
-){
+function getStationForProduct(product) {
 
-    if(!currentOrder[index]){
-        return;
+    const category =
+        categories.find(
+            c =>
+                String(c.id) ===
+                String(product.category_id)
+        );
+
+
+    const categoryName =
+        category
+            ? String(category.name).toUpperCase()
+            : "";
+
+
+    const productName =
+        String(product.name)
+            .toUpperCase();
+
+
+    /*
+      Desayunos -> COCINA
+      Tacos -> PARRILLA
+    */
+
+    if (
+        categoryName.includes("TACO") ||
+        productName.includes("TACO")
+    ) {
+
+        return "PARRILLA";
     }
 
 
-    currentOrder[index].quantity +=
-        change;
+    return "COCINA";
+}
 
 
-    if(
-        currentOrder[index].quantity <= 0
-    ){
+/* =========================================================
+   HUEVOS AL GUSTO
+========================================================= */
 
-        currentOrder.splice(
+function openHuevosModal(product) {
+
+    const modal =
+        document.getElementById(
+            "modalBackdrop"
+        );
+
+    const content =
+        document.getElementById(
+            "modalContent"
+        );
+
+
+    content.innerHTML = `
+
+        <div class="modal-title">
+            Huevos al Gusto
+        </div>
+
+        <button
+            class="option-button"
+            onclick="chooseHuevos('${escapeAttribute(product.id)}','Revueltos')">
+
+            Revueltos
+
+        </button>
+
+        <button
+            class="option-button"
+            onclick="chooseHuevos('${escapeAttribute(product.id)}','Estrellados')">
+
+            Estrellados
+
+        </button>
+
+        <button
+            class="option-button"
+            onclick="chooseHuevos('${escapeAttribute(product.id)}','Fritos')">
+
+            Fritos
+
+        </button>
+
+        <button
+            class="btn btn-secondary"
+            style="width:100%;margin-top:5px;"
+            onclick="closeModal()">
+
+            CANCELAR
+
+        </button>
+    `;
+
+
+    modal.classList.remove("hidden");
+}
+
+
+function chooseHuevos(
+    productId,
+    preparation
+) {
+
+    const product =
+        products.find(
+            p =>
+                String(p.id) ===
+                String(productId)
+        );
+
+
+    if (product) {
+
+        addProductToOrder(
+            product,
+            preparation
+        );
+    }
+
+
+    closeModal();
+}
+
+
+/* =========================================================
+   CANTIDADES
+========================================================= */
+
+function changeQuantity(
+    index,
+    change
+) {
+
+    const item =
+        currentOrderItems[index];
+
+
+    if (!item) return;
+
+
+    item.quantity += change;
+
+
+    if (item.quantity <= 0) {
+
+        currentOrderItems.splice(
             index,
             1
         );
@@ -1782,279 +2026,79 @@ function changeQty(
 
 
 /* =========================================================
-   HUEVOS AL GUSTO
+   ENVIAR PEDIDO
 ========================================================= */
 
-function showHuevosModal(){
-
-    document.body.insertAdjacentHTML(
-        "beforeend",
-        `
-
-        <div
-            class="modal-bg"
-            id="modal">
-
-            <div class="modal">
-
-                <h2>
-                    Huevos al Gusto
-                </h2>
-
-                <p>
-                    Selecciona cómo preparar
-                    los huevos.
-                </p>
-
-                <div class="option-buttons">
-
-                    <button
-                        class="option-btn"
-                        onclick="
-                        chooseEggs(
-                            'REVUELTOS'
-                        )">
-
-                        REVUELTOS
-
-                    </button>
-
-                    <button
-                        class="option-btn"
-                        onclick="
-                        chooseEggs(
-                            'ESTRELLADOS'
-                        )">
-
-                        ESTRELLADOS
-
-                    </button>
-
-                    <button
-                        class="option-btn"
-                        onclick="
-                        chooseEggs(
-                            'FRITOS'
-                        )">
-
-                        FRITOS
-
-                    </button>
-
-                </div>
-
-                <button
-                    class="btn btn-dark"
-                    style="width:100%"
-                    onclick="closeModal()">
-
-                    CANCELAR
-
-                </button>
-
-            </div>
-
-        </div>
-    `);
-}
-
-
-function chooseEggs(option){
-
-    const product =
-        selectedProductForModal;
-
-
-    closeModal();
-
-
-    document.body.insertAdjacentHTML(
-        "beforeend",
-        `
-
-        <div
-            class="modal-bg"
-            id="modal">
-
-            <div class="modal">
-
-                <h2>
-                    Nota para cocina
-                </h2>
-
-                <p>
-                    ${escapeHtml(option)}
-                </p>
-
-                <textarea
-                    id="productNote"
-                    placeholder="
-                    Ejemplo: sin cebolla,
-                    poca salsa, etc.
-                    ">
-                </textarea>
-
-                <br><br>
-
-                <button
-                    class="btn btn-primary"
-                    style="width:100%"
-                    onclick="
-                    confirmEggs(
-                        '${escapeHtml(option)}'
-                    )">
-
-                    AGREGAR
-
-                </button>
-
-            </div>
-
-        </div>
-    `);
-
-
-    selectedProductForModal = {
-
-        ...product,
-
-        selectedOption:
-            option
-    };
-}
-
-
-function confirmEggs(option){
-
-    const note =
-        document
-            .getElementById("productNote")
-            .value
-            .trim();
-
-
-    const product =
-        selectedProductForModal;
-
-
-    closeModal();
-
-
-    addItemToOrder(
-        product,
-        option,
-        note
-    );
-
-
-    selectedProductForModal =
-        null;
-}
-
-
-function closeModal(){
-
-    const modal =
-        document.getElementById("modal");
-
-
-    if(modal){
-        modal.remove();
-    }
-}
-
-
-/* =========================================================
-   GRUPO / CAMIÓN
-========================================================= */
-
-function openGroupOrder(){
-
-    selectedTable = null;
-
-    selectedPeople = null;
-
-    currentOrder = [];
-
-    selectedCategory =
-        categories.length
-        ? categories[0].id
-        : null;
-
-    renderComanda();
-}
-
-
-/* =========================================================
-   ENVIAR COMANDA
-========================================================= */
-
-async function sendOrder(){
-
-    if(currentOrder.length === 0){
+async function sendOrder() {
+
+    if (
+        !selectedTable ||
+        currentOrderItems.length === 0
+    ) {
 
         alert(
-            "La comanda está vacía."
+            "Agrega productos antes de enviar."
         );
 
         return;
     }
 
 
-    try{
+    const total =
+        currentOrderItems.reduce(
+            (sum, item) =>
+                sum +
+                Number(item.price) *
+                Number(item.quantity),
+            0
+        );
 
-        const total =
-            totalOrder();
+
+    const orderData = {
+
+        table_id:
+            selectedTable.id || null,
+
+        order_type:
+            selectedTable.id
+                ? "MESA"
+                : "GRUPO",
+
+        status:
+            selectedTable.id
+                ? "NUEVA"
+                : "PENDIENTE_PAGO",
+
+        total:
+            total,
+
+        created_by:
+            null
+    };
 
 
-        const orderType =
-            selectedTable
-            ? "MESA"
-            : "GRUPO";
-
+    try {
 
         const {
-            data:order,
-            error:orderError
+            data: order,
+            error: orderError
         } =
             await supabaseClient
-            .from("orders")
-            .insert({
-
-                order_type:
-                    orderType,
-
-                table_id:
-                    selectedTable
-                    ? selectedTable.id
-                    : null,
-
-                people:
-                    selectedPeople ||
-                    null,
-
-                status:
-                    "NUEVA",
-
-                total:
-                    total,
-
-                created_by:
-                    null
-
-            })
-            .select()
-            .single();
+                .from("orders")
+                .insert(orderData)
+                .select()
+                .single();
 
 
-        if(orderError){
+        if (orderError) {
 
             console.error(
+                "ERROR CREANDO ORDEN:",
                 orderError
             );
 
             alert(
-                "No se pudo guardar la comanda:\n" +
+                "No se pudo crear la comanda:\n" +
                 orderError.message
             );
 
@@ -2062,130 +2106,193 @@ async function sendOrder(){
         }
 
 
-        const items =
-            currentOrder.map(
-                item=>({
+        const itemsToInsert =
+            currentOrderItems.map(item => ({
 
-                    order_id:
-                        order.id,
+                order_id:
+                    order.id,
 
-                    product_id:
-                        item.product_id,
+                product_id:
+                    item.product_id,
 
-                    product_name:
-                        item.product_name,
+                quantity:
+                    item.quantity,
 
-                    quantity:
-                        item.quantity,
+                unit_price:
+                    item.price,
 
-                    unit_price:
-                        item.unit_price,
-
-                    option_text:
-                        item.option_text,
-
-                    note:
-                        item.note,
-
-                    station:
-                        item.station
-
-                })
-            );
+                subtotal:
+                    Number(item.price) *
+                    Number(item.quantity)
+            }));
 
 
         const {
-            error:itemError
+            error: itemsError
         } =
             await supabaseClient
-            .from("order_items")
-            .insert(items);
+                .from("order_items")
+                .insert(itemsToInsert);
 
 
-        if(itemError){
+        if (itemsError) {
 
             console.error(
-                itemError
+                "ERROR ITEMS:",
+                itemsError
             );
 
             alert(
-                "La orden se creó, pero hubo un problema con los productos:\n" +
-                itemError.message
+                "La orden se creó pero no se pudieron guardar los productos:\n" +
+                itemsError.message
             );
 
             return;
         }
 
 
-        const stations =
-            [
-                ...new Set(
-                    currentOrder.map(
-                        item=>
-                            item.station ||
-                            "COCINA"
-                    )
-                )
-            ];
+        /*
+          Crear trabajos de impresión por estación.
+        */
+
+        const stations = {};
 
 
-        const printJobs =
-            stations.map(
-                station=>({
+        currentOrderItems.forEach(item => {
 
-                    order_id:
-                        order.id,
-
-                    station:
-                        station,
-
-                    printed:
-                        false
-
-                })
-            );
+            const station =
+                item.station ||
+                "COCINA";
 
 
-        if(printJobs.length){
+            if (!stations[station]) {
+
+                stations[station] = [];
+            }
+
+
+            stations[station].push(item);
+        });
+
+
+        for (
+            const station of Object.keys(stations)
+        ) {
 
             const {
-                error:printError
+                error: printError
             } =
                 await supabaseClient
-                .from("print_jobs")
-                .insert(
-                    printJobs
-                );
+                    .from("print_jobs")
+                    .insert({
+
+                        order_id:
+                            order.id,
+
+                        station:
+                            station,
+
+                        status:
+                            "PENDING"
+                    });
 
 
-            if(printError){
+            if (printError) {
 
-                console.error(
+                console.warn(
+                    "No se pudo crear impresión:",
                     printError
                 );
             }
         }
 
 
+        /*
+          GRUPO / CAMIÓN:
+          cobro inmediato.
+        */
+
+        if (!selectedTable.id) {
+
+            const paymentMethod =
+                await askPaymentMethod();
+
+
+            if (!paymentMethod) {
+
+                alert(
+                    "La comanda fue creada. Falta registrar el pago."
+                );
+
+                currentOrderItems = [];
+
+                renderTables();
+
+                return;
+            }
+
+
+            const {
+                error: paymentError
+            } =
+                await supabaseClient
+                    .from("payments")
+                    .insert({
+
+                        order_id:
+                            order.id,
+
+                        amount:
+                            total,
+
+                        payment_method:
+                            paymentMethod,
+
+                        created_by:
+                            null
+                    });
+
+
+            if (paymentError) {
+
+                console.error(
+                    paymentError
+                );
+
+                alert(
+                    "La orden se creó, pero no se pudo registrar el pago:\n" +
+                    paymentError.message
+                );
+
+                return;
+            }
+
+
+            await supabaseClient
+                .from("orders")
+                .update({
+                    status: "PAGADA"
+                })
+                .eq(
+                    "id",
+                    order.id
+                );
+        }
+
+
         alert(
-            "COMANDA ENVIADA CORRECTAMENTE"
+            "Comanda enviada correctamente."
         );
 
 
-        currentOrder = [];
-
-        selectedTable = null;
-
-        selectedPeople = null;
+        currentOrderItems = [];
 
         renderTables();
 
 
-    }catch(error){
+    } catch (error) {
 
-        console.error(
-            error
-        );
+        console.error(error);
 
         alert(
             "Ocurrió un error al enviar la comanda."
@@ -2195,13 +2302,132 @@ async function sendOrder(){
 
 
 /* =========================================================
+   MÉTODO DE PAGO
+========================================================= */
+
+function askPaymentMethod() {
+
+    return new Promise(resolve => {
+
+        const modal =
+            document.getElementById(
+                "modalBackdrop"
+            );
+
+        const content =
+            document.getElementById(
+                "modalContent"
+            );
+
+
+        content.innerHTML = `
+
+            <div class="modal-title">
+                Método de pago
+            </div>
+
+            <button
+                class="option-button"
+                onclick="resolvePayment('EFECTIVO')">
+
+                EFECTIVO
+
+            </button>
+
+            <button
+                class="option-button"
+                onclick="resolvePayment('TARJETA')">
+
+                TARJETA
+
+            </button>
+
+            <button
+                class="option-button"
+                onclick="resolvePayment('TRANSFERENCIA')">
+
+                TRANSFERENCIA
+
+            </button>
+
+            <button
+                class="btn btn-secondary"
+                style="width:100%;margin-top:5px;"
+                onclick="resolvePayment(null)">
+
+                CANCELAR
+
+            </button>
+        `;
+
+
+        window.paymentResolver =
+            resolve;
+
+
+        modal.classList.remove(
+            "hidden"
+        );
+    });
+}
+
+
+function resolvePayment(method) {
+
+    closeModal();
+
+    if (
+        window.paymentResolver
+    ) {
+
+        window.paymentResolver(
+            method
+        );
+
+        window.paymentResolver =
+            null;
+    }
+}
+
+
+/* =========================================================
    CAJA
 ========================================================= */
 
-async function openCaja(){
+async function openCaja() {
 
-    currentScreen =
-        "caja";
+    currentView = "caja";
+
+
+    document.getElementById(
+        "mainContent"
+    ).innerHTML = `
+
+        <div class="screen">
+
+            <div class="page-title">
+                COBRAR
+            </div>
+
+            <div class="page-subtitle">
+                Cuentas pendientes.
+            </div>
+
+            <div id="cajaContainer">
+                Cargando...
+            </div>
+
+            <button
+                class="btn btn-secondary"
+                style="margin-top:20px;"
+                onclick="renderHome()">
+
+                REGRESAR
+
+            </button>
+
+        </div>
+    `;
 
 
     const {
@@ -2209,253 +2435,145 @@ async function openCaja(){
         error
     } =
         await supabaseClient
-        .from("orders")
-        .select(`
-            *,
-            tables_restaurant (
-                id
+            .from("orders")
+            .select("*")
+            .in(
+                "status",
+                [
+                    "NUEVA",
+                    "PENDIENTE_PAGO"
+                ]
             )
-        `)
-        .eq(
-            "order_type",
-            "MESA"
-        )
-        .neq(
-            "status",
-            "PAGADA"
-        )
-        .order(
-            "created_at",
-            {
-                ascending:true
-            }
+            .order(
+                "created_at",
+                {
+                    ascending: true
+                }
+            );
+
+
+    const container =
+        document.getElementById(
+            "cajaContainer"
         );
 
 
-    if(error){
+    if (error) {
 
-        console.error(
-            error
-        );
-
-        renderCajaError(
-            error.message
-        );
-
-        return;
-    }
-
-
-    let html = "";
-
-
-    if(
-        !data ||
-        data.length === 0
-    ){
-
-        html = `
-
-            <div class="empty">
-
-                No hay cuentas pendientes.
-
+        container.innerHTML = `
+            <div class="empty-message">
+                Error cargando cuentas:
+                ${escapeHtml(error.message)}
             </div>
         `;
 
-    }else{
-
-        data.forEach(
-            order=>{
-
-                html += `
-
-                    <div class="card">
-
-                        <h2>
-
-                            ${
-                                order.table_id
-                                ?
-                                "MESA " +
-                                order.table_id
-                                :
-                                "GRUPO"
-                            }
-
-                        </h2>
-
-                        <p>
-
-                            Personas:
-                            ${
-                                order.people ||
-                                "-"
-                            }
-
-                        </p>
-
-                        <div class="total">
-
-                            ${money(
-                                order.total
-                            )}
-
-                        </div>
-
-                        <div
-                            style="
-                            display:flex;
-                            gap:10px;
-                            flex-wrap:wrap">
-
-                            <button
-                                class="btn btn-green"
-                                onclick="
-                                payOrder(
-                                    '${order.id}',
-                                    'EFECTIVO'
-                                )">
-
-                                EFECTIVO
-
-                            </button>
-
-                            <button
-                                class="btn btn-primary"
-                                onclick="
-                                payOrder(
-                                    '${order.id}',
-                                    'TARJETA'
-                                )">
-
-                                TARJETA
-
-                            </button>
-
-                            <button
-                                class="btn btn-yellow"
-                                onclick="
-                                payOrder(
-                                    '${order.id}',
-                                    'TRANSFERENCIA'
-                                )">
-
-                                TRANSFERENCIA
-
-                            </button>
-
-                        </div>
-
-                    </div>
-                `;
-            }
-        );
+        return;
     }
 
 
-    document.getElementById("app").innerHTML = `
+    if (!data || data.length === 0) {
 
-        <div class="header">
-
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
-                COBRAR
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="topbar">
-
-                <h2>
-                    Cuentas pendientes
-                </h2>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="renderHome()">
-
-                    REGRESAR
-
-                </button>
-
+        container.innerHTML = `
+            <div class="empty-message">
+                No hay cuentas pendientes.
             </div>
+        `;
 
-            ${html}
+        return;
+    }
+
+
+    container.innerHTML = `
+        <div class="list-grid">
+
+            ${data.map(order => `
+
+                <div class="list-card">
+
+                    <div class="list-card-title">
+
+                        ${
+                            order.table_id
+                                ? "Mesa " +
+                                  order.table_id
+                                : "Grupo / Camión"
+                        }
+
+                    </div>
+
+                    <div class="list-card-info">
+
+                        Total:
+                        <strong>
+                            $${formatMoney(order.total)}
+                        </strong>
+
+                    </div>
+
+                    <div class="payment-buttons">
+
+                        <button
+                            class="btn btn-success"
+                            onclick="payOrder('${escapeAttribute(order.id)}','EFECTIVO')">
+
+                            EFECTIVO
+
+                        </button>
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="payOrder('${escapeAttribute(order.id)}','TARJETA')">
+
+                            TARJETA
+
+                        </button>
+
+                        <button
+                            class="btn btn-yellow"
+                            onclick="payOrder('${escapeAttribute(order.id)}','TRANSFERENCIA')">
+
+                            TRANSFERENCIA
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `).join("")}
 
         </div>
     `;
 }
 
 
-function renderCajaError(message){
-
-    document.getElementById("app").innerHTML = `
-
-        <div class="container">
-
-            <div class="card">
-
-                <h2>
-                    Error
-                </h2>
-
-                <p>
-                    ${escapeHtml(message)}
-                </p>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="renderHome()">
-
-                    REGRESAR
-
-                </button>
-
-            </div>
-
-        </div>
-    `;
-}
-
+/* =========================================================
+   PAGAR
+========================================================= */
 
 async function payOrder(
     orderId,
-    method
-){
-
-    if(
-        !confirm(
-            "¿Confirmar pago por " +
-            method +
-            "?"
-        )
-    ){
-
-        return;
-    }
-
+    paymentMethod
+) {
 
     const {
-        data:order,
-        error:orderError
+        data: order,
+        error: orderError
     } =
         await supabaseClient
-        .from("orders")
-        .select("*")
-        .eq("id",orderId)
-        .single();
+            .from("orders")
+            .select("*")
+            .eq(
+                "id",
+                orderId
+            )
+            .single();
 
 
-    if(orderError){
+    if (orderError || !order) {
 
         alert(
-            orderError.message
+            "No se encontró la orden."
         );
 
         return;
@@ -2463,37 +2581,27 @@ async function payOrder(
 
 
     const {
-        error:paymentError
+        error: paymentError
     } =
         await supabaseClient
-        .from("payments")
-        .insert({
+            .from("payments")
+            .insert({
 
-            order_id:
-                order.id,
+                order_id:
+                    order.id,
 
-            table_id:
-                order.table_id,
+                amount:
+                    order.total,
 
-            amount:
-                order.total,
+                payment_method:
+                    paymentMethod,
 
-            method:
-                method,
-
-            received:
-                order.total,
-
-            change_amount:
-                0,
-
-            created_by:
-                null
-
-        });
+                created_by:
+                    null
+            });
 
 
-    if(paymentError){
+    if (paymentError) {
 
         alert(
             "No se pudo registrar el pago:\n" +
@@ -2505,33 +2613,32 @@ async function payOrder(
 
 
     const {
-        error:updateError
+        error: updateError
     } =
         await supabaseClient
-        .from("orders")
-        .update({
-
-            status:
-                "PAGADA",
-
-            paid_at:
-                new Date().toISOString()
-
-        })
-        .eq(
-            "id",
-            orderId
-        );
+            .from("orders")
+            .update({
+                status: "PAGADA"
+            })
+            .eq(
+                "id",
+                order.id
+            );
 
 
-    if(updateError){
+    if (updateError) {
 
         alert(
-            updateError.message
+            "El pago se registró, pero no se pudo cerrar la orden."
         );
 
         return;
     }
+
+
+    alert(
+        "Pago registrado correctamente."
+    );
 
 
     openCaja();
@@ -2544,10 +2651,41 @@ async function payOrder(
 
 async function openStation(
     station
-){
+) {
 
-    currentScreen =
+    currentView =
         station;
+
+
+    document.getElementById(
+        "mainContent"
+    ).innerHTML = `
+
+        <div class="screen">
+
+            <div class="page-title">
+                ${station}
+            </div>
+
+            <div class="page-subtitle">
+                Comandas pendientes.
+            </div>
+
+            <div id="stationContainer">
+                Cargando...
+            </div>
+
+            <button
+                class="btn btn-secondary"
+                style="margin-top:20px;"
+                onclick="renderHome()">
+
+                REGRESAR
+
+            </button>
+
+        </div>
+    `;
 
 
     const {
@@ -2555,75 +2693,37 @@ async function openStation(
         error
     } =
         await supabaseClient
-        .from("print_jobs")
-        .select(`
-            *,
-            orders (
-                id,
-                order_number,
-                order_type,
-                table_id,
-                people,
-                status,
-                created_at,
-                order_items (
-                    product_name,
-                    quantity,
-                    option_text,
-                    note,
-                    station
-                )
+            .from("print_jobs")
+            .select("*")
+            .eq(
+                "station",
+                station
             )
-        `)
-        .eq(
-            "station",
-            station
-        )
-        .eq(
-            "printed",
-            false
-        )
-        .order(
-            "created_at",
-            {
-                ascending:true
-            }
-        );
+            .eq(
+                "status",
+                "PENDING"
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: true
+                }
+            );
 
 
-    if(error){
-
-        console.error(
-            error
-        );
-
+    const container =
         document.getElementById(
-            "app"
-        ).innerHTML = `
+            "stationContainer"
+        );
 
-            <div class="container">
 
-                <div class="card">
+    if (error) {
 
-                    <h2>
-                        Error
-                    </h2>
+        container.innerHTML = `
+            <div class="empty-message">
 
-                    <p>
-                        ${escapeHtml(
-                            error.message
-                        )}
-                    </p>
-
-                    <button
-                        class="btn btn-dark"
-                        onclick="renderHome()">
-
-                        REGRESAR
-
-                    </button>
-
-                </div>
+                Error:
+                ${escapeHtml(error.message)}
 
             </div>
         `;
@@ -2632,335 +2732,154 @@ async function openStation(
     }
 
 
-    let html = "";
+    if (!data || data.length === 0) {
 
-
-    if(
-        !data ||
-        data.length === 0
-    ){
-
-        html = `
-
-            <div class="empty">
+        container.innerHTML = `
+            <div class="empty-message">
 
                 No hay comandas pendientes.
 
             </div>
         `;
 
-    }else{
-
-        data.forEach(
-            job=>{
-
-                const order =
-                    job.orders;
-
-
-                if(!order){
-                    return;
-                }
-
-
-                const items =
-                    (
-                        order.order_items ||
-                        []
-                    )
-                    .filter(
-                        item=>
-                            item.station ===
-                            station
-                    );
-
-
-                let itemsHtml = "";
-
-
-                items.forEach(
-                    item=>{
-
-                        itemsHtml += `
-
-                            <div
-                                class="station-item">
-
-                                <strong>
-
-                                    ${item.quantity}
-                                    ×
-                                    ${escapeHtml(
-                                        item.product_name
-                                    )}
-
-                                </strong>
-
-                                ${
-                                    item.option_text
-                                    ?
-                                    `<div>
-                                        ${escapeHtml(
-                                            item.option_text
-                                        )}
-                                     </div>`
-                                    :
-                                    ""
-                                }
-
-                                ${
-                                    item.note
-                                    ?
-                                    `<div
-                                        style="
-                                        color:#b23a48">
-
-                                        NOTA:
-                                        ${escapeHtml(
-                                            item.note
-                                        )}
-
-                                     </div>`
-                                    :
-                                    ""
-                                }
-
-                            </div>
-                        `;
-                    }
-                );
-
-
-                html += `
-
-                    <div
-                        class="station-order">
-
-                        <div class="topbar">
-
-                            <div>
-
-                                <h2>
-
-                                    ${
-                                        order.table_id
-                                        ?
-                                        "MESA " +
-                                        order.table_id
-                                        :
-                                        "GRUPO / CAMIÓN"
-                                    }
-
-                                </h2>
-
-                                <span class="badge">
-
-                                    ${escapeHtml(
-                                        order.order_type
-                                    )}
-
-                                </span>
-
-                            </div>
-
-                            <strong>
-
-                                ${
-                                    new Date(
-                                        order.created_at
-                                    ).toLocaleTimeString()
-                                }
-
-                            </strong>
-
-                        </div>
-
-                        ${itemsHtml}
-
-                        <br>
-
-                        <button
-                            class="btn btn-green"
-                            onclick="
-                            markStationReady(
-                                '${job.id}'
-                            )">
-
-                            MARCAR LISTA
-
-                        </button>
-
-                    </div>
-                `;
-            }
-        );
+        return;
     }
 
 
-    document.getElementById(
-        "app"
-    ).innerHTML = `
+    container.innerHTML = `
+        <div class="list-grid">
 
-        <div class="header">
+            ${data.map(job => `
 
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
+                <div class="list-card">
 
-            <p>
+                    <div class="list-card-title">
 
-                ${
-                    station === "COCINA"
-                    ?
-                    "COCINA / DESAYUNOS"
-                    :
-                    "PARRILLA"
-                }
+                        Comanda
+                        #${escapeHtml(
+                            String(job.order_id).slice(0,8)
+                        )}
 
-            </p>
+                    </div>
 
-        </div>
+                    <div class="list-card-info">
 
-        <div class="container">
+                        Recibida:
+                        ${formatDate(job.created_at)}
 
-            <div class="topbar">
-
-                <h2>
-                    Comandas pendientes
-                </h2>
-
-                <div
-                    style="
-                    display:flex;
-                    gap:8px">
+                    </div>
 
                     <button
-                        class="btn btn-primary"
-                        onclick="
-                        openStation(
-                            '${station}'
-                        )">
+                        class="btn btn-success"
+                        style="margin-top:15px;"
+                        onclick="completePrintJob('${escapeAttribute(job.id)}','${station}')">
 
-                        ACTUALIZAR
-
-                    </button>
-
-                    <button
-                        class="btn btn-dark"
-                        onclick="renderHome()">
-
-                        REGRESAR
+                        MARCAR COMO LISTA
 
                     </button>
 
                 </div>
 
-            </div>
-
-            <div class="station-list">
-
-                ${html}
-
-            </div>
+            `).join("")}
 
         </div>
     `;
 }
 
 
-async function markStationReady(
-    jobId
-){
+/* =========================================================
+   TERMINAR COMANDA
+========================================================= */
+
+async function completePrintJob(
+    jobId,
+    station
+) {
 
     const {
         error
     } =
         await supabaseClient
-        .from("print_jobs")
-        .update({
-            printed:true
-        })
-        .eq(
-            "id",
-            jobId
-        );
+            .from("print_jobs")
+            .update({
+                status: "DONE"
+            })
+            .eq(
+                "id",
+                jobId
+            );
 
 
-    if(error){
+    if (error) {
 
         alert(
-            error.message
+            "No se pudo actualizar la comanda."
         );
 
         return;
     }
 
 
-    openStation(
-        currentScreen
-    );
+    openStation(station);
 }
 
 
 /* =========================================================
-   ADMINISTRADOR
+   ADMIN
 ========================================================= */
 
-async function openAdmin(){
+function openAdmin() {
 
     document.getElementById(
-        "app"
+        "mainContent"
     ).innerHTML = `
 
-        <div class="header">
+        <div class="screen">
 
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
-                ADMINISTRADOR
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="topbar">
-
-                <h2>
-                    Administración
-                </h2>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="renderHome()">
-
-                    REGRESAR
-
-                </button>
-
+            <div class="page-title">
+                ADMINISTRACIÓN
             </div>
 
-            <div class="main-buttons">
+            <div class="home-grid">
 
                 <button
-                    class="main-button"
+                    class="home-card primary"
                     onclick="adminProducts()">
 
-                    MENÚ Y PRECIOS
+                    <div class="home-card-title">
+                        MENÚ Y PRECIOS
+                    </div>
+
+                    <div class="home-card-text">
+                        Consultar productos y precios.
+                    </div>
 
                 </button>
 
                 <button
-                    class="main-button"
+                    class="home-card yellow"
                     onclick="adminUsers()">
 
-                    USUARIOS
+                    <div class="home-card-title">
+                        USUARIOS
+                    </div>
+
+                    <div class="home-card-text">
+                        Ver usuarios del sistema.
+                    </div>
 
                 </button>
 
             </div>
+
+            <button
+                class="btn btn-secondary"
+                style="margin-top:20px;"
+                onclick="renderHome()">
+
+                REGRESAR
+
+            </button>
 
         </div>
     `;
@@ -2968,42 +2887,55 @@ async function openAdmin(){
 
 
 /* =========================================================
-   ADMIN - PRODUCTOS
+   ADMIN PRODUCTOS
 ========================================================= */
 
-async function adminProducts(){
+async function adminProducts() {
 
     document.getElementById(
-        "app"
+        "mainContent"
     ).innerHTML = `
 
-        <div class="header">
+        <div class="screen">
 
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
+            <div class="page-title">
                 MENÚ Y PRECIOS
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="loading">
-                Cargando menú...
             </div>
+
+            <div id="adminProductsContainer">
+                Cargando...
+            </div>
+
+            <button
+                class="btn btn-secondary"
+                style="margin-top:20px;"
+                onclick="openAdmin()">
+
+                REGRESAR
+
+            </button>
 
         </div>
     `;
 
 
-    const success =
-        await loadBaseData();
+    await loadBaseData();
 
 
-    if(!success){
+    const container =
+        document.getElementById(
+            "adminProductsContainer"
+        );
+
+
+    if (categories.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-message">
+                No hay categorías.
+            </div>
+        `;
+
         return;
     }
 
@@ -3011,416 +2943,189 @@ async function adminProducts(){
     let html = "";
 
 
-    categories.forEach(
-        category=>{
+    categories.forEach(category => {
 
-            const categoryProducts =
-                products.filter(
-                    p=>
-                        p.category_id ===
-                        category.id
-                );
-
-
-            html += `
-
-                <div class="card">
-
-                    <h2>
-                        ${escapeHtml(
-                            category.name
-                        )}
-                    </h2>
-            `;
-
-
-            categoryProducts.forEach(
-                product=>{
-
-                    html += `
-
-                        <div
-                            style="
-                                display:flex;
-                                justify-content:
-                                    space-between;
-                                align-items:center;
-                                gap:10px;
-                                padding:12px 0;
-                                border-bottom:
-                                    1px solid #eee;
-                            "
-                        >
-
-                            <div>
-
-                                <strong>
-                                    ${escapeHtml(
-                                        product.name
-                                    )}
-                                </strong>
-
-                                <div
-                                    style="
-                                    color:#e85d04">
-
-                                    ${money(
-                                        product.price
-                                    )}
-
-                                </div>
-
-                            </div>
-
-                            <button
-                                class="btn btn-yellow"
-                                onclick="
-                                editProduct(
-                                    '${product.id}'
-                                )">
-
-                                EDITAR
-
-                            </button>
-
-                        </div>
-                    `;
-                }
+        const categoryProducts =
+            products.filter(
+                product =>
+                    String(product.category_id) ===
+                    String(category.id)
             );
 
 
-            html += `</div>`;
-        }
-    );
+        html += `
+            <div class="admin-section">
 
+                <div class="page-title"
+                     style="font-size:20px;">
 
-    document.getElementById(
-        "app"
-    ).innerHTML = `
+                    ${escapeHtml(category.name)}
 
-        <div class="header">
-
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
-                MENÚ Y PRECIOS
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="topbar">
-
-                <h2>
-                    Productos
-                </h2>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="openAdmin()">
-
-                    REGRESAR
-
-                </button>
-
-            </div>
-
-            ${
-                html ||
-                `
-                <div class="empty">
-                    No hay productos.
                 </div>
-                `
-            }
-
-        </div>
-    `;
-}
+        `;
 
 
-function editProduct(
-    productId
-){
+        if (categoryProducts.length === 0) {
 
-    const product =
-        products.find(
-            p=>p.id === productId
-        );
+            html += `
+                <div class="page-subtitle">
+                    Sin productos.
+                </div>
+            `;
+
+        } else {
+
+            categoryProducts.forEach(product => {
+
+                html += `
+                    <div class="admin-product">
+
+                        <div class="admin-product-name">
+                            ${escapeHtml(product.name)}
+                        </div>
+
+                        <div class="admin-product-price">
+                            $${formatMoney(product.price)}
+                        </div>
+
+                    </div>
+                `;
+            });
+        }
 
 
-    if(!product){
-        return;
-    }
-
-
-    document.body.insertAdjacentHTML(
-        "beforeend",
-        `
-
-        <div
-            class="modal-bg"
-            id="modal">
-
-            <div class="modal">
-
-                <h2>
-                    Editar producto
-                </h2>
-
-                <label>
-                    Nombre
-                </label>
-
-                <input
-                    id="editName"
-                    value="${escapeHtml(
-                        product.name
-                    )}"
-                    style="
-                        width:100%;
-                        padding:12px;
-                        margin:7px 0 15px;
-                        border:1px solid #ccc;
-                        border-radius:8px;
-                    "
-                >
-
-                <label>
-                    Precio
-                </label>
-
-                <input
-                    id="editPrice"
-                    type="number"
-                    step="0.01"
-                    value="${product.price}"
-                    style="
-                        width:100%;
-                        padding:12px;
-                        margin:7px 0 15px;
-                        border:1px solid #ccc;
-                        border-radius:8px;
-                    "
-                >
-
-                <button
-                    class="btn btn-primary"
-                    style="width:100%"
-                    onclick="
-                    saveProduct(
-                        '${product.id}'
-                    )">
-
-                    GUARDAR
-
-                </button>
-
-                <br><br>
-
-                <button
-                    class="btn btn-dark"
-                    style="width:100%"
-                    onclick="closeModal()">
-
-                    CANCELAR
-
-                </button>
-
+        html += `
             </div>
-
-        </div>
-    `);
-}
+        `;
+    });
 
 
-async function saveProduct(
-    productId
-){
-
-    const name =
-        document
-            .getElementById(
-                "editName"
-            )
-            .value
-            .trim();
-
-
-    const price =
-        Number(
-            document
-                .getElementById(
-                    "editPrice"
-                )
-                .value
-        );
-
-
-    if(!name || price < 0){
-
-        alert(
-            "Revisa el nombre y el precio."
-        );
-
-        return;
-    }
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-        .from("products")
-        .update({
-
-            name:
-                name,
-
-            price:
-                price,
-
-            updated_at:
-                new Date().toISOString()
-
-        })
-        .eq(
-            "id",
-            productId
-        );
-
-
-    if(error){
-
-        alert(
-            "No se pudo guardar:\n" +
-            error.message
-        );
-
-        return;
-    }
-
-
-    closeModal();
-
-    adminProducts();
+    container.innerHTML =
+        html;
 }
 
 
 /* =========================================================
-   USUARIOS
+   ADMIN USUARIOS
 ========================================================= */
 
-async function adminUsers(){
+async function adminUsers() {
+
+    document.getElementById(
+        "mainContent"
+    ).innerHTML = `
+
+        <div class="screen">
+
+            <div class="page-title">
+                USUARIOS
+            </div>
+
+            <div id="usersContainer">
+                Cargando...
+            </div>
+
+            <button
+                class="btn btn-secondary"
+                style="margin-top:20px;"
+                onclick="openAdmin()">
+
+                REGRESAR
+
+            </button>
+
+        </div>
+    `;
+
 
     const {
         data,
         error
     } =
         await supabaseClient
-        .from("app_users")
-        .select(
-            "id,full_name,role,active"
-        )
-        .order(
-            "full_name"
+            .from("app_users")
+            .select(
+                "id, full_name, role, active, created_at"
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: true
+                }
+            );
+
+
+    const container =
+        document.getElementById(
+            "usersContainer"
         );
 
 
-    if(error){
+    if (error) {
 
-        alert(
-            error.message
-        );
+        container.innerHTML = `
+            <div class="empty-message">
+
+                Error:
+                ${escapeHtml(error.message)}
+
+            </div>
+        `;
 
         return;
     }
 
 
-    let html = "";
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty-message">
+                No hay usuarios.
+            </div>
+        `;
+
+        return;
+    }
 
 
-    (data || []).forEach(
-        user=>{
+    container.innerHTML = `
 
-            html += `
+        <div class="admin-section">
 
-                <div class="card">
+            ${data.map(user => `
 
-                    <strong>
-                        ${escapeHtml(
-                            user.full_name
-                        )}
-                    </strong>
+                <div class="user-row">
 
                     <div>
-                        ${escapeHtml(
-                            user.role
-                        )}
+
+                        <strong>
+                            ${escapeHtml(
+                                user.full_name
+                            )}
+                        </strong>
+
+                        <div class="page-subtitle"
+                             style="margin:4px 0 0;">
+
+                            ${escapeHtml(user.role)}
+
+                        </div>
+
                     </div>
 
                     <div>
-                        Estado:
+
                         ${
                             user.active
-                            ?
-                            "ACTIVO"
-                            :
-                            "INACTIVO"
+                                ? "ACTIVO"
+                                : "INACTIVO"
                         }
+
                     </div>
 
                 </div>
-            `;
-        }
-    );
 
-
-    document.getElementById(
-        "app"
-    ).innerHTML = `
-
-        <div class="header">
-
-            <h1>
-                TAQUERÍA EL TITI
-            </h1>
-
-            <p>
-                USUARIOS
-            </p>
-
-        </div>
-
-        <div class="container">
-
-            <div class="topbar">
-
-                <h2>
-                    Usuarios del sistema
-                </h2>
-
-                <button
-                    class="btn btn-dark"
-                    onclick="openAdmin()">
-
-                    REGRESAR
-
-                </button>
-
-            </div>
-
-            ${
-                html ||
-                `
-                <div class="empty">
-                    No hay usuarios.
-                </div>
-                `
-            }
+            `).join("")}
 
         </div>
     `;
@@ -3428,10 +3133,81 @@ async function adminUsers(){
 
 
 /* =========================================================
-   INICIAR
+   MODAL
 ========================================================= */
 
-renderLogin();
+function closeModal() {
+
+    document
+        .getElementById(
+            "modalBackdrop"
+        )
+        .classList.add("hidden");
+}
+
+
+/* =========================================================
+   UTILIDADES
+========================================================= */
+
+function formatMoney(value) {
+
+    return Number(value || 0)
+        .toFixed(2);
+}
+
+
+function formatDate(date) {
+
+    if (!date) return "";
+
+    try {
+
+        return new Date(date)
+            .toLocaleString(
+                "es-MX",
+                {
+                    dateStyle: "short",
+                    timeStyle: "short"
+                }
+            );
+
+    } catch {
+
+        return date;
+    }
+}
+
+
+function escapeHtml(value) {
+
+    if (value === null ||
+        value === undefined) {
+
+        return "";
+    }
+
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function escapeAttribute(value) {
+
+    return escapeHtml(value);
+}
+
+
+/* =========================================================
+   INICIO
+========================================================= */
+
+updatePinDisplay();
 
 </script>
 
